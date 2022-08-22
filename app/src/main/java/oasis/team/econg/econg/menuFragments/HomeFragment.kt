@@ -1,28 +1,46 @@
 package oasis.team.econg.econg.menuFragments
 
 import android.content.Context
+import android.content.Intent
+import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import oasis.team.econg.econg.DetailCompanyActivity
+import oasis.team.econg.econg.DetailProjectActivity
 import oasis.team.econg.econg.R
+import oasis.team.econg.econg.data.Company
 import oasis.team.econg.econg.data.Project
 import oasis.team.econg.econg.databinding.FragmentHomeBinding
 import oasis.team.econg.econg.imageSlide.ImageSlideFragment
+import oasis.team.econg.econg.rvAdapter.CompanyHorAdapter
+import oasis.team.econg.econg.rvAdapter.CompanyVerAdapter
+import oasis.team.econg.econg.rvAdapter.ProjectVerAdapter
 import oasis.team.econg.forui.rvAdapter.ProjectAdapter
+import java.lang.Math.abs
 
 class HomeFragment(context: Context) : Fragment() {
 
     lateinit var binding: FragmentHomeBinding
-    var projects: MutableList<Project>? = mutableListOf()//데이터 담을 리스트
-    var projectAdapter = ProjectAdapter(context)//어댑터 생성 -> 문제!
+    //
+
+    //
+    var projects: MutableList<Project>? = mutableListOf()//신규 프로젝트 데이터
+    var popularProjects: MutableList<Project>? = mutableListOf()//인기 프로젝트 데이터
+    var newCompany: MutableList<Company>? = mutableListOf()//신규 기업 데이터
+    var popularCompany: MutableList<Company>? = mutableListOf()//인기 기업 데이터
+
+    var projectAdapter = ProjectAdapter(context)//신규 프로젝트 어댑터
+    var homePopularAdapter = ProjectVerAdapter(context)//인기 프로젝트 어댑터
+    var newCompanyAdapter = CompanyHorAdapter(context)//신규 기업 어댑터
+    var popularCompanyAdapter = CompanyVerAdapter(context)//인기 기업 어댑터
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,20 +56,59 @@ class HomeFragment(context: Context) : Fragment() {
         //리사이클러뷰 데이터 불러오기
         loadAll()
 
-        //리사이클러뷰 어댑터 달기
+        //신규 프로젝트 클릭 리스너 달기
         projectAdapter.setClickListener(onClickedListItem)
+        //인기 프로젝트 클릭 리스너 달기
+        homePopularAdapter.setClickListener(onClickedListItem)
+        //신규 기업 클릭 리스너 달기
+
+        //인기 기업 클릭 리스너 달기
+
+        //버튼 이동 클릭리스너
+        binding.btnHome.setOnClickListener {
+            binding.myScroll.scrollToView(binding.imgSlider)
+        }
+        binding.btnCompany.setOnClickListener {
+            binding.myScroll.scrollToView(binding.newC)
+        }
+        binding.btnCrowd.setOnClickListener {
+            binding.myScroll.scrollToView(binding.newP)
+        }
 
         return binding.root
+    }
+
+    fun NestedScrollView.scrollToView(view: View) {
+        val y = computeDistanceToView(view) - 100
+        this.scrollTo(0, y)
+    }
+
+    internal fun NestedScrollView.computeDistanceToView(view: View): Int {
+        return abs(calculateRectOnScreen(this).top - (this.scrollY + calculateRectOnScreen(view).top))
+    }
+
+    internal fun calculateRectOnScreen(view: View): Rect {
+        val location = IntArray(2)
+        view.getLocationOnScreen(location)
+        return Rect(
+            location[0],
+            location[1],
+            location[0] + view.measuredWidth,
+            location[1] + view.measuredHeight
+        )
     }
 
     private fun loadAll(){
         loadData()
         loadPopularData()
+        loadNewCompany()
+        loadPopularCompany()
     }
 
-    private fun loadData() {
+    private fun loadData() {//신규 프로젝트 데이터
         for(i: Int in 1..20){
             projects!!.add(Project(i,
+                i,
                 R.drawable.ic_baseline_category_24,
                 "카테고리$i",
                 "회사$i",
@@ -66,9 +123,10 @@ class HomeFragment(context: Context) : Fragment() {
         binding.newProjects.adapter = projectAdapter
     }
 
-    private fun loadPopularData() {
-        for(i: Int in 1..5){
-            projects!!.add(Project(i,
+    private fun loadPopularData() {//인기 프로젝트 데이터
+        for(i: Int in 1..3){
+            popularProjects!!.add(Project(i,
+                i,
                 R.drawable.ic_baseline_category_24,
                 "카테고리$i",
                 "회사$i",
@@ -78,9 +136,37 @@ class HomeFragment(context: Context) : Fragment() {
             ))
         }
 
-        projectAdapter.setData(projects)
-        binding.newProjects.layoutManager = LinearLayoutManager(requireActivity(),LinearLayoutManager.HORIZONTAL,false)
-        binding.newProjects.adapter = projectAdapter
+        homePopularAdapter.setData(popularProjects)
+        binding.popularProjects.layoutManager = LinearLayoutManager(requireActivity(),LinearLayoutManager.VERTICAL,false)
+        binding.popularProjects.adapter = homePopularAdapter
+    }
+
+    private fun loadNewCompany(){//신규 기업 데이터
+        for(i: Int in 1..5){
+            newCompany!!.add(Company(i,
+            null,
+            R.drawable.ic_baseline_category_24,
+            "카테고리$i",
+            "기업$i",
+            "기업${i}입니다."))
+        }
+        newCompanyAdapter.setData(newCompany)
+        binding.newCompany.layoutManager = LinearLayoutManager(requireActivity(),LinearLayoutManager.HORIZONTAL,false)
+        binding.newCompany.adapter = newCompanyAdapter
+    }
+
+    private fun loadPopularCompany(){//인기 기업 데이터
+        for(i: Int in 1..5){
+            popularCompany!!.add(Company(i,
+                i,
+                R.drawable.ic_baseline_category_24,
+                "카테고리$i",
+                "기업$i",
+                "기업${i}입니다."))
+        }
+        popularCompanyAdapter.setData(popularCompany)
+        binding.popularCompany.layoutManager = LinearLayoutManager(requireActivity(),LinearLayoutManager.VERTICAL,false)
+        binding.popularCompany.adapter = popularCompanyAdapter
     }
 
     //이미지 슬라이드 어댑터
@@ -96,14 +182,23 @@ class HomeFragment(context: Context) : Fragment() {
         }
     }
 
-    //리사이클러뷰 클릭 이벤트 처리
+    //인기, 신규 프로젝트 클릭 이벤트 처리 -> 프로젝트 상세 화면으로 이동
    private val onClickedListItem = object : ProjectAdapter.OnItemClickListener{
         override fun onClicked(id: String) {
-            /*var intent = Intent(context, ??::class.java)
+            var intent = Intent(context, DetailProjectActivity::class.java)
             intent.putExtra("id", id)
-            startActivity(intent)*/
-            Toast.makeText(activity, "프로젝트${id}입니다.", Toast.LENGTH_SHORT).show()
+            startActivity(intent)
+            //Toast.makeText(activity, "프로젝트${id}입니다.", Toast.LENGTH_SHORT).show()
             Log.d("MY", "onClicked: ")
+        }
+   }
+
+    //인기, 신규 기업 클릭 이벤트 처리 -> 기업 상세 화면으로 이동
+    private val onClickedCompanyItem = object : CompanyHorAdapter.OnItemClickListener{
+        override fun onClicked(id: String) {
+            var intent = Intent(context, DetailCompanyActivity::class.java)
+            intent.putExtra("id", id)
+            startActivity(intent)
         }
     }
 }
