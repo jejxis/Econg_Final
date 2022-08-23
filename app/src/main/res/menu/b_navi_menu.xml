@@ -16,7 +16,7 @@
     <item
         android:id="@+id/item_favorite"
         android:enabled="true"
-        android:icon="@drawable/ic_baseline_favorite_24"
+        android:icon="@drawable/ic_baseline_favorite_pink_24"
         android:title="관심"/>
 
     <item

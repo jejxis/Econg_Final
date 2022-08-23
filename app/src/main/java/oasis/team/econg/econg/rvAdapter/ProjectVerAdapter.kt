@@ -42,7 +42,6 @@ class ProjectVerAdapter(val context: Context?): RecyclerView.Adapter<ProjectVerA
 
     inner class HomePopularHolder(val binding: ItemVerBinding): RecyclerView.ViewHolder(binding.root){
         fun setData(data: Project) {
-            binding.rank.text = data.rank.toString()
             binding.imgProject.setImageResource(data.img)
             binding.projectCategory.text = "${data.category}"
             binding.projectCompany.text = "${data.company}"

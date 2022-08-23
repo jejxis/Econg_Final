@@ -47,6 +47,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/allNewProjects"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
@@ -64,7 +65,7 @@
                     tools:itemCount="1"
                     tools:listitem="@layout/item_hor" />
 
-                <RelativeLayout
+                <!--RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp">
@@ -96,7 +97,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     tools:itemCount="1"
-                    tools:listitem="@layout/item_ver"/>
+                    tools:listitem="@layout/item_ver"/-->
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -132,7 +133,7 @@
                     tools:itemCount="1"
                     tools:listitem="@layout/item_company_hor" />
 
-                <RelativeLayout
+                <!--RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp">
@@ -164,7 +165,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     tools:itemCount="1"
-                    tools:listitem="@layout/item_company_ver"/>
+                    tools:listitem="@layout/item_company_ver"/-->
 
             </LinearLayout>
 
@@ -175,7 +176,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:padding="5dp">
+            android:padding="5dp"
+            android:background="@color/white">
 
             <Button
                 android:id="@+id/btnHome"

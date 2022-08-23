@@ -42,7 +42,6 @@ class CompanyVerAdapter (val context: Context?) : RecyclerView.Adapter<CompanyVe
 
     inner class CompanyVerHolder(val binding: ItemCompanyVerBinding): RecyclerView.ViewHolder(binding.root){
         fun setData(data: Company) {
-            binding.rank.text = data.rank.toString()
             binding.imgCompany.setImageResource(data.img)
             binding.companyCategory.text = "${data.category}"
             binding.companyName.text = "${data.companyName}"

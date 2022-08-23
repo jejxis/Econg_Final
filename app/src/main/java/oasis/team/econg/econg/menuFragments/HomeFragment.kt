@@ -15,14 +15,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import oasis.team.econg.econg.DetailCompanyActivity
 import oasis.team.econg.econg.DetailProjectActivity
+import oasis.team.econg.econg.ProjectListActivity
 import oasis.team.econg.econg.R
 import oasis.team.econg.econg.data.Company
 import oasis.team.econg.econg.data.Project
 import oasis.team.econg.econg.databinding.FragmentHomeBinding
 import oasis.team.econg.econg.imageSlide.ImageSlideFragment
 import oasis.team.econg.econg.rvAdapter.CompanyHorAdapter
-import oasis.team.econg.econg.rvAdapter.CompanyVerAdapter
-import oasis.team.econg.econg.rvAdapter.ProjectVerAdapter
 import oasis.team.econg.forui.rvAdapter.ProjectAdapter
 import java.lang.Math.abs
 
@@ -33,14 +32,14 @@ class HomeFragment(context: Context) : Fragment() {
 
     //
     var projects: MutableList<Project>? = mutableListOf()//신규 프로젝트 데이터
-    var popularProjects: MutableList<Project>? = mutableListOf()//인기 프로젝트 데이터
+    //var popularProjects: MutableList<Project>? = mutableListOf()//인기 프로젝트 데이터
     var newCompany: MutableList<Company>? = mutableListOf()//신규 기업 데이터
-    var popularCompany: MutableList<Company>? = mutableListOf()//인기 기업 데이터
+    //var popularCompany: MutableList<Company>? = mutableListOf()//인기 기업 데이터
 
     var projectAdapter = ProjectAdapter(context)//신규 프로젝트 어댑터
-    var homePopularAdapter = ProjectVerAdapter(context)//인기 프로젝트 어댑터
+    //var homePopularAdapter = ProjectVerAdapter(context)//인기 프로젝트 어댑터
     var newCompanyAdapter = CompanyHorAdapter(context)//신규 기업 어댑터
-    var popularCompanyAdapter = CompanyVerAdapter(context)//인기 기업 어댑터
+    //var popularCompanyAdapter = CompanyVerAdapter(context)//인기 기업 어댑터
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,11 +57,8 @@ class HomeFragment(context: Context) : Fragment() {
 
         //신규 프로젝트 클릭 리스너 달기
         projectAdapter.setClickListener(onClickedListItem)
-        //인기 프로젝트 클릭 리스너 달기
-        homePopularAdapter.setClickListener(onClickedListItem)
         //신규 기업 클릭 리스너 달기
 
-        //인기 기업 클릭 리스너 달기
 
         //버튼 이동 클릭리스너
         binding.btnHome.setOnClickListener {
@@ -73,6 +69,11 @@ class HomeFragment(context: Context) : Fragment() {
         }
         binding.btnCrowd.setOnClickListener {
             binding.myScroll.scrollToView(binding.newP)
+        }
+
+        binding.allNewProjects.setOnClickListener {
+            var intent = Intent(context, ProjectListActivity::class.java)
+            startActivity(intent)
         }
 
         return binding.root
@@ -100,14 +101,14 @@ class HomeFragment(context: Context) : Fragment() {
 
     private fun loadAll(){
         loadData()
-        loadPopularData()
+        //loadPopularData()
         loadNewCompany()
-        loadPopularCompany()
+        //loadPopularCompany()
     }
 
     private fun loadData() {//신규 프로젝트 데이터
         for(i: Int in 1..20){
-            projects!!.add(Project(i,
+            projects!!.add(Project(
                 i,
                 R.drawable.ic_baseline_category_24,
                 "카테고리$i",
@@ -123,9 +124,9 @@ class HomeFragment(context: Context) : Fragment() {
         binding.newProjects.adapter = projectAdapter
     }
 
-    private fun loadPopularData() {//인기 프로젝트 데이터
+    /*private fun loadPopularData() {//인기 프로젝트 데이터
         for(i: Int in 1..3){
-            popularProjects!!.add(Project(i,
+            popularProjects!!.add(Project(
                 i,
                 R.drawable.ic_baseline_category_24,
                 "카테고리$i",
@@ -139,12 +140,12 @@ class HomeFragment(context: Context) : Fragment() {
         homePopularAdapter.setData(popularProjects)
         binding.popularProjects.layoutManager = LinearLayoutManager(requireActivity(),LinearLayoutManager.VERTICAL,false)
         binding.popularProjects.adapter = homePopularAdapter
-    }
+    }*/
 
     private fun loadNewCompany(){//신규 기업 데이터
         for(i: Int in 1..5){
-            newCompany!!.add(Company(i,
-            null,
+            newCompany!!.add(Company(
+            i,
             R.drawable.ic_baseline_category_24,
             "카테고리$i",
             "기업$i",
@@ -155,9 +156,9 @@ class HomeFragment(context: Context) : Fragment() {
         binding.newCompany.adapter = newCompanyAdapter
     }
 
-    private fun loadPopularCompany(){//인기 기업 데이터
+    /*private fun loadPopularCompany(){//인기 기업 데이터
         for(i: Int in 1..5){
-            popularCompany!!.add(Company(i,
+            popularCompany!!.add(Company(
                 i,
                 R.drawable.ic_baseline_category_24,
                 "카테고리$i",
@@ -167,7 +168,7 @@ class HomeFragment(context: Context) : Fragment() {
         popularCompanyAdapter.setData(popularCompany)
         binding.popularCompany.layoutManager = LinearLayoutManager(requireActivity(),LinearLayoutManager.VERTICAL,false)
         binding.popularCompany.adapter = popularCompanyAdapter
-    }
+    }*/
 
     //이미지 슬라이드 어댑터
     private inner class ScreenSlidePagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
@@ -175,14 +176,14 @@ class HomeFragment(context: Context) : Fragment() {
 
         override fun createFragment(position: Int): Fragment {
             return when(position) {
-                0 -> ImageSlideFragment(R.drawable.ic_baseline_favorite_24)
+                0 -> ImageSlideFragment(R.drawable.ic_baseline_favorite_pink_24)
                 1 -> ImageSlideFragment(R.drawable.ic_baseline_doorbell_24)
                 else -> ImageSlideFragment(R.drawable.ic_baseline_category_24)
             }
         }
     }
 
-    //인기, 신규 프로젝트 클릭 이벤트 처리 -> 프로젝트 상세 화면으로 이동
+    //신규 프로젝트 클릭 이벤트 처리 -> 프로젝트 상세 화면으로 이동
    private val onClickedListItem = object : ProjectAdapter.OnItemClickListener{
         override fun onClicked(id: String) {
             var intent = Intent(context, DetailProjectActivity::class.java)
@@ -193,7 +194,7 @@ class HomeFragment(context: Context) : Fragment() {
         }
    }
 
-    //인기, 신규 기업 클릭 이벤트 처리 -> 기업 상세 화면으로 이동
+    //신규 기업 클릭 이벤트 처리 -> 기업 상세 화면으로 이동
     private val onClickedCompanyItem = object : CompanyHorAdapter.OnItemClickListener{
         override fun onClicked(id: String) {
             var intent = Intent(context, DetailCompanyActivity::class.java)
