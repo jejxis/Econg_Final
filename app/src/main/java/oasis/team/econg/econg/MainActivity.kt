@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import oasis.team.econg.econg.databinding.ActivityMainBinding
 import oasis.team.econg.econg.menuFragments.HomeFragment
+import oasis.team.econg.econg.menuFragments.MyFragment
 
 class MainActivity : AppCompatActivity() {
     val binding by lazy{ ActivityMainBinding.inflate(layoutInflater)}
@@ -31,9 +32,9 @@ class MainActivity : AppCompatActivity() {
                     return@setOnItemSelectedListener true
                 }
 
-                R.id.item_category -> {
+                /*R.id.item_category -> {
                     return@setOnItemSelectedListener true
-                }
+                }*/
 
                 R.id.item_favorite -> {
                     return@setOnItemSelectedListener true
@@ -44,6 +45,9 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.item_my -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.frame, MyFragment(this@MainActivity))//
+                        .commitAllowingStateLoss()
                     return@setOnItemSelectedListener true
                 }
 
