@@ -1,5 +1,6 @@
 package oasis.team.econg.econg
 
+import android.content.Intent
 import android.graphics.Rect
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,9 +8,13 @@ import android.view.View
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import oasis.team.econg.econg.data.Company
 import oasis.team.econg.econg.data.ProjectDetail
+import oasis.team.econg.econg.data.Reward
 import oasis.team.econg.econg.databinding.ActivityDetailProjectBinding
+import oasis.team.econg.econg.dialog.FundDialog
 import oasis.team.econg.econg.imageSlide.ImageSlideFragment
 import oasis.team.econg.econg.menuFragments.HomeFragment
 
@@ -18,6 +23,7 @@ class DetailProjectActivity : AppCompatActivity() {
     var project: ProjectDetail? = null
     var str = ""
     var isItFilled : Boolean = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,6 +69,29 @@ class DetailProjectActivity : AppCompatActivity() {
                 binding.btnFav.setImageResource(R.drawable.ic_baseline_favorite_pink_24)
                 isItFilled = true
             }
+        }
+
+        binding.btnFund.setOnClickListener {//펀드 후원 화면으로 이동
+            /*var intent = Intent(this, ProjectFundActivity::class.java)
+            intent.putExtra("id", str)
+            startActivity(intent)*/
+            val rewards : MutableList<Reward> = mutableListOf()
+            for(i: Int in 1..5){
+                rewards!!.add(
+                    Reward(
+                        i.toLong(),
+                        "리워드$i",
+                        5000,
+                        100,
+                        3,
+                        "연필 하나, 볼펜 하나",
+                        str.toLong()
+                    )
+                )
+            }
+            val dialog = FundDialog(this, rewards)
+            dialog.isCancelable = true
+            dialog.show(this.supportFragmentManager, "FundDialog")
         }
     }
 
