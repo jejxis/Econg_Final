@@ -58,6 +58,7 @@ class HomeFragment(context: Context) : Fragment() {
         //신규 프로젝트 클릭 리스너 달기
         projectAdapter.setClickListener(onClickedListItem)
         //신규 기업 클릭 리스너 달기
+        newCompanyAdapter.setClickListener(onClickedCompanyItem)
 
 
         //버튼 이동 클릭리스너
@@ -71,8 +72,15 @@ class HomeFragment(context: Context) : Fragment() {
             binding.myScroll.scrollToView(binding.newP)
         }
 
-        binding.allNewProjects.setOnClickListener {
+        binding.allNewProjects.setOnClickListener {//전체 프로젝트 리스트
             var intent = Intent(context, ProjectListActivity::class.java)
+            intent.putExtra("id", id)
+            startActivity(intent)
+        }
+
+        binding.allNewCompany.setOnClickListener { //전체 기업 리스트
+            var intent = Intent(context, ProjectListActivity::class.java)
+            intent.putExtra("id", id)
             startActivity(intent)
         }
 

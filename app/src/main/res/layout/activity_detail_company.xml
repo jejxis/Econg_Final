@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".DetailCompanyActivity">
+    tools:context=".DetailCompanyActivity"
+    android:padding="10dp">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -54,5 +55,13 @@
         android:textColor="@color/black"
         android:textAlignment="center"
         android:textSize="15dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/companyProjects"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:itemCount="1"
+        tools:listitem="@layout/item_ver"/>
 
 </LinearLayout>
