@@ -14,5 +14,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/item_community"/>
+        tools:listitem="@layout/item_community"
+        tools:itemCount="1"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,12 +8,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import oasis.team.econg.econg.DetailCompanyActivity
+import oasis.team.econg.econg.MainActivity
+import oasis.team.econg.econg.MyCommunityActivity
 import oasis.team.econg.econg.R
 import oasis.team.econg.econg.databinding.FragmentHomeBinding
 import oasis.team.econg.econg.databinding.FragmentMyBinding
 
-class MyFragment(context: Context) : Fragment() {
+class MyFragment(/*context: Context*/) : Fragment() {
     lateinit var binding: FragmentMyBinding
+    lateinit var main: MainActivity
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        main = context as MainActivity
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -22,8 +30,8 @@ class MyFragment(context: Context) : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentMyBinding.inflate(inflater,container, false)
         binding.reply.setOnClickListener {
-            var intent = Intent(context, DetailCompanyActivity::class.java)
-            intent.putExtra("userid", id)
+            var intent = Intent(main, MyCommunityActivity::class.java)
+            intent.putExtra("userid", "user")
             startActivity(intent)
         }
         return binding.root

@@ -45,7 +45,7 @@ class ProjectVerAdapter(val context: Context?): RecyclerView.Adapter<ProjectVerA
             binding.imgProject.setImageResource(data.img)
             binding.projectCategory.text = "${data.category}"
             binding.projectCompany.text = "${data.company}"
-            binding.aboutProject.text = "${data.projectName}\n${data.projectInfo}"
+            binding.projectName.text = "${data.projectName}\n${data.projectInfo}"
             binding.achRate.text = data.achRate.toString()
         }
 

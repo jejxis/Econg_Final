@@ -62,13 +62,14 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintRight_toRightOf="parent"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
+
             <TextView
-                android:id="@+id/aboutProject"
+                android:id="@+id/projectName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="프로젝트에 대해"
+                android:text="프로젝트 이름"
                 android:textColor="@color/black"
-                android:textSize="12dp"/>
+                android:textSize="12dp" />
 
         </LinearLayout>
     </LinearLayout>

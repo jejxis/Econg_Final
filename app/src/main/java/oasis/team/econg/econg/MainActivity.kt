@@ -8,26 +8,27 @@ import oasis.team.econg.econg.menuFragments.MyFragment
 
 class MainActivity : AppCompatActivity() {
     val binding by lazy{ ActivityMainBinding.inflate(layoutInflater)}
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
         supportFragmentManager.beginTransaction()
-            .replace(R.id.frame, HomeFragment(this@MainActivity))
+            .replace(R.id.frame, HomeFragment())
             .commitAllowingStateLoss()
         getNavi()
     }
 
     private fun getNavi(){
         supportFragmentManager.beginTransaction()
-            .replace(R.id.frame, HomeFragment(this@MainActivity))//
+            .replace(R.id.frame, HomeFragment())//
             .commitAllowingStateLoss()
 
         binding.bNavi.setOnItemSelectedListener { item ->
             when(item.itemId){
                 R.id.item_home -> {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.frame, HomeFragment(this@MainActivity))//
+                        .replace(R.id.frame, HomeFragment())//
                         .commitAllowingStateLoss()
                     return@setOnItemSelectedListener true
                 }
@@ -46,7 +47,7 @@ class MainActivity : AppCompatActivity() {
 
                 R.id.item_my -> {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.frame, MyFragment(this@MainActivity))//
+                        .replace(R.id.frame, MyFragment())//
                         .commitAllowingStateLoss()
                     return@setOnItemSelectedListener true
                 }

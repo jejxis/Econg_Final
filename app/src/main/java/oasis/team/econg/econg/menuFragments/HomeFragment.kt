@@ -13,10 +13,7 @@ import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import oasis.team.econg.econg.DetailCompanyActivity
-import oasis.team.econg.econg.DetailProjectActivity
-import oasis.team.econg.econg.ProjectListActivity
-import oasis.team.econg.econg.R
+import oasis.team.econg.econg.*
 import oasis.team.econg.econg.data.Company
 import oasis.team.econg.econg.data.Project
 import oasis.team.econg.econg.databinding.FragmentHomeBinding
@@ -25,21 +22,25 @@ import oasis.team.econg.econg.rvAdapter.CompanyHorAdapter
 import oasis.team.econg.forui.rvAdapter.ProjectAdapter
 import java.lang.Math.abs
 
-class HomeFragment(context: Context) : Fragment() {
+class HomeFragment(/*context: Context*/) : Fragment() {
 
     lateinit var binding: FragmentHomeBinding
-    //
-
+    lateinit var main: MainActivity
     //
     var projects: MutableList<Project>? = mutableListOf()//신규 프로젝트 데이터
     //var popularProjects: MutableList<Project>? = mutableListOf()//인기 프로젝트 데이터
     var newCompany: MutableList<Company>? = mutableListOf()//신규 기업 데이터
     //var popularCompany: MutableList<Company>? = mutableListOf()//인기 기업 데이터
 
-    var projectAdapter = ProjectAdapter(context)//신규 프로젝트 어댑터
+    lateinit var projectAdapter: ProjectAdapter//신규 프로젝트 어댑터
     //var homePopularAdapter = ProjectVerAdapter(context)//인기 프로젝트 어댑터
-    var newCompanyAdapter = CompanyHorAdapter(context)//신규 기업 어댑터
+    lateinit var newCompanyAdapter: CompanyHorAdapter//신규 기업 어댑터
     //var popularCompanyAdapter = CompanyVerAdapter(context)//인기 기업 어댑터
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        main = context as MainActivity
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,8 +49,11 @@ class HomeFragment(context: Context) : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(inflater,container, false)
 
+        projectAdapter = ProjectAdapter(main)
+        newCompanyAdapter = CompanyHorAdapter(main)
+
         //이미지 슬라이드
-        val pagerAdapter = ScreenSlidePagerAdapter(requireActivity())
+        val pagerAdapter = ScreenSlidePagerAdapter(main)
         binding.imgSlider.adapter = pagerAdapter
 
         //리사이클러뷰 데이터 불러오기
@@ -73,13 +77,13 @@ class HomeFragment(context: Context) : Fragment() {
         }
 
         binding.allNewProjects.setOnClickListener {//전체 프로젝트 리스트
-            var intent = Intent(context, ProjectListActivity::class.java)
+            var intent = Intent(main, ProjectListActivity::class.java)
             intent.putExtra("id", id)
             startActivity(intent)
         }
 
         binding.allNewCompany.setOnClickListener { //전체 기업 리스트
-            var intent = Intent(context, ProjectListActivity::class.java)
+            var intent = Intent(main, ProjectListActivity::class.java)
             intent.putExtra("id", id)
             startActivity(intent)
         }
@@ -180,13 +184,14 @@ class HomeFragment(context: Context) : Fragment() {
 
     //이미지 슬라이드 어댑터
     private inner class ScreenSlidePagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
+
         override fun getItemCount(): Int = 3
 
         override fun createFragment(position: Int): Fragment {
             return when(position) {
-                0 -> ImageSlideFragment(R.drawable.ic_baseline_favorite_pink_24)
-                1 -> ImageSlideFragment(R.drawable.ic_baseline_doorbell_24)
-                else -> ImageSlideFragment(R.drawable.ic_baseline_category_24)
+                0 -> ImageSlideFragment().newInstance(R.drawable.ic_baseline_favorite_pink_24)
+                1 -> ImageSlideFragment().newInstance(R.drawable.ic_baseline_doorbell_24)
+                else -> ImageSlideFragment().newInstance(R.drawable.ic_baseline_category_24)
             }
         }
     }
