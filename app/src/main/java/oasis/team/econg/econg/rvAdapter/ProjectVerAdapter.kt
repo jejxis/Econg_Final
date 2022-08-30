@@ -10,7 +10,7 @@ import oasis.team.econg.forui.rvAdapter.ProjectAdapter
 
 class ProjectVerAdapter(val context: Context?): RecyclerView.Adapter<ProjectVerAdapter.HomePopularHolder>() {
     var listData = mutableListOf<Project>()//어댑터에서 사용할 목록변수
-    var listener: ProjectAdapter.OnItemClickListener? = null
+    var listener: ProjectVerAdapter.OnItemClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProjectVerAdapter.HomePopularHolder {//한 화면에 생성할 레이아웃 개수 = 한 화면에 생성할 아이템 개수-> 아이템 레이아웃 생성
         //context = parent.context
@@ -36,7 +36,7 @@ class ProjectVerAdapter(val context: Context?): RecyclerView.Adapter<ProjectVerA
         listData = arrData as ArrayList<Project>
     }
 
-    fun setClickListener(listener1: ProjectAdapter.OnItemClickListener){
+    fun setClickListener(listener1: ProjectVerAdapter.OnItemClickListener){
         listener = listener1
     }
 

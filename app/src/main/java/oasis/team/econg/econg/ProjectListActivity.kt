@@ -46,7 +46,7 @@ class ProjectListActivity : AppCompatActivity() {
     }
 
     //신규 프로젝트 클릭 이벤트 처리 -> 프로젝트 상세 화면으로 이동
-    private val onClickedListItem = object : ProjectAdapter.OnItemClickListener{
+    private val onClickedListItem = object : ProjectVerAdapter.OnItemClickListener{
         override fun onClicked(id: String) {
             var intent = Intent(this@ProjectListActivity, DetailProjectActivity::class.java)
             intent.putExtra("id", id)

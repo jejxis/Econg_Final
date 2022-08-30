@@ -3,6 +3,7 @@ package oasis.team.econg.econg
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import oasis.team.econg.econg.databinding.ActivityMainBinding
+import oasis.team.econg.econg.menuFragments.FavoriteFragment
 import oasis.team.econg.econg.menuFragments.HomeFragment
 import oasis.team.econg.econg.menuFragments.MyFragment
 
@@ -33,11 +34,10 @@ class MainActivity : AppCompatActivity() {
                     return@setOnItemSelectedListener true
                 }
 
-                /*R.id.item_category -> {
-                    return@setOnItemSelectedListener true
-                }*/
-
                 R.id.item_favorite -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.frame, FavoriteFragment())//
+                        .commitAllowingStateLoss()
                     return@setOnItemSelectedListener true
                 }
 

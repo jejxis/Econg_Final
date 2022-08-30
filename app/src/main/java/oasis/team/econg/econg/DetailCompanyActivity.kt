@@ -7,6 +7,7 @@ import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import oasis.team.econg.econg.data.Project
 import oasis.team.econg.econg.databinding.ActivityDetailCompanyBinding
+import oasis.team.econg.econg.rvAdapter.CompanyVerAdapter
 import oasis.team.econg.econg.rvAdapter.ProjectVerAdapter
 import oasis.team.econg.forui.rvAdapter.ProjectAdapter
 
@@ -27,7 +28,7 @@ class DetailCompanyActivity : AppCompatActivity() {
         binding.userName.text = "회사 $str"
 
         loadCompanyProjectData()
-        companyProjectAdapter.setClickListener(onClickedListItem)
+        companyProjectAdapter.setClickListener(onClickedProjectItem)
     }
 
     private fun loadCompanyProjectData() {
@@ -48,7 +49,7 @@ class DetailCompanyActivity : AppCompatActivity() {
         binding.companyProjects.adapter = companyProjectAdapter
     }
 
-    private val onClickedListItem = object : ProjectAdapter.OnItemClickListener{
+    private val onClickedProjectItem = object : ProjectVerAdapter.OnItemClickListener{
         override fun onClicked(id: String) {
             var intent = Intent(this@DetailCompanyActivity, DetailProjectActivity::class.java)
             intent.putExtra("id", id)

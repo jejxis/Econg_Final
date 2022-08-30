@@ -27,13 +27,17 @@ class MyFragment(/*context: Context*/) : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+        //내가쓴 댓글
         binding = FragmentMyBinding.inflate(inflater,container, false)
         binding.reply.setOnClickListener {
             var intent = Intent(main, MyCommunityActivity::class.java)
             intent.putExtra("userid", "user")
             startActivity(intent)
         }
+
+        //내가 올린 프로젝트
+
+
         return binding.root
     }
 
