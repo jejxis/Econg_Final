@@ -7,10 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import oasis.team.econg.econg.DetailCompanyActivity
-import oasis.team.econg.econg.MainActivity
-import oasis.team.econg.econg.MyCommunityActivity
-import oasis.team.econg.econg.R
+import oasis.team.econg.econg.*
 import oasis.team.econg.econg.databinding.FragmentHomeBinding
 import oasis.team.econg.econg.databinding.FragmentMyBinding
 
@@ -35,8 +32,11 @@ class MyFragment(/*context: Context*/) : Fragment() {
             startActivity(intent)
         }
 
-        //내가 올린 프로젝트
-
+        //프로젝트 올리기
+        binding.openProject.setOnClickListener {
+            var intent = Intent(main, OpenProjectActivity::class.java)
+            startActivity(intent)
+        }
 
         return binding.root
     }

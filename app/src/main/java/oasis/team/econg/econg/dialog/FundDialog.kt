@@ -35,7 +35,7 @@ class FundDialog(context: Context, rewards: MutableList<Reward>) : DialogFragmen
         }
 
         for(i in 0 until rewards.size){
-            data class Reward(
+            /*data class Reward(
                 val rewardId: Long,
                 val name: String,
                 val price: Int,
@@ -43,7 +43,7 @@ class FundDialog(context: Context, rewards: MutableList<Reward>) : DialogFragmen
                 val soldQuantity: Int,
                 val combination: String,
                 val projectId: Long
-            )
+            )*/
             var myRadio = RadioButton(context)
             myRadio.text = "${rewards[i].name} : ${rewards[i].price}원"
             myRadio.id = rewards[i].rewardId.toInt()
