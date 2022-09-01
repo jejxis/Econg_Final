@@ -16,4 +16,5 @@ data class ProjectDetail(//프로젝트 상세화면에서 사용할 거.
     val status: Int,
     val userid: Long,
     val thumbnail: Int,//나중에 String 으로 고치기.
-    val achievedRate: Double)
+    val achievedRate: Double,
+    val story: String)

@@ -46,7 +46,8 @@ class DetailProjectActivity : AppCompatActivity() {
             status = 0,
             userid = str.toLong(),
             thumbnail = R.drawable.ic_baseline_favorite_border_pink_24,//나중에 String 으로 고치기.
-            achievedRate = 70.0)
+            achievedRate = 70.0,
+            story = "")
 
         binding.projectName.text = project!!.title
         binding.projectSum.text = project!!.summary

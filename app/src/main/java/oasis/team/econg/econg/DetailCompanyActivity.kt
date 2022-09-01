@@ -14,7 +14,7 @@ import oasis.team.econg.forui.rvAdapter.ProjectAdapter
 class DetailCompanyActivity : AppCompatActivity() {
     val binding by lazy{ActivityDetailCompanyBinding.inflate(layoutInflater)}
     var projects: MutableList<Project>? = mutableListOf()//사용자 프로젝트 데이터
-    var companyProjectAdapter = ProjectVerAdapter(this)//인기 프로젝트 어댑터
+    var companyProjectAdapter = ProjectAdapter(this)//인기 프로젝트 어댑터
     var str = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,11 +45,11 @@ class DetailCompanyActivity : AppCompatActivity() {
         }
 
         companyProjectAdapter.setData(projects)
-        binding.companyProjects.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
+        binding.companyProjects.layoutManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
         binding.companyProjects.adapter = companyProjectAdapter
     }
 
-    private val onClickedProjectItem = object : ProjectVerAdapter.OnItemClickListener{
+    private val onClickedProjectItem = object : ProjectAdapter.OnItemClickListener{
         override fun onClicked(id: String) {
             var intent = Intent(this@DetailCompanyActivity, DetailProjectActivity::class.java)
             intent.putExtra("id", id)

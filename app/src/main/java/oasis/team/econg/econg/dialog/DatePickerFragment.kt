@@ -42,7 +42,7 @@ class DatePickerFragment : DialogFragment(), DatePickerDialog.OnDateSetListener 
         val view = binding.root
 
 
-        return inflater.inflate(R.layout.fragment_date_picker, container, false)
+        return view
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
