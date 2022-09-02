@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProjectListActivity">
+    tools:context=".CompanyListActivity">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/projects"
+        android:id="@+id/companies"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -15,6 +15,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:itemCount="1"
-        tools:listitem="@layout/item_ver" />
+        tools:listitem="@layout/item_company_ver" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

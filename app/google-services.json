@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "612771093552",
+    "project_id": "econg-7e3f6",
+    "storage_bucket": "econg-7e3f6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:612771093552:android:c2329d970ff41dd69de1f5",
+        "android_client_info": {
+          "package_name": "net.flow9.thisiskotlin.econg"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "612771093552-pmvvpau21gla520tovo5bcsr0dmuqurk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCQ22IaxMTfa4Fs2oAx3aof0pq-1chI1M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "612771093552-pmvvpau21gla520tovo5bcsr0dmuqurk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:612771093552:android:dfd0a32e306fa01f9de1f5",
+        "android_client_info": {
+          "package_name": "oasis.team.econg.econg"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "612771093552-pmvvpau21gla520tovo5bcsr0dmuqurk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCQ22IaxMTfa4Fs2oAx3aof0pq-1chI1M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "612771093552-pmvvpau21gla520tovo5bcsr0dmuqurk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

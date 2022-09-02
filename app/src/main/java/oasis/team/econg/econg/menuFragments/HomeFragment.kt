@@ -83,7 +83,7 @@ class HomeFragment(/*context: Context*/) : Fragment() {
         }
 
         binding.allNewCompany.setOnClickListener { //전체 기업 리스트
-            var intent = Intent(main, ProjectListActivity::class.java)
+            var intent = Intent(main, CompanyListActivity::class.java)
             intent.putExtra("id", id)
             startActivity(intent)
         }
