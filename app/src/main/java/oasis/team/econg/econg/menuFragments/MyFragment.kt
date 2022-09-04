@@ -32,6 +32,17 @@ class MyFragment(/*context: Context*/) : Fragment() {
             startActivity(intent)
         }
 
+        binding.mySupportedProjects.setOnClickListener {
+            var intent = Intent(main, MySupportedProjectsActivity::class.java)
+            startActivity(intent)
+        }
+
+        //내가 올린 프로젝트
+        binding.myOpenedProjects.setOnClickListener {
+            var intent = Intent(main, MyOpenedProjectsActivity::class.java)
+            startActivity(intent)
+        }
+
         //프로젝트 올리기
         binding.openProject.setOnClickListener {
             var intent = Intent(main, OpenProjectActivity::class.java)

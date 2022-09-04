@@ -15,7 +15,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="15dp">
 
@@ -165,15 +165,29 @@
                     android:textSize="14dp" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/story"
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabStoryCommunity"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="60dp"
-                android:text="@string/any"
-                android:textColor="@color/darkGray"
-                android:padding="10dp"/>
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="스토리" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="커뮤니티" />
+            </com.google.android.material.tabs.TabLayout>
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/detailProjectFrame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </androidx.fragment.app.FragmentContainerView>
 
         </LinearLayout>
 

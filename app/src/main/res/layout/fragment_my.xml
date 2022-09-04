@@ -82,7 +82,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/supportedProjects"
+                android:id="@+id/mySupportedProjects"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -108,7 +108,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/openedProjects"
+                android:id="@+id/myOpenedProjects"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 

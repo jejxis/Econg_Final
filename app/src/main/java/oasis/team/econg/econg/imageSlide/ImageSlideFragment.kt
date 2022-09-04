@@ -11,20 +11,12 @@ import oasis.team.econg.econg.databinding.FragmentImageSlideBinding
 class ImageSlideFragment(/*val image: Int*/) : Fragment() {
 
     lateinit var binding: FragmentImageSlideBinding
-    val KEY = "KEY"
+    private val KEY = "KEY"
     fun newInstance(data: Int) = ImageSlideFragment().apply {
         arguments = Bundle().apply {
             putInt(KEY, data)
         }
     }
-    /*companion object {
-        const val KEY = "KEY"
-        fun newInstance(data: Int) = ImageSlideFragment().apply {
-            arguments = Bundle().apply {
-                putInt(KEY, data)
-            }
-        }
-    }*/
 
     val image by lazy { requireArguments().getInt(KEY) }
 

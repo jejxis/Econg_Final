@@ -1,25 +1,23 @@
 package oasis.team.econg.econg
 
-import android.content.Intent
+
 import android.graphics.Rect
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.NestedScrollView
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.viewpager2.adapter.FragmentStateAdapter
-import oasis.team.econg.econg.data.Company
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabItem
 import oasis.team.econg.econg.data.ProjectDetail
 import oasis.team.econg.econg.data.Reward
 import oasis.team.econg.econg.databinding.ActivityDetailProjectBinding
+import oasis.team.econg.econg.detailProjectFragments.DetailProjectCommunityFragment
+import oasis.team.econg.econg.detailProjectFragments.DetailProjectStoryFragment
 import oasis.team.econg.econg.dialog.FundDialog
-import oasis.team.econg.econg.imageSlide.ImageSlideFragment
-import oasis.team.econg.econg.menuFragments.HomeFragment
 
 class DetailProjectActivity : AppCompatActivity() {
-    val binding by lazy{ActivityDetailProjectBinding.inflate(layoutInflater)}
+    private val binding by lazy{ActivityDetailProjectBinding.inflate(layoutInflater)}
     var project: ProjectDetail? = null
     var str = ""
     var isItFilled : Boolean = false
@@ -34,31 +32,27 @@ class DetailProjectActivity : AppCompatActivity() {
             str = intent.getStringExtra("id").toString()
         }
 
-        project = ProjectDetail(//프로젝트 상세화면에서 사용할 거.
-            projectId = str.toLong(),
-            title = "프로젝트$str",
-            openingDate = "2022.08.23",
-            closingDate = "2022.08.25",
-            goalAmount = 5000000,
-            totalAmount = 3500000,
-            summary = "프로젝트${str}입니다.",
-            supporter = 5000,
-            status = 0,
-            userid = str.toLong(),
-            thumbnail = R.drawable.ic_baseline_favorite_border_pink_24,//나중에 String 으로 고치기.
-            achievedRate = 70.0,
-            story = "")
+        loadProjectInfo()
+        showProjectStory()
 
-        binding.projectName.text = project!!.title
-        binding.projectSum.text = project!!.summary
-        binding.story.text = getString(R.string.any)
-        binding.openingDate.text = project!!.openingDate
-        binding.closingDate.text = project!!.closingDate
-        binding.goalAmount.text = project!!.goalAmount.toString()
-        binding.totalAmount.text = project!!.totalAmount.toString()
-        binding.achievedRate.text = project!!.achievedRate.toString()
-        binding.achievedProgress.progress = project!!.achievedRate.toInt()
-        binding.thumbnail.setImageResource(project!!.thumbnail)//나중에 glide로..
+        binding.tabStoryCommunity.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                val pos = tab.position
+                when(pos){
+                    0 -> showProjectStory()
+                    1 -> showProjectCommunity()
+                }
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+
+            }
+        })
+
 
         binding.btnUp.setOnClickListener { binding.myScroll.scrollToView(binding.thumbnail) }
 
@@ -72,10 +66,7 @@ class DetailProjectActivity : AppCompatActivity() {
             }
         }
 
-        binding.btnFund.setOnClickListener {//펀드 후원 화면으로 이동
-            /*var intent = Intent(this, ProjectFundActivity::class.java)
-            intent.putExtra("id", str)
-            startActivity(intent)*/
+        binding.btnFund.setOnClickListener {
             val rewards : MutableList<Reward> = mutableListOf()
             for(i: Int in 1..5){
                 rewards!!.add(
@@ -94,6 +85,46 @@ class DetailProjectActivity : AppCompatActivity() {
             dialog.isCancelable = true
             dialog.show(this.supportFragmentManager, "FundDialog")
         }
+    }
+
+    fun showProjectStory(){
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.detailProjectFrame, DetailProjectStoryFragment().newInstance(project!!.story))
+            .commitAllowingStateLoss()
+    }
+
+    fun showProjectCommunity(){
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.detailProjectFrame, DetailProjectCommunityFragment())
+            .commitAllowingStateLoss()
+    }
+
+    private fun loadProjectInfo(){
+        project = ProjectDetail(//프로젝트 상세화면에서 사용할 거.
+            projectId = str.toLong(),
+            title = "프로젝트$str",
+            openingDate = "2022.08.23",
+            closingDate = "2022.08.25",
+            goalAmount = 5000000,
+            totalAmount = 3500000,
+            summary = "프로젝트${str}입니다.",
+            supporter = 5000,
+            status = 0,
+            userid = str.toLong(),
+            thumbnail = R.drawable.ic_baseline_favorite_border_pink_24,//나중에 String 으로 고치기.
+            achievedRate = 70.0,
+            story = getString(R.string.any))
+
+        binding.projectName.text = project!!.title
+        binding.projectSum.text = project!!.summary
+        //binding.story.text = getString(R.string.any)
+        binding.openingDate.text = project!!.openingDate
+        binding.closingDate.text = project!!.closingDate
+        binding.goalAmount.text = project!!.goalAmount.toString()
+        binding.totalAmount.text = project!!.totalAmount.toString()
+        binding.achievedRate.text = project!!.achievedRate.toString()
+        binding.achievedProgress.progress = project!!.achievedRate.toInt()
+        binding.thumbnail.setImageResource(project!!.thumbnail)//나중에 glide로..
     }
 
     fun NestedScrollView.scrollToView(view: View) {

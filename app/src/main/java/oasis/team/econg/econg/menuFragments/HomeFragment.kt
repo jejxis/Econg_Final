@@ -136,24 +136,6 @@ class HomeFragment(/*context: Context*/) : Fragment() {
         binding.newProjects.adapter = projectAdapter
     }
 
-    /*private fun loadPopularData() {//인기 프로젝트 데이터
-        for(i: Int in 1..3){
-            popularProjects!!.add(Project(
-                i,
-                R.drawable.ic_baseline_category_24,
-                "카테고리$i",
-                "회사$i",
-                "프로젝트$i",
-                "프로젝트${i}인데요",
-                150.0
-            ))
-        }
-
-        homePopularAdapter.setData(popularProjects)
-        binding.popularProjects.layoutManager = LinearLayoutManager(requireActivity(),LinearLayoutManager.VERTICAL,false)
-        binding.popularProjects.adapter = homePopularAdapter
-    }*/
-
     private fun loadNewCompany(){//신규 기업 데이터
         for(i: Int in 1..5){
             newCompany!!.add(Company(
@@ -167,20 +149,6 @@ class HomeFragment(/*context: Context*/) : Fragment() {
         binding.newCompany.layoutManager = LinearLayoutManager(requireActivity(),LinearLayoutManager.HORIZONTAL,false)
         binding.newCompany.adapter = newCompanyAdapter
     }
-
-    /*private fun loadPopularCompany(){//인기 기업 데이터
-        for(i: Int in 1..5){
-            popularCompany!!.add(Company(
-                i,
-                R.drawable.ic_baseline_category_24,
-                "카테고리$i",
-                "기업$i",
-                "기업${i}입니다."))
-        }
-        popularCompanyAdapter.setData(popularCompany)
-        binding.popularCompany.layoutManager = LinearLayoutManager(requireActivity(),LinearLayoutManager.VERTICAL,false)
-        binding.popularCompany.adapter = popularCompanyAdapter
-    }*/
 
     //이미지 슬라이드 어댑터
     private inner class ScreenSlidePagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
