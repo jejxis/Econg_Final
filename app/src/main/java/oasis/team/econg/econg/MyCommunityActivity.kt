@@ -18,8 +18,8 @@ import oasis.team.econg.forui.rvAdapter.ProjectAdapter
 class MyCommunityActivity : AppCompatActivity() {
     val binding by lazy{ActivityMyCommunityBinding.inflate(layoutInflater)}
 
-    var reply: MutableList<Reply>? = mutableListOf()
-    var replyAdapter = CommunityAdapter(this)
+    private var reply: MutableList<Reply>? = mutableListOf()
+    private var replyAdapter = CommunityAdapter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +51,7 @@ class MyCommunityActivity : AppCompatActivity() {
                 "프로젝트${i}인데요",
                 150.0
             ),Community(
+                i.toLong(),
                 "댓글 i입니다.",
                 i.toLong(),
                 1
