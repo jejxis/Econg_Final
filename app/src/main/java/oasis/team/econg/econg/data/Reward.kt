@@ -9,3 +9,9 @@ data class Reward(
     val combination: String,
     val projectId: Long
 )
+
+data class PreReward(
+    val name: String?,
+    val price: Int?,
+    val combination: String?
+)

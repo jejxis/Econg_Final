@@ -1,6 +1,7 @@
 package oasis.team.econg.econg
 
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -24,9 +25,26 @@ class ProjectListActivity : AppCompatActivity() {
 
         //신규 프로젝트 클릭 리스너 달기
         projectAdapter.setClickListener(onClickedListItem)
+
+        binding.btnAll.setOnClickListener {
+            binding.btnAll.background = resources.getDrawable(R.drawable.button_selected, null)
+            binding.btnAll.setTextColor(Color.parseColor("#FFFFFF"))
+            binding.btnNinety.background = resources.getDrawable(R.drawable.button, null)
+            binding.btnNinety.setTextColor(Color.parseColor("#787878"))
+            loadData()
+        }
+
+        binding.btnNinety.setOnClickListener {
+            binding.btnNinety.background = resources.getDrawable(R.drawable.button_selected, null)
+            binding.btnNinety.setTextColor(Color.parseColor("#FFFFFF"))
+            binding.btnAll.background = resources.getDrawable(R.drawable.button, null)
+            binding.btnAll.setTextColor(Color.parseColor("#787878"))
+            loadData90()
+        }
     }
 
     private fun loadData() {//신규 프로젝트 데이터
+        projects = mutableListOf()
         for(i: Int in 1..20){
             projects!!.add(Project(
                 i,
@@ -36,6 +54,26 @@ class ProjectListActivity : AppCompatActivity() {
                 "프로젝트$i",
                 "프로젝트${i}인데요",
                 150.0
+            ))
+        }
+
+        projectAdapter.setData(projects)
+        binding.projects.layoutManager = LinearLayoutManager(this,
+            LinearLayoutManager.VERTICAL,false)
+        binding.projects.adapter = projectAdapter
+    }
+
+    private fun loadData90() {//신규 프로젝트 데이터
+        projects = mutableListOf()
+        for(i: Int in 1..20){
+            projects!!.add(Project(
+                i,
+                R.drawable.ic_baseline_category_24,
+                "카테고리$i",
+                "회사$i",
+                "프로젝트$i",
+                "프로젝트${i}인데요",
+                75.0
             ))
         }
 
