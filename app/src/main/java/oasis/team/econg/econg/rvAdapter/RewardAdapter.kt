@@ -3,6 +3,7 @@ package oasis.team.econg.econg.rvAdapter
 import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +16,11 @@ class RewardAdapter(val context: Context?): RecyclerView.Adapter<RewardAdapter.R
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RewardHolder {
         val binding = LayoutRewardBinding.inflate(LayoutInflater.from(context), parent, false)
-        return RewardHolder(binding)
+        return RewardHolder(binding).apply{
+            itemView.setOnClickListener {
+                this.pos = adapterPosition
+            }
+        }
     }
 
     override fun onBindViewHolder(holder: RewardHolder, position: Int) {
@@ -28,7 +33,11 @@ class RewardAdapter(val context: Context?): RecyclerView.Adapter<RewardAdapter.R
     }
 
     fun setData(arrData: MutableList<PreReward>?){
-        listData = arrData as ArrayList<PreReward>
+        listData = arrData!!
+    }
+
+    fun returnData():MutableList<PreReward>{
+        return listData
     }
 
     inner class RewardHolder(val binding: LayoutRewardBinding): RecyclerView.ViewHolder(binding.root){
@@ -40,10 +49,10 @@ class RewardAdapter(val context: Context?): RecyclerView.Adapter<RewardAdapter.R
                 if(p0 != null && !p0.toString().equals("")){
                     reward = PreReward(
                         binding.rewardName.text?.toString(),
-                        Integer.parseInt(binding.rewardPrice.text?.toString()),
+                        binding.rewardPrice.text?.toString()?.toIntOrNull(),
                         binding.rewardCombination.text?.toString()
                     )
-
+                    listData[pos] = reward
                 }
             }
 
@@ -60,8 +69,16 @@ class RewardAdapter(val context: Context?): RecyclerView.Adapter<RewardAdapter.R
         fun setData(data: PreReward, position: Int){
             pos = position
             binding.btnRemoveReward.setOnClickListener {
-                listData.removeAt(position)
-                this@RewardAdapter.notifyItemRemoved(position)
+
+                if(listData.size == 1) {
+                    listData[0] = PreReward(null,null,null)
+                    this@RewardAdapter.notifyItemChanged(0)
+                }
+                else {
+                    listData.removeAt(position)
+                    this@RewardAdapter.notifyItemRemoved(position)
+                }
+                Log.d("MY_REMOVE", "listData: ${listData.toString()}")
             }
             binding.rewardName.addTextChangedListener(textWatcherReward)
             binding.rewardPrice.addTextChangedListener(textWatcherReward)

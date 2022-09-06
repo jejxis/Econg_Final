@@ -19,11 +19,14 @@ import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.marginBottom
 import androidx.core.view.marginEnd
 import androidx.fragment.app.DialogFragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import oasis.team.econg.econg.data.PreReward
 import oasis.team.econg.econg.data.Reward
 import oasis.team.econg.econg.databinding.ActivityOpenProjectBinding
 import oasis.team.econg.econg.dialog.DatePickerFragment
+import oasis.team.econg.econg.rvAdapter.RewardAdapter
 
 
 /*ProjectDetail(//프로젝트 상세화면에서 사용할 거.
@@ -46,13 +49,20 @@ class OpenProjectActivity : AppCompatActivity() {
     var toUri : Uri? = null
     var rewardCount = 0
 
-    var rewards: MutableList<Reward>? = mutableListOf()
+    var rewards: MutableList<PreReward>? = mutableListOf()
+    var rewardAdapter = RewardAdapter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
         //addRewardView()
+        rewards!!.add(PreReward(null,null,null))
+        rewardAdapter.setData(rewards)
+        binding.rewardRecycler.layoutManager = LinearLayoutManager(this,
+            LinearLayoutManager.VERTICAL,false)
+        binding.rewardRecycler.adapter = rewardAdapter
+
 
         binding.btnOD.setOnClickListener {
             val newFragment: DialogFragment = DatePickerFragment().newInstance(0)
@@ -73,7 +83,12 @@ class OpenProjectActivity : AppCompatActivity() {
         }
 
         binding.btnAddReward.setOnClickListener {
-            addRewardView()
+            //addRewardView()
+            rewards = rewardAdapter.returnData()
+            rewards!!.add(PreReward(null,null,null))
+            rewardAdapter.setData(rewards)
+            rewardAdapter.notifyDataSetChanged()
+            Log.d("MY_ADD", "listData: ${rewards.toString()}")
         }
     }
 
@@ -183,9 +198,7 @@ class OpenProjectActivity : AppCompatActivity() {
         binding.rewardLayout.addView(layout)
         closeButton.setOnClickListener {
             binding.rewardLayout.removeView(layout)
-            rewardCount--
         }
-        rewardCount++
     }
 
 
