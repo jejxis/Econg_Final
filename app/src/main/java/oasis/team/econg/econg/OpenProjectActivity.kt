@@ -47,7 +47,6 @@ class OpenProjectActivity : AppCompatActivity() {
     val storage = Firebase.storage("gs://econg-7e3f6.appspot.com")
     var toThumbnail = ""
     var toUri : Uri? = null
-    var rewardCount = 0
 
     var rewards: MutableList<PreReward>? = mutableListOf()
     var rewardAdapter = RewardAdapter(this)
@@ -56,7 +55,6 @@ class OpenProjectActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        //addRewardView()
         rewards!!.add(PreReward(null,null,null))
         rewardAdapter.setData(rewards)
         binding.rewardRecycler.layoutManager = LinearLayoutManager(this,
@@ -80,15 +78,16 @@ class OpenProjectActivity : AppCompatActivity() {
 
         binding.upload.setOnClickListener {
             uploadImage(toThumbnail, toUri!!)
+            Log.d("MY_ADD", "rewards: ${rewards.toString()}")
         }
 
         binding.btnAddReward.setOnClickListener {
-            //addRewardView()
             rewards = rewardAdapter.returnData()
             rewards!!.add(PreReward(null,null,null))
             rewardAdapter.setData(rewards)
             rewardAdapter.notifyDataSetChanged()
-            Log.d("MY_ADD", "listData: ${rewards.toString()}")
+            Log.d("MY_ADD", "rewards: ${rewards.toString()}")
+            Log.d("MY_ADD", "rewardAdapter.listData: ${rewardAdapter.listData}")
         }
     }
 
@@ -142,72 +141,5 @@ class OpenProjectActivity : AppCompatActivity() {
         val year_string = Integer.toString(year)
         val dateMessage = "$month_string/$day_string/$year_string"
         binding.closingDate.text = dateMessage
-    }
-
-    private fun addRewardView(){
-        val layout = ConstraintLayout(this)
-        layout.background = resources.getDrawable(R.drawable.reward, null)//R.drawable.reward.toDrawable()
-
-        val parForCloseButton = ConstraintLayout.LayoutParams(50,50 )
-        val closeButton = makeCloseButton()
-        parForCloseButton.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
-        parForCloseButton.topToTop = ConstraintLayout.LayoutParams.PARENT_ID
-        parForCloseButton.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
-        closeButton.layoutParams = parForCloseButton
-
-        layout.addView(closeButton)
-
-        val parForRewardLayout = ConstraintLayout.LayoutParams(
-            ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.WRAP_CONTENT
-        )
-        val rewardLayout = LinearLayout(this)
-        rewardLayout.setPadding(10,10,70,10)
-        rewardLayout.orientation = LinearLayout.VERTICAL
-        parForRewardLayout.startToStart = ConstraintLayout.LayoutParams.PARENT_ID
-        parForRewardLayout.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
-        parForRewardLayout.topToTop = ConstraintLayout.LayoutParams.PARENT_ID
-        rewardLayout.layoutParams = parForRewardLayout
-
-        layout.addView(rewardLayout)
-
-        val parForReward = LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT
-        )
-        val rewardName = EditText(this)
-        rewardName.inputType = TYPE_CLASS_TEXT
-        rewardName.hint = "리워드 이름"
-        rewardName.layoutParams = parForReward
-
-        rewardLayout.addView(rewardName)
-
-        val rewardCombination = EditText(this)
-        rewardCombination.inputType = TYPE_CLASS_TEXT
-        rewardCombination.hint = "리워드 구성"
-        rewardCombination.layoutParams = parForReward
-
-        rewardLayout.addView(rewardCombination)
-
-        val rewardPrice = EditText(this)
-        rewardPrice.layoutParams = parForReward
-        rewardPrice.inputType = TYPE_CLASS_NUMBER
-        rewardPrice.hint = "리워드 가격"
-        rewardPrice.layoutParams = parForReward
-
-        rewardLayout.addView(rewardPrice)
-
-        binding.rewardLayout.addView(layout)
-        closeButton.setOnClickListener {
-            binding.rewardLayout.removeView(layout)
-        }
-    }
-
-
-    private fun makeCloseButton(): ImageButton{
-        val btn = ImageButton(this)
-        btn.setImageResource(R.drawable.ic_round_close_24)
-        btn.setBackgroundColor(Color.RED)
-        btn.maxWidth = 30
-        btn.maxHeight = 30
-        return btn
     }
 }

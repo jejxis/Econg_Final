@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import oasis.team.econg.econg.OpenProjectActivity
 import oasis.team.econg.econg.data.PreReward
 import oasis.team.econg.econg.data.Reward
 import oasis.team.econg.econg.databinding.LayoutRewardBinding
@@ -68,6 +69,11 @@ class RewardAdapter(val context: Context?): RecyclerView.Adapter<RewardAdapter.R
 
         fun setData(data: PreReward, position: Int){
             pos = position
+
+            binding.rewardName.setText(data.name)
+            binding.rewardPrice.setText(data.price?.toString())
+            binding.rewardCombination.setText(data.combination)
+
             binding.btnRemoveReward.setOnClickListener {
 
                 if(listData.size == 1) {
@@ -78,7 +84,7 @@ class RewardAdapter(val context: Context?): RecyclerView.Adapter<RewardAdapter.R
                     listData.removeAt(position)
                     this@RewardAdapter.notifyItemRemoved(position)
                 }
-                Log.d("MY_REMOVE", "listData: ${listData.toString()}")
+                Log.d("MY_REMOVE", "rewardAdapter.listData: $listData")
             }
             binding.rewardName.addTextChangedListener(textWatcherReward)
             binding.rewardPrice.addTextChangedListener(textWatcherReward)
