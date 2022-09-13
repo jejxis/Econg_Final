@@ -1,28 +1,18 @@
 package oasis.team.econg.econg.menuFragments
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentTransaction
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.tabs.TabLayout
-import oasis.team.econg.econg.DetailCompanyActivity
-import oasis.team.econg.econg.DetailProjectActivity
 import oasis.team.econg.econg.MainActivity
 import oasis.team.econg.econg.R
-import oasis.team.econg.econg.data.Company
-import oasis.team.econg.econg.data.Project
 import oasis.team.econg.econg.databinding.FragmentFavoriteBinding
-import oasis.team.econg.econg.databinding.FragmentHomeBinding
 import oasis.team.econg.econg.menuFavorite.FavoriteCompanyFragment
 import oasis.team.econg.econg.menuFavorite.FavoriteProjectFragment
-import oasis.team.econg.econg.rvAdapter.CompanyHorAdapter
-import oasis.team.econg.forui.rvAdapter.ProjectAdapter
 
 class FavoriteFragment : Fragment() {
     lateinit var binding: FragmentFavoriteBinding

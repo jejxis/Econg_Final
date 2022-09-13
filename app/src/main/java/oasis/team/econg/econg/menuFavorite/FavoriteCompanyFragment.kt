@@ -11,10 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import oasis.team.econg.econg.DetailCompanyActivity
 import oasis.team.econg.econg.MainActivity
 import oasis.team.econg.econg.R
-import oasis.team.econg.econg.data.Company
-import oasis.team.econg.econg.databinding.FragmentFavoriteBinding
+import oasis.team.econg.econg.data.User
 import oasis.team.econg.econg.databinding.FragmentFavoriteCompanyBinding
-import oasis.team.econg.econg.rvAdapter.CompanyHorAdapter
 import oasis.team.econg.econg.rvAdapter.CompanyVerAdapter
 
 class FavoriteCompanyFragment : Fragment() {
@@ -22,7 +20,7 @@ class FavoriteCompanyFragment : Fragment() {
     lateinit var binding: FragmentFavoriteCompanyBinding
     lateinit var main: MainActivity
 
-    var favCompany: MutableList<Company>? = mutableListOf()//좋아요한 기업 데이터
+    var favUser: MutableList<User>? = mutableListOf()//좋아요한 기업 데이터
     lateinit var companyAdapter: CompanyVerAdapter//기업 어댑터
 
     override fun onAttach(context: Context) {
@@ -45,16 +43,16 @@ class FavoriteCompanyFragment : Fragment() {
     }
 
     private fun loadFavCompany(){//팔로우 기업 데이터
-        favCompany = mutableListOf()
+        favUser = mutableListOf()
         for(i: Int in 1..5){
-            favCompany!!.add(Company(
+            favUser!!.add(User(
                 i,
                 R.drawable.ic_baseline_category_24,
                 "카테고리$i",
                 "기업$i",
                 "기업${i}입니다."))
         }
-        companyAdapter.setData(favCompany)
+        companyAdapter.setData(favUser)
         binding.favCompany.layoutManager = LinearLayoutManager(requireActivity(),
             LinearLayoutManager.VERTICAL,false)
         binding.favCompany.adapter = companyAdapter

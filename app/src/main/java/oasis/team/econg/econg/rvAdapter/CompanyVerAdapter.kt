@@ -4,12 +4,12 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import oasis.team.econg.econg.data.Company
+import oasis.team.econg.econg.data.User
 import oasis.team.econg.econg.databinding.ItemCompanyVerBinding
 
 //data class Company(val id: Int, val rank: Int?,val img: Int, val category: String, val companyName: String, val companyInfo: String)
 class CompanyVerAdapter (val context: Context?) : RecyclerView.Adapter<CompanyVerAdapter.CompanyVerHolder>(){
-    var listData = mutableListOf<Company>()//어댑터에서 사용할 목록변수
+    var listData = mutableListOf<User>()//어댑터에서 사용할 목록변수
     var listener: CompanyVerAdapter.OnItemClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CompanyVerAdapter.CompanyVerHolder {//한 화면에 생성할 레이아웃 개수 = 한 화면에 생성할 아이템 개수-> 아이템 레이아웃 생성
@@ -32,8 +32,8 @@ class CompanyVerAdapter (val context: Context?) : RecyclerView.Adapter<CompanyVe
         return listData.size
     }
 
-    fun setData(arrData : MutableList<Company>?){
-        listData = arrData as ArrayList<Company>
+    fun setData(arrData : MutableList<User>?){
+        listData = arrData as ArrayList<User>
     }
 
     fun setClickListener(listener1: CompanyVerAdapter.OnItemClickListener){
@@ -41,7 +41,7 @@ class CompanyVerAdapter (val context: Context?) : RecyclerView.Adapter<CompanyVe
     }
 
     inner class CompanyVerHolder(val binding: ItemCompanyVerBinding): RecyclerView.ViewHolder(binding.root){
-        fun setData(data: Company) {
+        fun setData(data: User) {
             binding.imgCompany.setImageResource(data.img)
             binding.companyCategory.text = "${data.category}"
             binding.companyName.text = "${data.companyName}"

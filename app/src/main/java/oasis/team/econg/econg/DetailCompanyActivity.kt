@@ -27,6 +27,12 @@ class DetailCompanyActivity : AppCompatActivity() {
 
         binding.userName.text = "회사 $str"
 
+        binding.userCard.setOnClickListener {
+            var intent = Intent(this@DetailCompanyActivity, UserFollowActivity::class.java)
+            intent.putExtra("id", str)
+            startActivity(intent)
+        }
+
         loadCompanyProjectData()
         companyProjectAdapter.setClickListener(onClickedProjectItem)
     }

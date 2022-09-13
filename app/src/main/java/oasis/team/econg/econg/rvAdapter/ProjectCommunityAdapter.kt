@@ -39,8 +39,8 @@ class ProjectCommunityAdapter(val context: Context?): RecyclerView.Adapter<Proje
 
     inner class ProjectCommunityHolder(val binding: ItemProjectCommunityBinding): RecyclerView.ViewHolder(binding.root){
         fun setData(data: ProjectReply){
-            binding.communityProfile.setImageResource(data.company.img)
-            binding.communityUserName.text = data.company.companyName
+            binding.communityProfile.setImageResource(data.user.img)
+            binding.communityUserName.text = data.user.companyName
             binding.communityContent.text = data.community.comment
         }
     }

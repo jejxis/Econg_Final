@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import oasis.team.econg.econg.DetailProjectActivity
 import oasis.team.econg.econg.R
 import oasis.team.econg.econg.data.Community
-import oasis.team.econg.econg.data.Company
+import oasis.team.econg.econg.data.User
 import oasis.team.econg.econg.data.ProjectReply
 import oasis.team.econg.econg.databinding.FragmentDetailProjectCommunityBinding
 import oasis.team.econg.econg.rvAdapter.ProjectCommunityAdapter
@@ -52,7 +52,7 @@ class DetailProjectCommunityFragment : Fragment() {
     private fun loadData(){
         for(i: Int in 1..5){
             projectReply!!.add(ProjectReply(
-                Company(
+                User(
                     i,
                     R.drawable.ic_baseline_favorite_pink_24,
                     "",

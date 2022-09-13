@@ -1,4 +1,4 @@
-package oasis.team.econg.econg.FollowFragments
+package oasis.team.econg.econg.followFragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

@@ -4,14 +4,14 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
-import oasis.team.econg.econg.data.Company
+import oasis.team.econg.econg.data.User
 import oasis.team.econg.econg.databinding.ActivityCompanyListBinding
 import oasis.team.econg.econg.rvAdapter.CompanyVerAdapter
 
 class CompanyListActivity : AppCompatActivity() {
     val binding by lazy{ActivityCompanyListBinding.inflate(layoutInflater)}
 
-    var companies: MutableList<Company>? = mutableListOf()
+    var companies: MutableList<User>? = mutableListOf()
     var companyAdapter = CompanyVerAdapter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,7 +25,7 @@ class CompanyListActivity : AppCompatActivity() {
 
     private fun loadCompanyData(){
         for(i: Int in 1..10){
-            companies!!.add(Company(
+            companies!!.add(User(
                 i,
                 R.drawable.ic_baseline_favorite_border_pink_24,
                 "카테고리$i",

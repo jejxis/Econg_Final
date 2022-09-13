@@ -14,7 +14,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import oasis.team.econg.econg.*
-import oasis.team.econg.econg.data.Company
+import oasis.team.econg.econg.data.User
 import oasis.team.econg.econg.data.Project
 import oasis.team.econg.econg.databinding.FragmentHomeBinding
 import oasis.team.econg.econg.imageSlide.ImageSlideFragment
@@ -29,7 +29,7 @@ class HomeFragment(/*context: Context*/) : Fragment() {
     //
     var projects: MutableList<Project>? = mutableListOf()//신규 프로젝트 데이터
     //var popularProjects: MutableList<Project>? = mutableListOf()//인기 프로젝트 데이터
-    var newCompany: MutableList<Company>? = mutableListOf()//신규 기업 데이터
+    var newUser: MutableList<User>? = mutableListOf()//신규 기업 데이터
     //var popularCompany: MutableList<Company>? = mutableListOf()//인기 기업 데이터
 
     lateinit var projectAdapter: ProjectAdapter//신규 프로젝트 어댑터
@@ -138,14 +138,14 @@ class HomeFragment(/*context: Context*/) : Fragment() {
 
     private fun loadNewCompany(){//신규 기업 데이터
         for(i: Int in 1..5){
-            newCompany!!.add(Company(
+            newUser!!.add(User(
             i,
             R.drawable.ic_baseline_category_24,
             "카테고리$i",
             "기업$i",
             "기업${i}입니다."))
         }
-        newCompanyAdapter.setData(newCompany)
+        newCompanyAdapter.setData(newUser)
         binding.newCompany.layoutManager = LinearLayoutManager(requireActivity(),LinearLayoutManager.HORIZONTAL,false)
         binding.newCompany.adapter = newCompanyAdapter
     }
