@@ -1,60 +1,67 @@
 package oasis.team.econg.econg.followFragments
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import oasis.team.econg.econg.DetailCompanyActivity
 import oasis.team.econg.econg.R
+import oasis.team.econg.econg.UserFollowActivity
+import oasis.team.econg.econg.data.User
+import oasis.team.econg.econg.databinding.FragmentFollowerBinding
+import oasis.team.econg.econg.rvAdapter.UserFollowAdapter
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [FollowerFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class FollowerFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+    lateinit var binding: FragmentFollowerBinding
+    lateinit var userFollow: UserFollowActivity
+
+    var followerList: MutableList<User>? = mutableListOf()
+    private lateinit var followerAdapter: UserFollowAdapter
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        userFollow = context as UserFollowActivity
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_follower, container, false)
+        binding = FragmentFollowerBinding.inflate(inflater, container, false)
+        followerAdapter = UserFollowAdapter(userFollow)
+
+        loadFollowerList()
+        followerAdapter.setClickListener(onClickedUserItem)
+
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment FollowerFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            FollowerFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    private fun loadFollowerList(){
+        followerList = mutableListOf()
+        for(i: Int in 1..5){
+            followerList!!.add(User(
+                i,
+                R.drawable.ic_baseline_category_24,
+                "카테고리$i",
+                "사용자$i",
+                "사용자${i}입니다."))
+        }
+        followerAdapter.setData(followerList)
+        binding.followerList.layoutManager = LinearLayoutManager(requireActivity(),
+            LinearLayoutManager.VERTICAL,false)
+        binding.followerList.adapter = followerAdapter
+    }
+
+    private val onClickedUserItem = object: UserFollowAdapter.OnItemClickListener{
+        override fun onClicked(id: String) {
+            var intent = Intent(context, DetailCompanyActivity::class.java)
+            intent.putExtra("id", id)
+            startActivity(intent)
+        }
     }
 }
