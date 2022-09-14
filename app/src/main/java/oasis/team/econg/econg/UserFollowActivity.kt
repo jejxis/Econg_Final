@@ -13,12 +13,14 @@ class UserFollowActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        showFollowingList()
+
         binding.tabFollow.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 val pos = tab.position
                 when(pos){
-                    0 -> showFollowerList()
-                    1 -> showFollowingList()
+                    0 -> showFollowingList()
+                    1 -> showFollowerList()
                 }
             }
 

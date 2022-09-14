@@ -34,6 +34,7 @@ class FollowingFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentFollowingBinding.inflate(inflater, container, false)
+        followingAdapter = UserFollowAdapter(userFollow)
 
         loadFollowingList()
         followingAdapter.setClickListener(onClickedUserItem)
