@@ -39,8 +39,32 @@ class DetailProjectCommunityFragment : Fragment() {
         loadData()
 
         projectReplyAdapter.setClickListener(onClickedListItem)
+        binding.uploadReply.setOnClickListener {
+            uploadReply()
+            binding.replyPlace.text.clear()
+        }
 
         return binding.root
+    }
+
+    private fun uploadReply() {
+        projectReply!!.add(ProjectReply(
+            User(
+                100,
+                R.drawable.ic_baseline_favorite_pink_24,
+                "",
+                "나",
+                ""
+            ),
+            Community(
+                100.toLong(),
+                binding.replyPlace.text.toString(),
+                detailProject.str.toLong(),
+                100.toLong()
+            )
+        ))
+
+        setListData()
     }
 
     private val onClickedListItem = object : ProjectCommunityAdapter.OnItemClickListener{
@@ -68,9 +92,13 @@ class DetailProjectCommunityFragment : Fragment() {
             ))
         }
 
+        setListData()
+    }
+
+    private fun setListData(){
         projectReplyAdapter.setData(projectReply)
         binding.projectCommunity.layoutManager = LinearLayoutManager(detailProject,
-        LinearLayoutManager.VERTICAL, false)
+            LinearLayoutManager.VERTICAL, false)
         binding.projectCommunity.adapter = projectReplyAdapter
     }
 
