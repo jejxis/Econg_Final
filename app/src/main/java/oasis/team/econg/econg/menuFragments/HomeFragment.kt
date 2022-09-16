@@ -28,14 +28,10 @@ class HomeFragment(/*context: Context*/) : Fragment() {
     lateinit var main: MainActivity
     //
     var projects: MutableList<Project>? = mutableListOf()//신규 프로젝트 데이터
-    //var popularProjects: MutableList<Project>? = mutableListOf()//인기 프로젝트 데이터
     var newUser: MutableList<User>? = mutableListOf()//신규 기업 데이터
-    //var popularCompany: MutableList<Company>? = mutableListOf()//인기 기업 데이터
 
     lateinit var projectAdapter: ProjectAdapter//신규 프로젝트 어댑터
-    //var homePopularAdapter = ProjectVerAdapter(context)//인기 프로젝트 어댑터
     lateinit var newCompanyAdapter: CompanyHorAdapter//신규 기업 어댑터
-    //var popularCompanyAdapter = CompanyVerAdapter(context)//인기 기업 어댑터
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

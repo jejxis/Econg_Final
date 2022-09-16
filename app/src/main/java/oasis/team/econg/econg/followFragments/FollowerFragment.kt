@@ -13,6 +13,7 @@ import oasis.team.econg.econg.R
 import oasis.team.econg.econg.UserFollowActivity
 import oasis.team.econg.econg.data.User
 import oasis.team.econg.econg.databinding.FragmentFollowerBinding
+import oasis.team.econg.econg.imageSlide.ImageSlideFragment
 import oasis.team.econg.econg.rvAdapter.UserFollowAdapter
 
 class FollowerFragment : Fragment() {
@@ -22,6 +23,15 @@ class FollowerFragment : Fragment() {
 
     var followerList: MutableList<User>? = mutableListOf()
     private lateinit var followerAdapter: UserFollowAdapter
+
+    private val userID = "KEY"
+    fun newInstance(data: String) = FollowerFragment().apply {
+        arguments = Bundle().apply {
+            putString(userID, data)
+        }
+    }
+
+    private val userId by lazy { requireArguments().getString(userID) }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

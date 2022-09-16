@@ -9,9 +9,14 @@ import oasis.team.econg.econg.databinding.ActivityUserFollowBinding
 
 class UserFollowActivity : AppCompatActivity() {
     val binding by lazy{ ActivityUserFollowBinding.inflate(layoutInflater)}
+    var userId = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+        if(intent.hasExtra("id")){
+            userId = intent.getStringExtra("id").toString()
+        }
 
         showFollowingList()
 
@@ -36,13 +41,13 @@ class UserFollowActivity : AppCompatActivity() {
 
     fun showFollowerList(){
         supportFragmentManager.beginTransaction()
-            .replace(R.id.followFrame, FollowerFragment())
+            .replace(R.id.followFrame, FollowerFragment().newInstance(userId))
             .commitAllowingStateLoss()
     }
 
     fun showFollowingList(){
         supportFragmentManager.beginTransaction()
-            .replace(R.id.followFrame, FollowingFragment())
+            .replace(R.id.followFrame, FollowingFragment().newInstance(userId))
             .commitAllowingStateLoss()
     }
 }
