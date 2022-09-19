@@ -13,6 +13,7 @@ import oasis.team.econg.econg.data.Community
 import oasis.team.econg.econg.data.User
 import oasis.team.econg.econg.data.ProjectReply
 import oasis.team.econg.econg.databinding.FragmentDetailProjectCommunityBinding
+import oasis.team.econg.econg.followFragments.FollowerFragment
 import oasis.team.econg.econg.rvAdapter.ProjectCommunityAdapter
 
 
@@ -24,10 +25,19 @@ class DetailProjectCommunityFragment : Fragment() {
     var projectReply: MutableList<ProjectReply>? = mutableListOf()
     lateinit var projectReplyAdapter :ProjectCommunityAdapter
 
+    private val MyID = "KEY"
+    fun newInstance(data: String) = DetailProjectCommunityFragment().apply {
+        arguments = Bundle().apply {
+            putString(MyID, data)
+        }
+    }
+
+    private val myId by lazy { requireArguments().getString(MyID) }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         detailProject = context as DetailProjectActivity
-        projectReplyAdapter = ProjectCommunityAdapter(detailProject)
+        projectReplyAdapter = ProjectCommunityAdapter(detailProject, myId!!)
     }
 
     override fun onCreateView(

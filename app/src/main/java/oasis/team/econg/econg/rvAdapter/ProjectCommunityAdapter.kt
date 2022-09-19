@@ -2,12 +2,13 @@ package oasis.team.econg.econg.rvAdapter
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import oasis.team.econg.econg.data.ProjectReply
 import oasis.team.econg.econg.databinding.ItemProjectCommunityBinding
 
-class ProjectCommunityAdapter(val context: Context?): RecyclerView.Adapter<ProjectCommunityAdapter.ProjectCommunityHolder>() {
+class ProjectCommunityAdapter(val context: Context?,val id: String): RecyclerView.Adapter<ProjectCommunityAdapter.ProjectCommunityHolder>() {
     var listData = mutableListOf<ProjectReply>()
     var listener: ProjectCommunityAdapter.OnItemClickListener? = null
 
@@ -39,6 +40,11 @@ class ProjectCommunityAdapter(val context: Context?): RecyclerView.Adapter<Proje
 
     inner class ProjectCommunityHolder(val binding: ItemProjectCommunityBinding): RecyclerView.ViewHolder(binding.root){
         fun setData(data: ProjectReply){
+            if(id == data.user.id.toString()){
+                binding.editCommunity.visibility = View.VISIBLE
+                binding.separate.visibility = View.VISIBLE
+                binding.deleteCommunity.visibility = View.VISIBLE
+            }
             binding.communityProfile.setImageResource(data.user.img)
             binding.communityUserName.text = data.user.companyName
             binding.communityContent.text = data.community.comment

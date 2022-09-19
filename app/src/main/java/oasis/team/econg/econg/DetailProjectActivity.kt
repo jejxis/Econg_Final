@@ -17,6 +17,7 @@ import oasis.team.econg.econg.detailProjectFragments.DetailProjectStoryFragment
 import oasis.team.econg.econg.dialog.FundDialog
 
 class DetailProjectActivity : AppCompatActivity() {
+    private val MYID = "2"
     private val binding by lazy{ActivityDetailProjectBinding.inflate(layoutInflater)}
     var project: ProjectDetail? = null
     var str = ""
@@ -95,7 +96,7 @@ class DetailProjectActivity : AppCompatActivity() {
 
     fun showProjectCommunity(){
         supportFragmentManager.beginTransaction()
-            .replace(R.id.detailProjectFrame, DetailProjectCommunityFragment())
+            .replace(R.id.detailProjectFrame, DetailProjectCommunityFragment().newInstance(MYID))
             .commitAllowingStateLoss()
     }
 
