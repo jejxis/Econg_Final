@@ -125,6 +125,7 @@
 
 
                 <EditText
+                    android:id="@+id/story"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
@@ -151,7 +152,7 @@
                     android:layout_height="match_parent">
 
                     <EditText
-                        android:id="@+id/editTextNumber"
+                        android:id="@+id/goalAmount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ems="10"
@@ -168,7 +169,7 @@
                         android:text="원"
                         android:textSize="17dp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/editTextNumber"
+                        app:layout_constraintStart_toEndOf="@+id/goalAmount"
                         app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>

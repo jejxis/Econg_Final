@@ -44,12 +44,12 @@ val thumbnail: Int,//나중에 String 으로 고치기.
 val achievedRate: Double)*/
 class OpenProjectActivity : AppCompatActivity() {
     val binding by lazy { ActivityOpenProjectBinding.inflate(layoutInflater) }
-    val storage = Firebase.storage("gs://econg-7e3f6.appspot.com")
-    var toThumbnail = ""
-    var toUri : Uri? = null
+    private val storage = Firebase.storage("gs://econg-7e3f6.appspot.com")
+    private var toThumbnail = ""
+    private var toUri : Uri? = null
 
-    var rewards: MutableList<PreReward>? = mutableListOf()
-    var rewardAdapter = RewardAdapter(this)
+    private var rewards: MutableList<PreReward>? = mutableListOf()
+    private var rewardAdapter = RewardAdapter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

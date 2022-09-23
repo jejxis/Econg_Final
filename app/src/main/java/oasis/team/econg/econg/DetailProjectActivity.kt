@@ -1,6 +1,7 @@
 package oasis.team.econg.econg
 
 
+import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
@@ -36,6 +37,13 @@ class DetailProjectActivity : AppCompatActivity() {
         loadProjectInfo()
         showProjectStory()
 
+        binding.btnEdit.setOnClickListener {
+            Log.d("MY", "EDIT!!!!")
+            var intent = Intent(this, EditProjectActivity::class.java)
+            intent.putExtra("projectID", str)
+            startActivity(intent)
+        }
+
         binding.tabStoryCommunity.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 val pos = tab.position
@@ -53,7 +61,6 @@ class DetailProjectActivity : AppCompatActivity() {
 
             }
         })
-
 
         binding.btnUp.setOnClickListener { binding.myScroll.scrollToView(binding.thumbnail) }
 

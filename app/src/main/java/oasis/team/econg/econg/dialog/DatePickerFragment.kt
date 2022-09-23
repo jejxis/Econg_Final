@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.DatePicker
 import androidx.fragment.app.DialogFragment
+import oasis.team.econg.econg.EditProjectActivity
 import oasis.team.econg.econg.OpenProjectActivity
 import oasis.team.econg.econg.R
 import oasis.team.econg.econg.databinding.FragmentDatePickerBinding
@@ -18,7 +19,8 @@ import java.util.*
 class DatePickerFragment : DialogFragment(), DatePickerDialog.OnDateSetListener  {
     private var _binding: FragmentDatePickerBinding? = null
     private val binding get() = _binding!!
-    lateinit var op: OpenProjectActivity
+    var op: OpenProjectActivity? = null
+    var ep: EditProjectActivity? = null
     val KEY = "KEY"
 
     fun newInstance(data: Int) = DatePickerFragment().apply {
@@ -31,7 +33,11 @@ class DatePickerFragment : DialogFragment(), DatePickerDialog.OnDateSetListener 
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        op = context as OpenProjectActivity
+        if(context.javaClass == OpenProjectActivity::class.java){
+            op = context as OpenProjectActivity
+        }else if(context.javaClass == EditProjectActivity::class.java){
+            ep = context as EditProjectActivity
+        }
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,12 +57,24 @@ class DatePickerFragment : DialogFragment(), DatePickerDialog.OnDateSetListener 
         val month: Int = c.get(Calendar.MONTH)
         val day: Int = c.get(Calendar.DAY_OF_MONTH)
 
-        return DatePickerDialog(op!!, this, year, month, day)
+        return if(op == null){
+            DatePickerDialog(ep!!, this, year, month, day)
+        } else{
+            DatePickerDialog(op!!, this, year, month, day)
+        }
+
     }
 
     override fun onDateSet(datePicker: DatePicker?, year: Int, month: Int, day: Int) {
-        if(flag == 0) op.processDatePickerOpenResult(year,month,day)
-        else if(flag == 1) op.processDatePickerCloseResult(year,month,day)
+
+        if(op == null){
+            if(flag == 0) ep!!.processDatePickerOpenResult(year,month,day)
+            else if(flag == 1) ep!!.processDatePickerCloseResult(year,month,day)
+        } else{
+            if(flag == 0) op!!.processDatePickerOpenResult(year,month,day)
+            else if(flag == 1) op!!.processDatePickerCloseResult(year,month,day)
+        }
+
     }
 
     override fun onDestroyView() {
