@@ -1,6 +1,7 @@
 package oasis.team.econg.econg.dialog
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -11,6 +12,8 @@ import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import androidx.fragment.app.DialogFragment
+import oasis.team.econg.econg.EditProjectActivity
+import oasis.team.econg.econg.PaymentActivity
 import oasis.team.econg.econg.data.Reward
 import oasis.team.econg.econg.databinding.DialogFundBinding
 
@@ -55,6 +58,9 @@ class FundDialog(context: Context, rewards: MutableList<Reward>) : DialogFragmen
         binding.btnPayment.setOnClickListener {
             val id = binding.combination.checkedRadioButtonId
             Log.d("MY", "리워드${id} 선택")
+            var intent = Intent(context, PaymentActivity::class.java)
+            intent.putExtra("rewardID", id.toString())
+            startActivity(intent)
         }
         return view
     }

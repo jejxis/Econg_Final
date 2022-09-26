@@ -46,3 +46,12 @@ data class Order(
     val tax: Int,
     val tradingMethod: String
 )
+data class OrderConfirmation(
+    val combination: String,
+    val price: Int,
+    val projectId: Int,
+    val rewardId: Int,
+    val rewardName: String,
+    val thumbnail: String,
+    val title: String
+)
