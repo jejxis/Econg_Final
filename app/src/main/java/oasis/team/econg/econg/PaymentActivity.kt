@@ -1,5 +1,7 @@
 package oasis.team.econg.econg
 
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import oasis.team.econg.econg.data.OrderConfirmation
@@ -22,6 +24,13 @@ class PaymentActivity : AppCompatActivity() {
 
         binding.goToKakaoPay.setOnClickListener {
             //use orderInfo.rewardId, orderInfo.rewardName, orderInfo.price, binding.deliveryAddress.text.toString()
+            // call "/app/orders" API
+
+            //get link from API
+
+            //move to the link
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://m.naver.com"))
+            startActivity(intent)
         }
     }
 
