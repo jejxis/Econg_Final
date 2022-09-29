@@ -26,7 +26,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
                 android:layout_marginTop="5dp"
-                app:cardCornerRadius="5dp"
                 app:cardElevation="5dp">
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -63,7 +62,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:text="리워드 이름"
-                        android:textSize="20sp" />
+                        android:textSize="19sp" />
 
                     <TextView
                         android:id="@+id/combination"
@@ -80,7 +79,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
-                app:cardCornerRadius="5dp"
                 app:cardElevation="5dp">
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -123,35 +121,37 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
-                app:cardCornerRadius="5dp"
+                app:cardCornerRadius="0dp"
                 app:cardElevation="5dp">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_margin="5dp">
 
-                <TextView
-                    android:id="@+id/textView9"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:text="배송지" />
+                    android:layout_margin="5dp"
+                    android:orientation="vertical">
 
-                <EditText
-                    android:id="@+id/deliveryAddress"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:inputType="textMultiLine"
-                    android:hint="배송지를 입력하세요."
-                    android:background="@drawable/reward"
-                    android:layout_margin="5dp"/>
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/textView9"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:text="배송지" />
+
+                    <EditText
+                        android:id="@+id/deliveryAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:background="@drawable/reward"
+                        android:ems="10"
+                        android:hint="배송지를 입력하세요."
+                        android:inputType="textMultiLine" />
+                </LinearLayout>
             </androidx.cardview.widget.CardView>
 
             <Button

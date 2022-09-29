@@ -49,6 +49,11 @@ class MyFragment(/*context: Context*/) : Fragment() {
             startActivity(intent)
         }
 
+        binding.orderList.setOnClickListener {
+            var intent = Intent(main, OrderListActivity::class.java)
+            startActivity(intent)
+        }
+
         return binding.root
     }
 

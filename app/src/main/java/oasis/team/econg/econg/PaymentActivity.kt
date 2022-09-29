@@ -27,13 +27,15 @@ class PaymentActivity : AppCompatActivity() {
 
     private fun  loadOrderInfo(){
         orderInfo = OrderConfirmation(
+            id = rewardID.toLong(),
             combination = "리워드 조합",
             price = 50000,
             projectId = 5,
             rewardId = rewardID.toInt(),
             rewardName = "리워드명",
             thumbnail = "썸네일",
-            title = "프로젝트명"
+            title = "프로젝트명",
+            orderStatus = 0
         )
     }
 
