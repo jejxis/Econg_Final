@@ -61,10 +61,10 @@ class DetailProjectCommunityFragment : Fragment() {
         projectReply!!.add(ProjectReply(
             User(
                 100,
-                R.drawable.ic_baseline_favorite_pink_24,
-                "",
-                "나",
-                ""
+                "사용자100",
+                null,
+                "gs://econg-7e3f6.appspot.com/bud.png",
+                false
             ),
             Community(
                 100.toLong(),
@@ -87,11 +87,11 @@ class DetailProjectCommunityFragment : Fragment() {
         for(i: Int in 1..5){
             projectReply!!.add(ProjectReply(
                 User(
-                    i,
-                    R.drawable.ic_baseline_favorite_pink_24,
-                    "",
+                    i.toLong(),
                     "사용자$i",
-                    ""
+                    null,
+                    "gs://econg-7e3f6.appspot.com/bud.png",
+                    true
                 ),
                 Community(
                     i.toLong(),

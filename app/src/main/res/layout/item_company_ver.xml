@@ -26,20 +26,15 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:id="@+id/companyCategory"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Category" />
-        </LinearLayout>
+            android:orientation="horizontal"/>
 
         <TextView
             android:id="@+id/companyName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="companyName"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:layout_marginTop="5dp"/>
 
         <TextView
             android:id="@+id/companyInfo"

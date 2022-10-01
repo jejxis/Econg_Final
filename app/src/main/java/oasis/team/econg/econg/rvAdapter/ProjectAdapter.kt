@@ -10,9 +10,10 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import oasis.team.econg.econg.data.Project
 import oasis.team.econg.econg.databinding.ItemHorBinding
+import oasis.team.econg.econg.utils.Constants.ECONG_URL
 
 class ProjectAdapter(val context: Context?): RecyclerView.Adapter<ProjectAdapter.ProjectHolder>() {
-    private val storage = Firebase.storage("gs://econg-7e3f6.appspot.com/")
+    private val storage = Firebase.storage(ECONG_URL)
     var listData = mutableListOf<Project>()//어댑터에서 사용할 목록변수
     //var context: Context? = null
     var listener: ProjectAdapter.OnItemClickListener? = null

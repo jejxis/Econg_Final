@@ -55,11 +55,11 @@ class FollowerFragment : Fragment() {
         followerList = mutableListOf()
         for(i: Int in 1..5){
             followerList!!.add(User(
-                i,
-                R.drawable.ic_baseline_category_24,
-                "카테고리$i",
+                i.toLong(),
                 "사용자$i",
-                "사용자${i}입니다."))
+                null,
+                "gs://econg-7e3f6.appspot.com/bud.png",
+                true))
         }
         followerAdapter.setData(followerList)
         binding.followerList.layoutManager = LinearLayoutManager(requireActivity(),

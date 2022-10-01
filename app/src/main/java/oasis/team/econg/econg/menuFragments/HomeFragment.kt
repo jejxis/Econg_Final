@@ -135,11 +135,11 @@ class HomeFragment(/*context: Context*/) : Fragment() {
     private fun loadNewCompany(){//신규 기업 데이터
         for(i: Int in 1..5){
             newUser!!.add(User(
-            i,
-            R.drawable.ic_baseline_category_24,
-            "카테고리$i",
-            "기업$i",
-            "기업${i}입니다."))
+                i.toLong(),
+                "사용자$i",
+                null,
+                "gs://econg-7e3f6.appspot.com/bud.png",
+                true))
         }
         newCompanyAdapter.setData(newUser)
         binding.newCompany.layoutManager = LinearLayoutManager(requireActivity(),LinearLayoutManager.HORIZONTAL,false)

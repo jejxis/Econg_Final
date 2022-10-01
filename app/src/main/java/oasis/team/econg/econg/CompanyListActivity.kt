@@ -26,11 +26,11 @@ class CompanyListActivity : AppCompatActivity() {
     private fun loadCompanyData(){
         for(i: Int in 1..10){
             companies!!.add(User(
-                i,
-                R.drawable.ic_baseline_favorite_border_pink_24,
-                "카테고리$i",
-                "기업$i",
-                "기업${i}입니다.")
+                i.toLong(),
+                "사용자$i",
+                null,
+                "gs://econg-7e3f6.appspot.com/bud.png",
+                true)
             )
         }
         companyAdapter.setData(companies)
