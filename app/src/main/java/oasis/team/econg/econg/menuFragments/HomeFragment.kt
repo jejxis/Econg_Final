@@ -153,9 +153,9 @@ class HomeFragment(/*context: Context*/) : Fragment() {
 
         override fun createFragment(position: Int): Fragment {
             return when(position) {
-                0 -> ImageSlideFragment().newInstance(R.drawable.ic_baseline_favorite_pink_24)
-                1 -> ImageSlideFragment().newInstance(R.drawable.ic_baseline_doorbell_24)
-                else -> ImageSlideFragment().newInstance(R.drawable.ic_baseline_category_24)
+                0 -> ImageSlideFragment().newInstance("gs://econg-7e3f6.appspot.com/images/temp_1662087387101.jpeg")
+                1 -> ImageSlideFragment().newInstance("gs://econg-7e3f6.appspot.com/images/temp_1664617049408.jpeg")
+                else -> ImageSlideFragment().newInstance("gs://econg-7e3f6.appspot.com/images/temp_1664617056878.jpeg")
             }
         }
     }

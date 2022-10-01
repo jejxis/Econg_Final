@@ -8,6 +8,9 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.NestedScrollView
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabItem
 import oasis.team.econg.econg.data.ProjectDetail
@@ -16,6 +19,8 @@ import oasis.team.econg.econg.databinding.ActivityDetailProjectBinding
 import oasis.team.econg.econg.detailProjectFragments.DetailProjectCommunityFragment
 import oasis.team.econg.econg.detailProjectFragments.DetailProjectStoryFragment
 import oasis.team.econg.econg.dialog.FundDialog
+import oasis.team.econg.econg.imageSlide.ImageSlideFragment
+import oasis.team.econg.econg.utils.Constants.ECONG_URL
 
 class DetailProjectActivity : AppCompatActivity() {
     private val MYID = "2"
@@ -23,6 +28,8 @@ class DetailProjectActivity : AppCompatActivity() {
     var project: ProjectDetail? = null
     var str = ""
     var isItFilled : Boolean = false
+
+    var imgUrls = mutableListOf<String>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,6 +42,8 @@ class DetailProjectActivity : AppCompatActivity() {
         }
 
         loadProjectInfo()
+        val pagerAdapter = ScreenSlidePagerAdapter(this@DetailProjectActivity)
+        binding.projectImageSlider.adapter = pagerAdapter
         showProjectStory()
 
         binding.btnEdit.setOnClickListener {
@@ -62,7 +71,7 @@ class DetailProjectActivity : AppCompatActivity() {
             }
         })
 
-        binding.btnUp.setOnClickListener { binding.myScroll.scrollToView(binding.thumbnail) }
+        binding.btnUp.setOnClickListener { binding.myScroll.scrollToView(binding.projectImageSlider) }
 
         binding.btnFav.setOnClickListener {
             if(isItFilled){//팔로우된 상태
@@ -132,7 +141,19 @@ class DetailProjectActivity : AppCompatActivity() {
         binding.totalAmount.text = project!!.totalAmount.toString()
         binding.achievedRate.text = project!!.achievedRate.toString()
         binding.achievedProgress.progress = project!!.achievedRate.toInt()
-        binding.thumbnail.setImageResource(project!!.thumbnail)//나중에 glide로..
+        //binding.thumbnail.setImageResource(project!!.thumbnail)//나중에 glide로..
+
+        imgUrls.add("gs://econg-7e3f6.appspot.com/images/temp_1662087387101.jpeg")
+        imgUrls.add("gs://econg-7e3f6.appspot.com/images/temp_1664617049408.jpeg")
+        imgUrls.add("gs://econg-7e3f6.appspot.com/images/temp_1664617049408.jpeg")
+    }
+    private inner class ScreenSlidePagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
+
+        override fun getItemCount(): Int = imgUrls.size
+
+        override fun createFragment(position: Int): Fragment {
+            return ImageSlideFragment().newInstance(imgUrls[position])
+        }
     }
 
     fun NestedScrollView.scrollToView(view: View) {

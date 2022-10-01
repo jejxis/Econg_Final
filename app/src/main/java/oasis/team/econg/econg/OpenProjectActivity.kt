@@ -29,6 +29,7 @@ import oasis.team.econg.econg.dialog.DatePickerFragment
 import oasis.team.econg.econg.rvAdapter.ImageData
 import oasis.team.econg.econg.rvAdapter.OpenProjectImageAdapter
 import oasis.team.econg.econg.rvAdapter.RewardAdapter
+import oasis.team.econg.econg.utils.Constants.ECONG_URL
 
 
 /*ProjectDetail(//프로젝트 상세화면에서 사용할 거.
@@ -46,7 +47,7 @@ val thumbnail: Int,//나중에 String 으로 고치기.
 val achievedRate: Double)*/
 class OpenProjectActivity : AppCompatActivity() {
     val binding by lazy { ActivityOpenProjectBinding.inflate(layoutInflater) }
-    private val storage = Firebase.storage("gs://econg-7e3f6.appspot.com")
+    private val storage = Firebase.storage(ECONG_URL)
     private var filePath = ""
     private var toThumbnail = ""
     private var toThumbnailUri : Uri? = null
