@@ -3,6 +3,7 @@ package oasis.team.econg.forui.rvAdapter
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -11,6 +12,7 @@ import com.google.firebase.storage.ktx.storage
 import oasis.team.econg.econg.data.Project
 import oasis.team.econg.econg.databinding.ItemHorBinding
 import oasis.team.econg.econg.utils.Constants.ECONG_URL
+import oasis.team.econg.econg.utils.loadImageSetView
 
 class ProjectAdapter(val context: Context?): RecyclerView.Adapter<ProjectAdapter.ProjectHolder>() {
     private val storage = Firebase.storage(ECONG_URL)
@@ -49,15 +51,14 @@ class ProjectAdapter(val context: Context?): RecyclerView.Adapter<ProjectAdapter
     inner class ProjectHolder(val binding: ItemHorBinding): RecyclerView.ViewHolder(binding.root){
         fun setData(data: Project) {
             //binding.imgProject.setImageResource(data.img)
-            storage.getReferenceFromUrl("gs://econg-7e3f6.appspot.com/bud.png").downloadUrl.addOnSuccessListener { uri ->
-                Glide.with(binding.imgProject).load(uri).into(binding.imgProject)
-            }.addOnFailureListener {
-                Log.e("STORAGE", "DOWNLOAD_ERROR=>${it.message}")
+            storage.loadImageSetView(data.thumbnail, binding.imgProject)
+            binding.projectCompany.text = "${data.user}"
+            binding.projectName.text = "${data.title}\n${data.summary}"
+            binding.achRate.text = data.achievedRate.toString()
+
+            if(data.authenticate == true){
+                binding.projectEcoAuth.visibility = View.VISIBLE
             }
-            binding.projectCategory.text = "${data.category}"
-            binding.projectCompany.text = "${data.company}"
-            binding.projectName.text = "${data.projectName}\n${data.projectInfo}"
-            binding.achRate.text = data.achRate.toString()
 
         }
 

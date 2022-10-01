@@ -11,13 +11,14 @@ import oasis.team.econg.econg.data.ProjectReply
 import oasis.team.econg.econg.databinding.ItemProjectCommunityBinding
 import oasis.team.econg.econg.dialog.DeleteCommunityDialog
 import oasis.team.econg.econg.utils.Constants
+import oasis.team.econg.econg.utils.Constants.ECONG_URL
 import oasis.team.econg.econg.utils.loadImageSetView
 
 class ProjectCommunityAdapter(val context: Context?,val id: String): RecyclerView.Adapter<ProjectCommunityAdapter.ProjectCommunityHolder>() {
     var listData = mutableListOf<ProjectReply>()
     var listener: ProjectCommunityAdapter.OnItemClickListener? = null
     var showConfirmDialog: OnDeleteCommunity? = null
-    private val storage = Firebase.storage(Constants.ECONG_URL)
+    private val storage = Firebase.storage(ECONG_URL)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProjectCommunityHolder {
         val binding = ItemProjectCommunityBinding.inflate(LayoutInflater.from(context), parent, false)

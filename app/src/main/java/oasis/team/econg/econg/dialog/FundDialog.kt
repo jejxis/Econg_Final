@@ -15,9 +15,10 @@ import androidx.fragment.app.DialogFragment
 import oasis.team.econg.econg.EditProjectActivity
 import oasis.team.econg.econg.PaymentActivity
 import oasis.team.econg.econg.data.Reward
+import oasis.team.econg.econg.data.SimpleReward
 import oasis.team.econg.econg.databinding.DialogFundBinding
 
-class FundDialog(context: Context, rewards: MutableList<Reward>) : DialogFragment(){
+class FundDialog(context: Context, rewards: MutableList<SimpleReward>) : DialogFragment(){
     private var _binding: DialogFundBinding? = null
     private val binding get() = _binding!!
     private val rewards = rewards
@@ -48,7 +49,7 @@ class FundDialog(context: Context, rewards: MutableList<Reward>) : DialogFragmen
                 val projectId: Long
             )*/
             var myRadio = RadioButton(context)
-            myRadio.text = "${rewards[i].name} : ${rewards[i].price}원"
+            myRadio.text = "${rewards[i].name}(${rewards[i].combination}) : ${rewards[i].price}원"
             myRadio.id = rewards[i].rewardId.toInt()
             var rprms = RadioGroup.LayoutParams(RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.WRAP_CONTENT)
             binding.combination.addView(myRadio, rprms)
@@ -57,7 +58,7 @@ class FundDialog(context: Context, rewards: MutableList<Reward>) : DialogFragmen
 
         binding.btnPayment.setOnClickListener {
             val id = binding.combination.checkedRadioButtonId
-            Log.d("MY", "리워드${id} 선택")
+            Log.d("MY", "라디오버튼: 리워드${id} 선택")
             var intent = Intent(context, PaymentActivity::class.java)
             intent.putExtra("rewardID", id.toString())
             startActivity(intent)

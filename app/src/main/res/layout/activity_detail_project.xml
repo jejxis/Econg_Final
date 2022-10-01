@@ -19,24 +19,34 @@
             android:orientation="vertical"
             android:padding="15dp">
 
-            <!--ImageView
-                android:id="@+id/thumbnail"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginTop="30dp"
-                android:scaleType="fitCenter" /-->
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp">
 
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/projectImageSlider"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginTop="50dp" />
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/projectImageSlider"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp" />
+
+                <ImageView
+                    android:id="@+id/project_eco_auth"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignTop="@+id/projectImageSlider"
+                    android:layout_alignRight="@+id/projectImageSlider"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="5dp"
+                    android:src="@drawable/ic_baseline_eco_24"
+                    android:visibility="invisible" />
+
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/projectName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:layout_weight="1"
                 android:text="프로젝트 명"
                 android:textColor="@color/black"
@@ -170,7 +180,49 @@
                     android:textColor="@color/hintTextColor"
                     android:textSize="14dp" />
             </LinearLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:background="#E1E1E1"
+                android:layout_marginTop="15dp"
+                android:id="@+id/goToDetailCompany">
 
+                <TextView
+                    android:id="@+id/user"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_weight="1"
+                    android:text="사용자"
+                    android:textColor="@color/black"
+                    android:textSize="18dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/user_eco_auth"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/user_eco_auth"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="16dp"
+                    android:src="@drawable/instead_of_logo"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:text="자세히 알아보기"
+                    android:textColor="@color/hintTextColor"
+                    android:textSize="14dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabStoryCommunity"

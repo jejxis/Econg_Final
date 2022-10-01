@@ -19,7 +19,7 @@
         <entry key="..\:/Users/31900/AndroidStudioProjects/Econg/app/src/main/res/layout/activity_company_list.xml" value="0.3619791666666667" />
         <entry key="..\:/Users/31900/AndroidStudioProjects/Econg/app/src/main/res/layout/activity_detail_company.xml" value="0.28177083333333336" />
         <entry key="..\:/Users/31900/AndroidStudioProjects/Econg/app/src/main/res/layout/activity_detail_order.xml" value="0.33" />
-        <entry key="..\:/Users/31900/AndroidStudioProjects/Econg/app/src/main/res/layout/activity_detail_project.xml" value="0.22" />
+        <entry key="..\:/Users/31900/AndroidStudioProjects/Econg/app/src/main/res/layout/activity_detail_project.xml" value="0.33" />
         <entry key="..\:/Users/31900/AndroidStudioProjects/Econg/app/src/main/res/layout/activity_edit_project.xml" value="0.3619791666666667" />
         <entry key="..\:/Users/31900/AndroidStudioProjects/Econg/app/src/main/res/layout/activity_main.xml" value="0.3619791666666667" />
         <entry key="..\:/Users/31900/AndroidStudioProjects/Econg/app/src/main/res/layout/activity_my_community.xml" value="0.3619791666666667" />
@@ -52,13 +52,13 @@
         <entry key="..\:/Users/31900/AndroidStudioProjects/Econg/app/src/main/res/layout/item_company_hor.xml" value="0.33" />
         <entry key="..\:/Users/31900/AndroidStudioProjects/Econg/app/src/main/res/layout/item_company_ver.xml" value="0.33" />
         <entry key="..\:/Users/31900/AndroidStudioProjects/Econg/app/src/main/res/layout/item_home_popular.xml" value="0.296875" />
-        <entry key="..\:/Users/31900/AndroidStudioProjects/Econg/app/src/main/res/layout/item_hor.xml" value="0.3463541666666667" />
+        <entry key="..\:/Users/31900/AndroidStudioProjects/Econg/app/src/main/res/layout/item_hor.xml" value="0.33" />
         <entry key="..\:/Users/31900/AndroidStudioProjects/Econg/app/src/main/res/layout/item_open_project_image.xml" value="0.3609375" />
         <entry key="..\:/Users/31900/AndroidStudioProjects/Econg/app/src/main/res/layout/item_order_ver.xml" value="0.3619791666666667" />
         <entry key="..\:/Users/31900/AndroidStudioProjects/Econg/app/src/main/res/layout/item_popular.xml" value="0.296875" />
         <entry key="..\:/Users/31900/AndroidStudioProjects/Econg/app/src/main/res/layout/item_project_community.xml" value="0.3212962962962963" />
-        <entry key="..\:/Users/31900/AndroidStudioProjects/Econg/app/src/main/res/layout/item_user_ver.xml" value="0.33" />
-        <entry key="..\:/Users/31900/AndroidStudioProjects/Econg/app/src/main/res/layout/item_ver.xml" value="0.296875" />
+        <entry key="..\:/Users/31900/AndroidStudioProjects/Econg/app/src/main/res/layout/item_user_ver.xml" value="0.1" />
+        <entry key="..\:/Users/31900/AndroidStudioProjects/Econg/app/src/main/res/layout/item_ver.xml" value="0.33" />
         <entry key="..\:/Users/31900/AndroidStudioProjects/Econg/app/src/main/res/layout/layout_reward.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/31900/AndroidStudioProjects/Econg/app/src/main/res/menu/b_navi_menu.xml" value="0.3619791666666667" />
       </map>

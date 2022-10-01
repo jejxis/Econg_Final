@@ -13,14 +13,14 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabItem
-import oasis.team.econg.econg.data.ProjectDetail
-import oasis.team.econg.econg.data.Reward
+import oasis.team.econg.econg.data.*
 import oasis.team.econg.econg.databinding.ActivityDetailProjectBinding
 import oasis.team.econg.econg.detailProjectFragments.DetailProjectCommunityFragment
 import oasis.team.econg.econg.detailProjectFragments.DetailProjectStoryFragment
 import oasis.team.econg.econg.dialog.FundDialog
 import oasis.team.econg.econg.imageSlide.ImageSlideFragment
 import oasis.team.econg.econg.utils.Constants.ECONG_URL
+import java.util.ArrayList
 
 class DetailProjectActivity : AppCompatActivity() {
     private val MYID = "2"
@@ -29,7 +29,7 @@ class DetailProjectActivity : AppCompatActivity() {
     var str = ""
     var isItFilled : Boolean = false
 
-    var imgUrls = mutableListOf<String>()
+    var imgUrls = mutableListOf<ProjectImage>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,21 +84,20 @@ class DetailProjectActivity : AppCompatActivity() {
         }
 
         binding.btnFund.setOnClickListener {
-            val rewards : MutableList<Reward> = mutableListOf()
+            /*val rewards : MutableList<SimpleReward> = mutableListOf()
             for(i: Int in 1..5){
                 rewards!!.add(
-                    Reward(
-                        i.toLong(),
-                        "리워드$i",
-                        5000,
-                        100,
-                        3,
-                        "연필 하나, 볼펜 하나",
-                        str.toLong()
+                    SimpleReward(//프로젝트 상세화면...결제 다이얼로그
+                        rewardId = i.toLong(),
+                        name = "reward$i",
+                        price = 5000,
+                        stock = 500,
+                        soldQuantity = 200,
+                        combination =  "연필 ${i}자루 + 볼펜 ${i}자루"
                     )
                 )
-            }
-            val dialog = FundDialog(this, rewards)
+            }*/
+            val dialog = FundDialog(this, project!!.rewardList)
             dialog.isCancelable = true
             dialog.show(this.supportFragmentManager, "FundDialog")
         }
@@ -106,7 +105,7 @@ class DetailProjectActivity : AppCompatActivity() {
 
     fun showProjectStory(){
         supportFragmentManager.beginTransaction()
-            .replace(R.id.detailProjectFrame, DetailProjectStoryFragment().newInstance(project!!.story))
+            .replace(R.id.detailProjectFrame, DetailProjectStoryFragment().newInstance(project!!.content))
             .commitAllowingStateLoss()
     }
 
@@ -118,41 +117,81 @@ class DetailProjectActivity : AppCompatActivity() {
 
     private fun loadProjectInfo(){
         project = ProjectDetail(//프로젝트 상세화면에서 사용할 거.
-            projectId = str.toLong(),
+            id = str.toLong(),
             title = "프로젝트$str",
             openingDate = "2022.08.23",
             closingDate = "2022.08.25",
             goalAmount = 5000000,
             totalAmount = 3500000,
             summary = "프로젝트${str}입니다.",
-            supporter = 5000,
-            status = 0,
-            userid = str.toLong(),
-            thumbnail = R.drawable.ic_baseline_favorite_border_pink_24,//나중에 String 으로 고치기.
-            achievedRate = 70.0,
-            story = getString(R.string.any))
+            content = getString(R.string.any),
+            thumbnail = "gs://econg-7e3f6.appspot.com/bud.png",
+            projectAuthenticate = true,
+            favorite = true,
+            userId = str.toLong(),
+            userName = "사용자$str",
+            userAuthenticate = true,
+            projectImgList = arrayListOf(
+                ProjectImage(1,
+                    "gs://econg-7e3f6.appspot.com/images/temp_1662087387101.jpeg"),
+                ProjectImage(2,"gs://econg-7e3f6.appspot.com/images/temp_1664617049408.jpeg")
+            ),
+            rewardList = arrayListOf(
+                SimpleReward(//프로젝트 상세화면...결제 다이얼로그
+                    rewardId = 11.toLong(),
+                    name = "reward11",
+                    price = 5000,
+                    stock = 500,
+                    soldQuantity = 200,
+                    combination =  "연필 11자루 + 볼펜 11자루"
+                ),
+                SimpleReward(//프로젝트 상세화면...결제 다이얼로그
+                    rewardId = 22,
+                    name = "reward22",
+                    price = 5000,
+                    stock = 500,
+                    soldQuantity = 200,
+                    combination =  "연필 22자루 + 볼펜 22자루"
+                )
+            )
+        )
+
+        val achievedRate: Int = (project!!.totalAmount / project!!.goalAmount) * 100
 
         binding.projectName.text = project!!.title
         binding.projectSum.text = project!!.summary
-        //binding.story.text = getString(R.string.any)
         binding.openingDate.text = project!!.openingDate
         binding.closingDate.text = project!!.closingDate
         binding.goalAmount.text = project!!.goalAmount.toString()
         binding.totalAmount.text = project!!.totalAmount.toString()
-        binding.achievedRate.text = project!!.achievedRate.toString()
-        binding.achievedProgress.progress = project!!.achievedRate.toInt()
-        //binding.thumbnail.setImageResource(project!!.thumbnail)//나중에 glide로..
+        binding.achievedRate.text = achievedRate.toString()
+        binding.achievedProgress.progress = achievedRate
 
-        imgUrls.add("gs://econg-7e3f6.appspot.com/images/temp_1662087387101.jpeg")
-        imgUrls.add("gs://econg-7e3f6.appspot.com/images/temp_1664617049408.jpeg")
-        imgUrls.add("gs://econg-7e3f6.appspot.com/images/temp_1664617049408.jpeg")
+        if(project!!.projectAuthenticate == true){
+            binding.projectEcoAuth.visibility = View.VISIBLE
+        }
+
+        if(project!!.userAuthenticate == true){
+            binding.userEcoAuth.visibility = View.VISIBLE
+        }
+
+        binding.user.text = project!!.userName
+
+        binding.goToDetailCompany.setOnClickListener {
+            var intent = Intent(this@DetailProjectActivity, DetailCompanyActivity::class.java)
+            intent.putExtra("id", project!!.userId.toString())
+            startActivity(intent)
+        }
+
+
     }
     private inner class ScreenSlidePagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
 
-        override fun getItemCount(): Int = imgUrls.size
+        override fun getItemCount(): Int = project!!.projectImgList.size
 
         override fun createFragment(position: Int): Fragment {
-            return ImageSlideFragment().newInstance(imgUrls[position])
+            if(position == 0) return ImageSlideFragment().newInstance(project!!.thumbnail)
+            else return ImageSlideFragment().newInstance(project!!.projectImgList[position-1].productImgUrl)
         }
     }
 

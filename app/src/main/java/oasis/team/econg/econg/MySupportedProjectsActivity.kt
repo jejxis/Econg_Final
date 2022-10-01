@@ -29,13 +29,16 @@ class MySupportedProjectsActivity : AppCompatActivity() {
     private fun loadData() {
         for(i: Int in 1..3){
             projects!!.add(Project(
-                i,
-                R.drawable.ic_baseline_category_24,
-                "카테고리$i",
-                "회사$i",
-                "프로젝트$i",
+                i.toLong(),
+                "프로젝트${i}",
+                "2022-08-25",
+                "2022-08-28",
+                20000000,
+                "gs://econg-7e3f6.appspot.com/bud.png",
                 "프로젝트${i}인데요",
-                150.0
+                true,
+                "사용자${i}",
+                75
             ))
         }
 

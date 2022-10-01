@@ -47,13 +47,16 @@ class ProjectListActivity : AppCompatActivity() {
         projects = mutableListOf()
         for(i: Int in 1..20){
             projects!!.add(Project(
-                i,
-                R.drawable.ic_baseline_category_24,
-                "카테고리$i",
-                "회사$i",
-                "프로젝트$i",
+                i.toLong(),
+                "프로젝트${i}",
+                "2022-08-25",
+                "2022-08-28",
+                20000000,
+                "gs://econg-7e3f6.appspot.com/bud.png",
                 "프로젝트${i}인데요",
-                150.0
+                false,
+                "사용자${i}",
+                75
             ))
         }
 
@@ -65,15 +68,18 @@ class ProjectListActivity : AppCompatActivity() {
 
     private fun loadData90() {//신규 프로젝트 데이터
         projects = mutableListOf()
-        for(i: Int in 1..20){
+        for(i: Int in 21..40){
             projects!!.add(Project(
-                i,
-                R.drawable.ic_baseline_category_24,
-                "카테고리$i",
-                "회사$i",
-                "프로젝트$i",
+                i.toLong(),
+                "프로젝트${i}",
+                "2022-08-25",
+                "2022-08-28",
+                20000000,
+                "gs://econg-7e3f6.appspot.com/bud.png",
                 "프로젝트${i}인데요",
-                75.0
+                false,
+                "사용자${i}",
+                75
             ))
         }
 

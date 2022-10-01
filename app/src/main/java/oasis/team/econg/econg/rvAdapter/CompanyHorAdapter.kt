@@ -9,13 +9,14 @@ import com.google.firebase.storage.ktx.storage
 import oasis.team.econg.econg.data.User
 import oasis.team.econg.econg.databinding.ItemCompanyHorBinding
 import oasis.team.econg.econg.utils.Constants
+import oasis.team.econg.econg.utils.Constants.ECONG_URL
 import oasis.team.econg.econg.utils.loadImageSetView
 
 //data class Company(val id: Int, val rank: Int?,val img: Int, val category: String, val companyName: String, val companyInfo: String)
 class CompanyHorAdapter(val context: Context?) : RecyclerView.Adapter<CompanyHorAdapter.CompanyHorHolder>(){
     var listData = mutableListOf<User>()//어댑터에서 사용할 목록변수
     var listener: CompanyHorAdapter.OnItemClickListener? = null
-    private val storage = Firebase.storage(Constants.ECONG_URL)
+    private val storage = Firebase.storage(ECONG_URL)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CompanyHorAdapter.CompanyHorHolder {//한 화면에 생성할 레이아웃 개수 = 한 화면에 생성할 아이템 개수-> 아이템 레이아웃 생성
         //context = parent.context
