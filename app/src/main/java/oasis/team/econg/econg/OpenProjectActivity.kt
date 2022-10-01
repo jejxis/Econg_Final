@@ -26,6 +26,8 @@ import oasis.team.econg.econg.data.PreReward
 import oasis.team.econg.econg.data.Reward
 import oasis.team.econg.econg.databinding.ActivityOpenProjectBinding
 import oasis.team.econg.econg.dialog.DatePickerFragment
+import oasis.team.econg.econg.rvAdapter.ImageData
+import oasis.team.econg.econg.rvAdapter.OpenProjectImageAdapter
 import oasis.team.econg.econg.rvAdapter.RewardAdapter
 
 
@@ -45,11 +47,18 @@ val achievedRate: Double)*/
 class OpenProjectActivity : AppCompatActivity() {
     val binding by lazy { ActivityOpenProjectBinding.inflate(layoutInflater) }
     private val storage = Firebase.storage("gs://econg-7e3f6.appspot.com")
+    private var filePath = ""
     private var toThumbnail = ""
+    private var toThumbnailUri : Uri? = null
     private var toUri : Uri? = null
 
     private var rewards: MutableList<PreReward>? = mutableListOf()
     private var rewardAdapter = RewardAdapter(this)
+
+    private var imgDataList: MutableList<ImageData>? = mutableListOf()
+    private var imgAdapter = OpenProjectImageAdapter(this)
+
+    private var pos = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,6 +70,13 @@ class OpenProjectActivity : AppCompatActivity() {
             LinearLayoutManager.VERTICAL,false)
         binding.rewardRecycler.adapter = rewardAdapter
 
+        imgDataList!!.add(ImageData("", null))
+        imgAdapter.setData(imgDataList)
+        binding.rvImage.layoutManager = LinearLayoutManager(this,
+            LinearLayoutManager.VERTICAL,false)
+        binding.rvImage.adapter = imgAdapter
+
+        imgAdapter.setBtnAddImageListener(btnAddImage)
 
         binding.btnOD.setOnClickListener {
             val newFragment: DialogFragment = DatePickerFragment().newInstance(0)
@@ -73,12 +89,29 @@ class OpenProjectActivity : AppCompatActivity() {
         }
 
         binding.loadThumbnail.setOnClickListener {
-            permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+            permissionLauncherForThumbnail.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+
         }
 
         binding.upload.setOnClickListener {
-            uploadImage(toThumbnail, toUri!!)
+            uploadImage(toThumbnail, toThumbnailUri!!)
+            for(img in imgDataList!!){
+                if(img.str.compareTo("") != 0 && img.uri != null){
+                    Log.d("MY", img.toString())
+                    uploadImage(img.str, img.uri!!)
+                }
+            }
             Log.d("MY_ADD", "rewards: ${rewards.toString()}")
+        }
+
+        binding.btnAddImage.setOnClickListener {
+            imgDataList = imgAdapter.returnData()
+
+            if(imgDataList!!.size >= 5) return@setOnClickListener
+
+            imgDataList!!.add(ImageData("", null))
+            imgAdapter.setData(imgDataList)
+            imgAdapter.notifyDataSetChanged()
         }
 
         binding.btnAddReward.setOnClickListener {
@@ -94,14 +127,35 @@ class OpenProjectActivity : AppCompatActivity() {
     val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()){
         uri ->
         //uploadImage(uri!!)
-        toThumbnail = makeFilePath("images", "temp", uri!!)
-        binding.thumbnail.text = toThumbnail
+        filePath = makeFilePath("images", "temp", uri!!)
         toUri = uri
+        imgDataList!!.removeAt(pos)
+        imgDataList!!.add(pos, ImageData(filePath, toUri))
+        imgAdapter.setData(imgDataList)
+        imgAdapter.notifyDataSetChanged()
     }
 
     val permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()){isGranted ->
         if(isGranted){
             galleryLauncher.launch("image/*")
+        }else{
+            Toast.makeText(baseContext, "외부 저장소 읽기 권한을 승인해야 사용할 수 있습니다", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    val galleryLauncherForThumbnail = registerForActivityResult(ActivityResultContracts.GetContent()){
+            uri ->
+        //uploadImage(uri!!)
+        filePath = makeFilePath("images", "temp", uri!!)
+        toUri = uri
+        toThumbnail = filePath
+        toThumbnailUri = toUri
+        binding.thumbnail.text = toThumbnail.toString()//filePath
+    }
+
+    val permissionLauncherForThumbnail = registerForActivityResult(ActivityResultContracts.RequestPermission()){isGranted ->
+        if(isGranted){
+            galleryLauncherForThumbnail.launch("image/*")
         }else{
             Toast.makeText(baseContext, "외부 저장소 읽기 권한을 승인해야 사용할 수 있습니다", Toast.LENGTH_SHORT).show()
         }
@@ -122,7 +176,7 @@ class OpenProjectActivity : AppCompatActivity() {
         val mimeType = contentResolver.getType(uri)?:"/none"
         val ext = mimeType.split("/")[1]
         val timeSuffix = System.currentTimeMillis()
-        val filename = "${path}/${userId}_${timeSuffix}.${ext}"
+        val filename = "/${path}/${userId}_${timeSuffix}.${ext}"
 
         return filename
     }
@@ -141,5 +195,12 @@ class OpenProjectActivity : AppCompatActivity() {
         val year_string = Integer.toString(year)
         val dateMessage = "$month_string/$day_string/$year_string"
         binding.closingDate.text = dateMessage
+    }
+
+    private val btnAddImage = object : OpenProjectImageAdapter.BtnAddImageListener{
+        override fun loadAndAddImage(position: Int) {
+            pos = position
+            permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+        }
     }
 }
