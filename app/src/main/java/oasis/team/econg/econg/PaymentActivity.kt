@@ -11,7 +11,7 @@ import oasis.team.econg.econg.data.OrderConfirmation
 import oasis.team.econg.econg.databinding.ActivityPaymentBinding
 import oasis.team.econg.econg.utils.Constants.ECONG_URL
 import oasis.team.econg.econg.utils.loadImageSetView
-
+//API
 class PaymentActivity : AppCompatActivity() {
     val binding by lazy{ActivityPaymentBinding.inflate(layoutInflater)}
     var rewardID = ""
@@ -35,7 +35,7 @@ class PaymentActivity : AppCompatActivity() {
         binding.goToKakaoPay.setOnClickListener {
             //use orderInfo data & binding.deliveryAddress.text.toString()
 
-            // call "/app/orders" API
+            // call "/app/orders" API12
 
             //get link from API
 

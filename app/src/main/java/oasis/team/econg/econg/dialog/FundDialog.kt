@@ -59,7 +59,7 @@ class FundDialog(context: Context, rewards: MutableList<SimpleReward>, projectId
 
 
         binding.btnPayment.setOnClickListener {
-            val id = rewards[binding.combination.checkedRadioButtonId].rewardId
+            val id = binding.combination.checkedRadioButtonId
             Log.d("MY", "라디오버튼: 리워드${id} 선택")
             var intent = Intent(context, PaymentActivity::class.java)
             intent.putExtra("rewardID", id.toString())
