@@ -39,6 +39,14 @@
             android:ems="10"
             android:inputType="number"
             android:hint="리워드 가격(원)"/>
+
+        <EditText
+            android:id="@+id/rewardStock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="number"
+            android:hint="리워드 재고"/>
     </LinearLayout>
 
     <ImageButton

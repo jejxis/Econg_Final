@@ -63,3 +63,13 @@ data class OrderConfirmation(
     val title: String,
     val orderStatus: Int,
 )
+
+data class OrderBeforePay(//->use in PaymentActivity
+    val projectId: Long,
+    val title: String,
+    val thumbnail: String,
+    val rewardId: Long,
+    val rewardName: String,
+    val price: Int,
+    val combination: String
+)

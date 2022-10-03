@@ -5,21 +5,16 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
-import oasis.team.econg.econg.data.Community
-import oasis.team.econg.econg.data.Project
-import oasis.team.econg.econg.data.Reply
+import oasis.team.econg.econg.data.MyCommunity
 import oasis.team.econg.econg.databinding.ActivityMyCommunityBinding
-import oasis.team.econg.econg.rvAdapter.CommunityAdapter
-import oasis.team.econg.forui.rvAdapter.ProjectAdapter
+import oasis.team.econg.econg.rvAdapter.MyCommunityAdapter
+import java.time.LocalDateTime
 
-//data class Reply(val project: Project, val community: Community)
-//data class Project(val id: Int, val img: Int, val category: String, val company: String, val projectName: String, val projectInfo: String, val achRate: Double)
-//data class Community(val comment: String, val projectId: Long, val userid: Long)
 class MyCommunityActivity : AppCompatActivity() {
     val binding by lazy{ActivityMyCommunityBinding.inflate(layoutInflater)}
 
-    private var reply: MutableList<Reply>? = mutableListOf()
-    private var replyAdapter = CommunityAdapter(this)
+    private var myCommunity: MutableList<MyCommunity>? = mutableListOf()
+    private var communityAdapter = MyCommunityAdapter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,10 +22,10 @@ class MyCommunityActivity : AppCompatActivity() {
 
         loadData()
 
-        replyAdapter.setClickListener(onClickedListItem)
+        communityAdapter.setClickListener(onClickedListItem)
     }
 
-    private val onClickedListItem = object : CommunityAdapter.OnItemClickListener{
+    private val onClickedListItem = object : MyCommunityAdapter.OnItemClickListener{
         override fun onClicked(id: String) {
             var intent = Intent(this@MyCommunityActivity, DetailProjectActivity::class.java)
             intent.putExtra("id", id)
@@ -42,28 +37,23 @@ class MyCommunityActivity : AppCompatActivity() {
 
     private fun loadData() {//신규 프로젝트 데이터
         for(i: Int in 1..20){
-            reply!!.add(Reply(Project(
-                i.toLong(),
-                "프로젝트${i}",
-                "2022-08-25",
-                "2022-08-28",
-                20000000,
-                "gs://econg-7e3f6.appspot.com/bud.png",
-                "프로젝트${i}인데요",
-                false,
-                "사용자${i}",
-                75
-            ),Community(
-                i.toLong(),
-                "댓글 i입니다.",
-                i.toLong(),
-                1
-            )))
+            myCommunity!!.add(
+                MyCommunity(
+                    id = i.toLong(),
+                    content = "Content$i",
+                    updatedAt = LocalDateTime.now(),
+                    userProfileUrl = "gs://econg-7e3f6.appspot.com/bud.png",
+                    userid = 1,
+                    userName = "나잖아?",
+                    projectId = i.toLong(),
+                    projectName = "Project$i"
+                )
+            )
         }
 
-        replyAdapter.setData(reply)
+        communityAdapter.setData(myCommunity)
         binding.communityList.layoutManager = LinearLayoutManager(this,
             LinearLayoutManager.VERTICAL,false)
-        binding.communityList.adapter = replyAdapter
+        binding.communityList.adapter = communityAdapter
     }
 }

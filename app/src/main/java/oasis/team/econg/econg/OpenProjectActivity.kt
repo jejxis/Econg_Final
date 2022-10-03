@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import oasis.team.econg.econg.data.PreReward
+import oasis.team.econg.econg.data.ProjectForOpen
 import oasis.team.econg.econg.data.Reward
 import oasis.team.econg.econg.databinding.ActivityOpenProjectBinding
 import oasis.team.econg.econg.dialog.DatePickerFragment
@@ -57,15 +58,18 @@ class OpenProjectActivity : AppCompatActivity() {
     private var rewardAdapter = RewardAdapter(this)
 
     private var imgDataList: MutableList<ImageData>? = mutableListOf()
+    private var imgUrlList: MutableList<String> = mutableListOf()
     private var imgAdapter = OpenProjectImageAdapter(this)
 
     private var pos = -1
+
+    private lateinit var projectForUpload: ProjectForOpen
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        rewards!!.add(PreReward(null,null,null))
+        rewards!!.add(PreReward(null,null,null, null))
         rewardAdapter.setData(rewards)
         binding.rewardRecycler.layoutManager = LinearLayoutManager(this,
             LinearLayoutManager.VERTICAL,false)
@@ -102,7 +106,7 @@ class OpenProjectActivity : AppCompatActivity() {
                     uploadImage(img.str, img.uri!!)
                 }
             }
-            Log.d("MY_ADD", "rewards: ${rewards.toString()}")
+            projectForUpload = makeProject()//이거 가지고 레트로핏
         }
 
         binding.btnAddImage.setOnClickListener {
@@ -117,7 +121,7 @@ class OpenProjectActivity : AppCompatActivity() {
 
         binding.btnAddReward.setOnClickListener {
             rewards = rewardAdapter.returnData()
-            rewards!!.add(PreReward(null,null,null))
+            rewards!!.add(PreReward(null,null,null, null))
             rewardAdapter.setData(rewards)
             rewardAdapter.notifyDataSetChanged()
             Log.d("MY_ADD", "rewards: ${rewards.toString()}")
@@ -203,5 +207,19 @@ class OpenProjectActivity : AppCompatActivity() {
             pos = position
             permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
         }
+    }
+
+    fun makeProject(): ProjectForOpen{
+       return ProjectForOpen(
+                title = binding.name.toString(),
+                openingDate = binding.openingDate.toString(),
+                closingDate = binding.closingDate.toString(),
+                goalAmount = binding.goalAmount.text.toString().toInt(),
+                summary = binding.summary.toString(),
+                thumbnail = toThumbnail,
+                content = binding.story.toString(),
+                productImgList = imgUrlList as ArrayList<String>,
+                rewardList = rewards as ArrayList<PreReward>
+            )
     }
 }

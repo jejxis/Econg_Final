@@ -9,12 +9,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import oasis.team.econg.econg.DetailProjectActivity
 import oasis.team.econg.econg.R
-import oasis.team.econg.econg.data.Community
-import oasis.team.econg.econg.data.User
-import oasis.team.econg.econg.data.ProjectReply
+import oasis.team.econg.econg.data.ProjectCommunity
 import oasis.team.econg.econg.databinding.FragmentDetailProjectCommunityBinding
-import oasis.team.econg.econg.followFragments.FollowerFragment
 import oasis.team.econg.econg.rvAdapter.ProjectCommunityAdapter
+import java.time.LocalDateTime
 
 
 class DetailProjectCommunityFragment : Fragment() {
@@ -22,7 +20,7 @@ class DetailProjectCommunityFragment : Fragment() {
     lateinit var binding: FragmentDetailProjectCommunityBinding
     lateinit var detailProject: DetailProjectActivity
 
-    var projectReply: MutableList<ProjectReply>? = mutableListOf()
+    var projectCommunity: MutableList<ProjectCommunity>? = mutableListOf()
     lateinit var projectReplyAdapter :ProjectCommunityAdapter
 
     private val MyID = "KEY"
@@ -48,65 +46,53 @@ class DetailProjectCommunityFragment : Fragment() {
 
         loadData()
 
-        projectReplyAdapter.setClickListener(onClickedListItem)
+        //projectReplyAdapter.setClickListener(onClickedListItem)
         binding.uploadReply.setOnClickListener {
-            uploadReply()
+            uploadCommunity()
             binding.replyPlace.text.clear()
         }
 
         return binding.root
     }
 
-    private fun uploadReply() {
-        projectReply!!.add(ProjectReply(
-            User(
-                100,
-                "사용자100",
-                null,
-                "gs://econg-7e3f6.appspot.com/bud.png",
-                false
-            ),
-            Community(
-                100.toLong(),
-                binding.replyPlace.text.toString(),
-                detailProject.str.toLong(),
-                100.toLong()
+    private fun uploadCommunity() {//API8 :/projectId/communities
+        projectCommunity!!.add(
+            ProjectCommunity(
+            id =  200,
+            content = binding.replyPlace.text.toString(),
+            userId = myId!!.toLong(),
+            userName = "content200",
+            userProfileUrl = "gs://econg-7e3f6.appspot.com/bud.png"
             )
-        ))
+        )
 
         setListData()
     }
 
-    private val onClickedListItem = object : ProjectCommunityAdapter.OnItemClickListener{
+    /*private val onClickedListItem = object : ProjectCommunityAdapter.OnItemClickListener{
         override fun onClicked(id: String) {
 
         }
-    }
+    }*/
 
     private fun loadData(){
         for(i: Int in 1..5){
-            projectReply!!.add(ProjectReply(
-                User(
-                    i.toLong(),
-                    "사용자$i",
-                    null,
-                    "gs://econg-7e3f6.appspot.com/bud.png",
-                    true
-                ),
-                Community(
-                    i.toLong(),
-                    "댓글${i}입니다.",
-                    detailProject.str.toLong(),
-                    i.toLong()
+            projectCommunity!!.add(
+                ProjectCommunity(
+                    id =  i,
+                    content = "content200",
+                    userId = 200,
+                    userName = "누구게",
+                    userProfileUrl = "gs://econg-7e3f6.appspot.com/bud.png"
                 )
-            ))
+            )
         }
 
         setListData()
     }
 
     private fun setListData(){
-        projectReplyAdapter.setData(projectReply)
+        projectReplyAdapter.setData(projectCommunity)
         binding.projectCommunity.layoutManager = LinearLayoutManager(detailProject,
             LinearLayoutManager.VERTICAL, false)
         binding.projectCommunity.adapter = projectReplyAdapter

@@ -22,5 +22,6 @@ data class SimpleReward(//프로젝트 상세화면...결제 다이얼로그
 data class PreReward(//프로젝트 올릴 때
     val name: String?,
     val price: Int?,
-    val combination: String?
+    val combination: String?,
+    val stock: Int?
 )

@@ -4,13 +4,20 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
+import oasis.team.econg.econg.data.OrderBeforePay
 import oasis.team.econg.econg.data.OrderConfirmation
 import oasis.team.econg.econg.databinding.ActivityPaymentBinding
+import oasis.team.econg.econg.utils.Constants.ECONG_URL
+import oasis.team.econg.econg.utils.loadImageSetView
 
 class PaymentActivity : AppCompatActivity() {
     val binding by lazy{ActivityPaymentBinding.inflate(layoutInflater)}
     var rewardID = ""
-    private lateinit var orderInfo: OrderConfirmation
+    var projectID = ""
+    val storage = Firebase.storage(ECONG_URL)
+    private lateinit var orderInfo: OrderBeforePay
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -18,12 +25,16 @@ class PaymentActivity : AppCompatActivity() {
         if(intent.hasExtra("rewardID")){
             rewardID = intent.getStringExtra("rewardID").toString()
         }
+        if(intent.hasExtra("projectID")){
+            projectID = intent.getStringExtra("projectID").toString()
+        }
 
         loadOrderInfo()
         setOrderInfo()
 
         binding.goToKakaoPay.setOnClickListener {
-            //use orderInfo.rewardId, orderInfo.rewardName, orderInfo.price, binding.deliveryAddress.text.toString()
+            //use orderInfo data & binding.deliveryAddress.text.toString()
+
             // call "/app/orders" API
 
             //get link from API
@@ -34,17 +45,15 @@ class PaymentActivity : AppCompatActivity() {
         }
     }
 
-    private fun  loadOrderInfo(){
-        orderInfo = OrderConfirmation(
-            id = rewardID.toLong(),
-            combination = "리워드 조합",
-            price = 50000,
-            projectId = 5,
-            rewardId = rewardID.toInt(),
-            rewardName = "리워드명",
-            thumbnail = "썸네일",
-            title = "프로젝트명",
-            orderStatus = 0
+    private fun  loadOrderInfo(){//Retrofit here API11
+        orderInfo = OrderBeforePay(//->use in PaymentActivity
+            projectId = projectID.toLong(),
+            title =  "Project${projectID}",
+            thumbnail = "gs://econg-7e3f6.appspot.com/bud.png",
+            rewardId = rewardID.toLong(),
+            rewardName = "Reward${rewardID}",
+            price = 5000,
+            combination = "Pencil and Ball pen"
         )
     }
 
@@ -53,5 +62,6 @@ class PaymentActivity : AppCompatActivity() {
         binding.price.text = orderInfo.price.toString()
         binding.rewardName.text = orderInfo.rewardName
         binding.title.text = orderInfo.title
+        storage.loadImageSetView(orderInfo.thumbnail, binding.thumbnail)
     }
 }

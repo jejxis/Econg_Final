@@ -65,7 +65,7 @@ class EditProjectActivity : AppCompatActivity() {
 
         binding.btnAddReward.setOnClickListener {
             rewards = rewardAdapter.returnData()
-            rewards!!.add(PreReward(null,null,null))
+            rewards!!.add(PreReward(null,null,null, null))
             rewardAdapter.setData(rewards)
             rewardAdapter.notifyDataSetChanged()
             Log.d("MY_ADD", "rewards: ${rewards.toString()}")
@@ -88,7 +88,8 @@ class EditProjectActivity : AppCompatActivity() {
                 PreReward(
                     "리워드$i",
                     5000,
-                    "연필 하나, 볼펜 하나"
+                    "연필 하나, 볼펜 하나",
+                    100
                 )
             )
         }

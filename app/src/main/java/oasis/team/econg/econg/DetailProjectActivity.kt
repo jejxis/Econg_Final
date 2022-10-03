@@ -97,7 +97,7 @@ class DetailProjectActivity : AppCompatActivity() {
                     )
                 )
             }*/
-            val dialog = FundDialog(this, project!!.rewardList)
+            val dialog = FundDialog(this, project!!.rewardList, project!!.id)
             dialog.isCancelable = true
             dialog.show(this.supportFragmentManager, "FundDialog")
         }

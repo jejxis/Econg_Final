@@ -14,14 +14,16 @@ import android.widget.RadioGroup
 import androidx.fragment.app.DialogFragment
 import oasis.team.econg.econg.EditProjectActivity
 import oasis.team.econg.econg.PaymentActivity
+import oasis.team.econg.econg.data.ProjectImage
 import oasis.team.econg.econg.data.Reward
 import oasis.team.econg.econg.data.SimpleReward
 import oasis.team.econg.econg.databinding.DialogFundBinding
 
-class FundDialog(context: Context, rewards: MutableList<SimpleReward>) : DialogFragment(){
+class FundDialog(context: Context, rewards: MutableList<SimpleReward>, projectId: Long) : DialogFragment(){
     private var _binding: DialogFundBinding? = null
     private val binding get() = _binding!!
     private val rewards = rewards
+    private val projectId = projectId
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,10 +59,11 @@ class FundDialog(context: Context, rewards: MutableList<SimpleReward>) : DialogF
 
 
         binding.btnPayment.setOnClickListener {
-            val id = binding.combination.checkedRadioButtonId
+            val id = rewards[binding.combination.checkedRadioButtonId].rewardId
             Log.d("MY", "라디오버튼: 리워드${id} 선택")
             var intent = Intent(context, PaymentActivity::class.java)
             intent.putExtra("rewardID", id.toString())
+            intent.putExtra("projectID", projectId.toString())
             startActivity(intent)
         }
         return view

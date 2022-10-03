@@ -42,7 +42,7 @@ class RewardAdapter(val context: Context?): RecyclerView.Adapter<RewardAdapter.R
     }
 
     inner class RewardHolder(val binding: LayoutRewardBinding): RecyclerView.ViewHolder(binding.root){
-        var reward = PreReward("", 0, "")
+        var reward = PreReward("", 0, "", 0)
         var pos = -1
 
         private val textWatcherReward = object: TextWatcher{
@@ -51,7 +51,8 @@ class RewardAdapter(val context: Context?): RecyclerView.Adapter<RewardAdapter.R
                     reward = PreReward(
                         binding.rewardName.text?.toString(),
                         binding.rewardPrice.text?.toString()?.toIntOrNull(),
-                        binding.rewardCombination.text?.toString()
+                        binding.rewardCombination.text?.toString(),
+                        binding.rewardStock.text?.toString()?.toIntOrNull()
                     )
                     listData[pos] = reward
                 }
@@ -77,7 +78,7 @@ class RewardAdapter(val context: Context?): RecyclerView.Adapter<RewardAdapter.R
             binding.btnRemoveReward.setOnClickListener {
 
                 if(listData.size == 1) {
-                    listData[0] = PreReward(null,null,null)
+                    listData[0] = PreReward(null,null,null, null)
                     this@RewardAdapter.notifyItemChanged(0)
                 }
                 else {
