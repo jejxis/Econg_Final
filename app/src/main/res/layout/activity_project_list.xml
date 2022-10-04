@@ -38,7 +38,7 @@
             android:background="@drawable/button"
             android:minWidth="0dp"
             android:minHeight="0dp"
-            android:text="달성률 90% 이하"
+            android:text="달성률 90% 이상"
             android:textColor="@color/hintTextColor"
             android:textSize="14dp"
             app:layout_constraintBottom_toBottomOf="parent"

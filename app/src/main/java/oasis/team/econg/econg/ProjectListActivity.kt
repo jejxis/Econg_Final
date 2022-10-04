@@ -5,10 +5,15 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import oasis.team.econg.econg.data.Project
 import oasis.team.econg.econg.databinding.ActivityProjectListBinding
+import oasis.team.econg.econg.retrofit.RetrofitManager
 import oasis.team.econg.econg.rvAdapter.ProjectVerAdapter
+import oasis.team.econg.econg.utils.API
+import oasis.team.econg.econg.utils.Constants.TAG
+import oasis.team.econg.econg.utils.RESPONSE_STATE
 import oasis.team.econg.forui.rvAdapter.ProjectAdapter
 
 class ProjectListActivity : AppCompatActivity() {
@@ -44,26 +49,25 @@ class ProjectListActivity : AppCompatActivity() {
     }
 
     private fun loadData() {//신규 프로젝트 데이터
-        projects = mutableListOf()
-        for(i: Int in 1..20){
-            projects!!.add(Project(
-                i.toLong(),
-                "프로젝트${i}",
-                "2022-08-25",
-                "2022-08-28",
-                20000000,
-                "gs://econg-7e3f6.appspot.com/bud.png",
-                "프로젝트${i}인데요",
-                false,
-                "사용자${i}",
-                75
-            ))
-        }
+        RetrofitManager.instance.showProjects(auth = API.HEADER_TOKEN, completion = {
+            responseState, responseBody ->
+            when(responseState){
+                RESPONSE_STATE.OKAY -> {
+                    Log.d(TAG, "ProjectListActivity: api call success : ${responseBody.toString()}")
+                    projects = responseBody
+                    projectAdapter.setData(projects)
+                    binding.projects.layoutManager = LinearLayoutManager(this,
+                        LinearLayoutManager.VERTICAL,false)
+                    binding.projects.adapter = projectAdapter
+                }
+                RESPONSE_STATE.FAIL -> {
+                    Toast.makeText(this, "api call error", Toast.LENGTH_SHORT).show()
+                    Log.d(TAG, "ProjectListActivity: api call fail : $responseBody")
+                }
+            }
+        })
 
-        projectAdapter.setData(projects)
-        binding.projects.layoutManager = LinearLayoutManager(this,
-            LinearLayoutManager.VERTICAL,false)
-        binding.projects.adapter = projectAdapter
+
     }
 
     private fun loadData90() {//신규 프로젝트 데이터

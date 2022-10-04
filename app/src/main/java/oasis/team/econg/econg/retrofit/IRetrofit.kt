@@ -11,5 +11,7 @@ interface IRetrofit {
 
     //API4 상품 조회
     @GET("/app/projects")
-    fun showProducts(@Header("Authorization") auth: String): Call<JsonElement>
+    fun showProjects(@Header("Authorization") auth: String): Call<JsonElement>
+
+
 }

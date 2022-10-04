@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,7 +19,11 @@ import oasis.team.econg.econg.data.User
 import oasis.team.econg.econg.data.Project
 import oasis.team.econg.econg.databinding.FragmentHomeBinding
 import oasis.team.econg.econg.imageSlide.ImageSlideFragment
+import oasis.team.econg.econg.retrofit.RetrofitManager
 import oasis.team.econg.econg.rvAdapter.CompanyHorAdapter
+import oasis.team.econg.econg.utils.API
+import oasis.team.econg.econg.utils.Constants
+import oasis.team.econg.econg.utils.RESPONSE_STATE
 import oasis.team.econg.forui.rvAdapter.ProjectAdapter
 import java.lang.Math.abs
 
@@ -115,24 +120,23 @@ class HomeFragment(/*context: Context*/) : Fragment() {
     }
 
     private fun loadData() {//신규 프로젝트 데이터
-        for(i: Int in 1..20){
-            projects!!.add(Project(
-                i.toLong(),
-                "프로젝트${i}",
-                "2022-08-25",
-                "2022-08-28",
-                20000000,
-                "gs://econg-7e3f6.appspot.com/bud.png",
-                "프로젝트${i}인데요",
-                false,
-                "사용자${i}",
-                75
-            ))
-        }
-
-        projectAdapter.setData(projects)
-        binding.newProjects.layoutManager = LinearLayoutManager(requireActivity(),LinearLayoutManager.HORIZONTAL,false)
-        binding.newProjects.adapter = projectAdapter
+        RetrofitManager.instance.showProjects(auth = API.HEADER_TOKEN, completion = {
+                responseState, responseBody ->
+            when(responseState){
+                RESPONSE_STATE.OKAY -> {
+                    Log.d(Constants.TAG, "ProjectListActivity: api call success : ${responseBody.toString()}")
+                    projects = responseBody
+                    projectAdapter.setData(projects)
+                    binding.newProjects.layoutManager = LinearLayoutManager(main,
+                        LinearLayoutManager.HORIZONTAL,false)
+                    binding.newProjects.adapter = projectAdapter
+                }
+                RESPONSE_STATE.FAIL -> {
+                    Toast.makeText(main, "api call error", Toast.LENGTH_SHORT).show()
+                    Log.d(Constants.TAG, "ProjectListActivity: api call fail : $responseBody")
+                }
+            }
+        })
     }
 
     private fun loadNewCompany(){//신규 기업 데이터
