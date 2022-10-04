@@ -25,6 +25,7 @@ data class ProjectDetail(//프로젝트 상세화면에서 사용할 거.
     val closingDate: String,
     val goalAmount: Int,
     val totalAmount: Int,
+    val achievedRate: Int,
     val summary: String,
     val content: String,
     val thumbnail: String,
@@ -48,4 +49,4 @@ data class ProjectForOpen(
     val productImgList: ArrayList<String>,
     val rewardList: ArrayList<PreReward>
 )
-data class ProjectImage(val projectImgId: Long, val productImgUrl: String)
+data class ProjectImage(val projectImgId: Long, val projectImgUrl: String)

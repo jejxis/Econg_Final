@@ -6,6 +6,7 @@ import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
@@ -19,7 +20,11 @@ import oasis.team.econg.econg.detailProjectFragments.DetailProjectCommunityFragm
 import oasis.team.econg.econg.detailProjectFragments.DetailProjectStoryFragment
 import oasis.team.econg.econg.dialog.FundDialog
 import oasis.team.econg.econg.imageSlide.ImageSlideFragment
+import oasis.team.econg.econg.retrofit.RetrofitManager
+import oasis.team.econg.econg.utils.API
 import oasis.team.econg.econg.utils.Constants.ECONG_URL
+import oasis.team.econg.econg.utils.Constants.TAG
+import oasis.team.econg.econg.utils.RESPONSE_STATE
 import java.util.ArrayList
 
 class DetailProjectActivity : AppCompatActivity() {
@@ -42,9 +47,6 @@ class DetailProjectActivity : AppCompatActivity() {
         }
 
         loadProjectInfo()
-        val pagerAdapter = ScreenSlidePagerAdapter(this@DetailProjectActivity)
-        binding.projectImageSlider.adapter = pagerAdapter
-        showProjectStory()
 
         binding.btnEdit.setOnClickListener {
             Log.d("MY", "EDIT!!!!")
@@ -84,19 +86,6 @@ class DetailProjectActivity : AppCompatActivity() {
         }
 
         binding.btnFund.setOnClickListener {
-            /*val rewards : MutableList<SimpleReward> = mutableListOf()
-            for(i: Int in 1..5){
-                rewards!!.add(
-                    SimpleReward(//프로젝트 상세화면...결제 다이얼로그
-                        rewardId = i.toLong(),
-                        name = "reward$i",
-                        price = 5000,
-                        stock = 500,
-                        soldQuantity = 200,
-                        combination =  "연필 ${i}자루 + 볼펜 ${i}자루"
-                    )
-                )
-            }*/
             val dialog = FundDialog(this, project!!.rewardList, project!!.id)
             dialog.isCancelable = true
             dialog.show(this.supportFragmentManager, "FundDialog")
@@ -116,47 +105,24 @@ class DetailProjectActivity : AppCompatActivity() {
     }
 
     private fun loadProjectInfo(){
-        project = ProjectDetail(//프로젝트 상세화면에서 사용할 거.
-            id = str.toLong(),
-            title = "프로젝트$str",
-            openingDate = "2022.08.23",
-            closingDate = "2022.08.25",
-            goalAmount = 5000000,
-            totalAmount = 3500000,
-            summary = "프로젝트${str}입니다.",
-            content = getString(R.string.any),
-            thumbnail = "gs://econg-7e3f6.appspot.com/bud.png",
-            projectAuthenticate = true,
-            favorite = true,
-            userId = str.toLong(),
-            userName = "사용자$str",
-            userAuthenticate = true,
-            projectImgList = arrayListOf(
-                ProjectImage(1,
-                    "gs://econg-7e3f6.appspot.com/images/temp_1662087387101.jpeg"),
-                ProjectImage(2,"gs://econg-7e3f6.appspot.com/images/temp_1664617049408.jpeg")
-            ),
-            rewardList = arrayListOf(
-                SimpleReward(//프로젝트 상세화면...결제 다이얼로그
-                    rewardId = 11.toLong(),
-                    name = "reward11",
-                    price = 5000,
-                    stock = 500,
-                    soldQuantity = 200,
-                    combination =  "연필 11자루 + 볼펜 11자루"
-                ),
-                SimpleReward(//프로젝트 상세화면...결제 다이얼로그
-                    rewardId = 22,
-                    name = "reward22",
-                    price = 5000,
-                    stock = 500,
-                    soldQuantity = 200,
-                    combination =  "연필 22자루 + 볼펜 22자루"
-                )
-            )
-        )
+        RetrofitManager.instance.showDetailProject(auth = API.HEADER_TOKEN, projectId = str.toLong(), completion = {
+            responseState, responseBody ->
+            when(responseState){
+                RESPONSE_STATE.OKAY -> {
+                    project = responseBody
+                    Log.d(TAG, "loadProjectInfo: $project")
+                    setData()
+                }
 
-        val achievedRate: Int = (project!!.totalAmount / project!!.goalAmount) * 100
+                RESPONSE_STATE.FAIL -> {
+                    Log.d(TAG, "DetailProject: api call fail : $responseBody")
+                    Toast.makeText(this@DetailProjectActivity, "데이터 로딩에 실패했습니다.", Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
+    }
+
+    private fun setData(){
 
         binding.projectName.text = project!!.title
         binding.projectSum.text = project!!.summary
@@ -164,14 +130,14 @@ class DetailProjectActivity : AppCompatActivity() {
         binding.closingDate.text = project!!.closingDate
         binding.goalAmount.text = project!!.goalAmount.toString()
         binding.totalAmount.text = project!!.totalAmount.toString()
-        binding.achievedRate.text = achievedRate.toString()
-        binding.achievedProgress.progress = achievedRate
+        binding.achievedRate.text = project!!.achievedRate.toString()
+        binding.achievedProgress.progress = project!!.achievedRate
 
-        if(project!!.projectAuthenticate == true){
+        if(project!!.projectAuthenticate){
             binding.projectEcoAuth.visibility = View.VISIBLE
         }
 
-        if(project!!.userAuthenticate == true){
+        if(project!!.userAuthenticate){
             binding.userEcoAuth.visibility = View.VISIBLE
         }
 
@@ -183,15 +149,18 @@ class DetailProjectActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-
+        val pagerAdapter = ScreenSlidePagerAdapter(this@DetailProjectActivity)
+        binding.projectImageSlider.adapter = pagerAdapter
+        showProjectStory()
     }
+
     private inner class ScreenSlidePagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
 
         override fun getItemCount(): Int = project!!.projectImgList.size
 
         override fun createFragment(position: Int): Fragment {
             if(position == 0) return ImageSlideFragment().newInstance(project!!.thumbnail)
-            else return ImageSlideFragment().newInstance(project!!.projectImgList[position-1].productImgUrl)
+            else return ImageSlideFragment().newInstance(project!!.projectImgList[position-1].projectImgUrl)
         }
     }
 
