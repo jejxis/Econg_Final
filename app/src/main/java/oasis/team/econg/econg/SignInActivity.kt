@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
+import android.widget.Toast
 import oasis.team.econg.econg.data.Login
 import oasis.team.econg.econg.data.PostLogin
 import oasis.team.econg.econg.databinding.ActivitySignInBinding
@@ -53,10 +54,16 @@ class SignInActivity : AppCompatActivity() {
 
                     MyApplication.prefs.token = response.body()?.result?.token.toString()
                     Log.d("log", MyApplication.prefs.token!!)
-                    val intent = Intent(this@SignInActivity, MainActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK//액티비티 스택제거
+
+                    if(response.body()?.result?.token.toString() == "null"){
+                        Toast.makeText(this@SignInActivity, "로그인에 실패했습니다.", Toast.LENGTH_SHORT).show()
+                    }
+                    else{
+                        val intent = Intent(this@SignInActivity, MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK//액티비티 스택제거
+                    }
                 }
 
                 override fun onFailure(call: Call<Login>, t: Throwable) {
