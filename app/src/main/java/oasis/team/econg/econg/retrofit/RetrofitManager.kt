@@ -44,7 +44,7 @@ class RetrofitManager {
                             Log.d(TAG, "showProjects: RetrofitManager - onResponse() called")
 
                             body.forEach{   resultItem ->
-                                val project = jsonElementToProject(resultItem)
+                                val project = convertJsonElementToProject(resultItem)
                                 parsedDataArray.add(project)
                             }
                             completion(RESPONSE_STATE.OKAY, parsedDataArray)
@@ -56,16 +56,47 @@ class RetrofitManager {
         })
     }
 
-    //API4  상품 조회 - 마감 임박 상품
-    fun showAlmostProjects(auth: String?, type: String?, completion: (RESPONSE_STATE, ArrayList<Project>?) -> Unit){
+    //API4  상품 조회 - 마감 임박, 달성률 90% 이상 상품
+    fun showConditionedProjects(auth: String?, type: String?, completion: (RESPONSE_STATE, ArrayList<Project>?) -> Unit){
         var au = auth.let{ it}?: ""
         var type = type.let{it}?: ""
+        val call = iRetrofit?.showConditionedProjects(auth = au, type = type).let{
+            it
+        }?: return
+
+        call.enqueue(object: retrofit2.Callback<JsonElement>{
+            override fun onFailure(call: Call<JsonElement>, t: Throwable) {
+                Log.d(TAG, "ProjectList: RetrofitManager - onFailure() called/ t: $t")
+                completion(RESPONSE_STATE.FAIL, null)
+            }
+
+            override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
+                Log.d(TAG, "ProjectList: RetrofitManager - onResponse() called/ response: ${response.raw()}")
+
+                when(response.code()){
+                    200 ->{
+                        response.body()?.let{
+                            var parsedDataArray = ArrayList<Project>()
+                            val body = it.asJsonObject.get("result").asJsonArray
+
+                            Log.d(TAG, "showProjects: RetrofitManager - onResponse() called")
+
+                            body.forEach{   resultItem ->
+                                val project = convertJsonElementToProject(resultItem)
+                                parsedDataArray.add(project)
+                            }
+                            completion(RESPONSE_STATE.OKAY, parsedDataArray)
+                        }
+                    }
+                }
+            }
+        })
     }
 
-    //API4  상품 조회 - 마감 임박 상품
+    /*//API4  상품 조회 - 마감 임박 상품
     fun showAchievedProjects(auth: String?, type: String?, completion: (RESPONSE_STATE, ArrayList<Project>?) -> Unit){
 
-    }
+    }*/
 
     //API5 특정 프로젝트 화면
     fun showDetailProject(auth: String?, projectId: Long?, completion: (RESPONSE_STATE, ProjectDetail?) -> Unit){
@@ -162,7 +193,7 @@ class RetrofitManager {
         })
     }
 
-    fun jsonElementToProject(element: JsonElement): Project{
+    fun convertJsonElementToProject(element: JsonElement): Project{
         val resultItemObject = element.asJsonObject
         val id = resultItemObject.get("id").asLong
         val title = resultItemObject.get("title").asString

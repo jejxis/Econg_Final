@@ -36,6 +36,8 @@ class ProjectListActivity : AppCompatActivity() {
             binding.btnAll.setTextColor(Color.parseColor("#FFFFFF"))
             binding.btnNinety.background = resources.getDrawable(R.drawable.button, null)
             binding.btnNinety.setTextColor(Color.parseColor("#787878"))
+            binding.btnAlmost.background = resources.getDrawable(R.drawable.button, null)
+            binding.btnAlmost.setTextColor(Color.parseColor("#787878"))
             loadData()
         }
 
@@ -44,7 +46,19 @@ class ProjectListActivity : AppCompatActivity() {
             binding.btnNinety.setTextColor(Color.parseColor("#FFFFFF"))
             binding.btnAll.background = resources.getDrawable(R.drawable.button, null)
             binding.btnAll.setTextColor(Color.parseColor("#787878"))
+            binding.btnAlmost.background = resources.getDrawable(R.drawable.button, null)
+            binding.btnAlmost.setTextColor(Color.parseColor("#787878"))
             loadData90()
+        }
+
+        binding.btnAlmost.setOnClickListener {
+            binding.btnAlmost.background = resources.getDrawable(R.drawable.button_selected, null)
+            binding.btnAlmost.setTextColor(Color.parseColor("#FFFFFF"))
+            binding.btnAll.background = resources.getDrawable(R.drawable.button, null)
+            binding.btnAll.setTextColor(Color.parseColor("#787878"))
+            binding.btnNinety.background = resources.getDrawable(R.drawable.button, null)
+            binding.btnNinety.setTextColor(Color.parseColor("#787878"))
+            loadDataDeadLine()
         }
     }
 
@@ -70,27 +84,46 @@ class ProjectListActivity : AppCompatActivity() {
 
     }
 
-    private fun loadData90() {//신규 프로젝트 데이터
+    private fun loadData90() {//신규 달성률 90% 이상 데이터
         projects = mutableListOf()
-        for(i: Int in 21..40){
-            projects!!.add(Project(
-                i.toLong(),
-                "프로젝트${i}",
-                "2022-08-25",
-                "2022-08-28",
-                20000000,
-                "gs://econg-7e3f6.appspot.com/bud.png",
-                "프로젝트${i}인데요",
-                false,
-                "사용자${i}",
-                75
-            ))
-        }
+        RetrofitManager.instance.showConditionedProjects(auth = API.HEADER_TOKEN, type = "achieve", completion = {
+            responseState, responseBody ->
+            when(responseState){
+                RESPONSE_STATE.OKAY -> {
+                    Log.d(TAG, "ProjectListActivity: api call success : ${responseBody.toString()}")
+                    projects = responseBody
+                    projectAdapter.setData(projects)
+                    binding.projects.layoutManager = LinearLayoutManager(this,
+                        LinearLayoutManager.VERTICAL,false)
+                    binding.projects.adapter = projectAdapter
+                }
+                RESPONSE_STATE.FAIL -> {
+                    Toast.makeText(this, "api call error", Toast.LENGTH_SHORT).show()
+                    Log.d(TAG, "ProjectListActivity: api call fail : $responseBody")
+                }
+            }
+        })
+    }
 
-        projectAdapter.setData(projects)
-        binding.projects.layoutManager = LinearLayoutManager(this,
-            LinearLayoutManager.VERTICAL,false)
-        binding.projects.adapter = projectAdapter
+    private fun loadDataDeadLine() {//신규 마감임박 데이터
+        projects = mutableListOf()
+        RetrofitManager.instance.showConditionedProjects(auth = API.HEADER_TOKEN, type = "almost", completion = {
+                responseState, responseBody ->
+            when(responseState){
+                RESPONSE_STATE.OKAY -> {
+                    Log.d(TAG, "ProjectListActivity: api call success : ${responseBody.toString()}")
+                    projects = responseBody
+                    projectAdapter.setData(projects)
+                    binding.projects.layoutManager = LinearLayoutManager(this,
+                        LinearLayoutManager.VERTICAL,false)
+                    binding.projects.adapter = projectAdapter
+                }
+                RESPONSE_STATE.FAIL -> {
+                    Toast.makeText(this, "api call error", Toast.LENGTH_SHORT).show()
+                    Log.d(TAG, "ProjectListActivity: api call fail : $responseBody")
+                }
+            }
+        })
     }
 
     //신규 프로젝트 클릭 이벤트 처리 -> 프로젝트 상세 화면으로 이동
