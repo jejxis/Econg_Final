@@ -14,6 +14,14 @@ interface IRetrofit {
     @GET("/app/projects")
     fun showProjects(@Header("Authorization") auth: String): Call<JsonElement>
 
+    //API4 상품 조회 - 마감 임박 상품
+    @GET("/app/projects")
+    fun showAlmostProjects(@Query("type") type: String): Call<JsonElement>
+
+    //API4 상품 조회 - 90% 이상 달성 상품
+    @GET("/app/projects")
+    fun showAchievedProjects(@Query("type") type: String): Call<JsonElement>
+
     //API5 특정 프로젝트 조회
     @GET("/app/projects/{projectId}")
     fun showDetailProject(

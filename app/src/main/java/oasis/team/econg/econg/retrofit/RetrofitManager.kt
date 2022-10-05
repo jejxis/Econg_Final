@@ -44,30 +44,7 @@ class RetrofitManager {
                             Log.d(TAG, "showProjects: RetrofitManager - onResponse() called")
 
                             body.forEach{   resultItem ->
-                                val resultItemObject = resultItem.asJsonObject
-                                val id = resultItemObject.get("id").asLong
-                                val title = resultItemObject.get("title").asString
-                                val openingDate = resultItemObject.get("openingDate").asString
-                                val closingDate = resultItemObject.get("closingDate").asString
-                                val totalAmount = resultItemObject.get("totalAmount").asInt
-                                val achievedRate = resultItemObject.get("achievedRate").asInt
-                                val summary = resultItemObject.get("summary").asString
-                                val thumbnail = resultItemObject.get("thumbnail").asString
-                                val authenticate = resultItemObject.get("authenticate").asBoolean
-                                val user = resultItemObject.get("user").asString
-
-                                val project = Project(
-                                    id = id,
-                                    title = title,
-                                    openingDate = openingDate,
-                                    closingDate = closingDate,
-                                    totalAmount = totalAmount,
-                                    achievedRate = achievedRate,
-                                    summary = summary,
-                                    thumbnail = thumbnail,
-                                    authenticate = authenticate,
-                                    user = user
-                                )
+                                val project = jsonElementToProject(resultItem)
                                 parsedDataArray.add(project)
                             }
                             completion(RESPONSE_STATE.OKAY, parsedDataArray)
@@ -77,6 +54,17 @@ class RetrofitManager {
             }
 
         })
+    }
+
+    //API4  상품 조회 - 마감 임박 상품
+    fun showAlmostProjects(auth: String?, type: String?, completion: (RESPONSE_STATE, ArrayList<Project>?) -> Unit){
+        var au = auth.let{ it}?: ""
+        var type = type.let{it}?: ""
+    }
+
+    //API4  상품 조회 - 마감 임박 상품
+    fun showAchievedProjects(auth: String?, type: String?, completion: (RESPONSE_STATE, ArrayList<Project>?) -> Unit){
+
     }
 
     //API5 특정 프로젝트 화면
@@ -172,5 +160,33 @@ class RetrofitManager {
             }
 
         })
+    }
+
+    fun jsonElementToProject(element: JsonElement): Project{
+        val resultItemObject = element.asJsonObject
+        val id = resultItemObject.get("id").asLong
+        val title = resultItemObject.get("title").asString
+        val openingDate = resultItemObject.get("openingDate").asString
+        val closingDate = resultItemObject.get("closingDate").asString
+        val totalAmount = resultItemObject.get("totalAmount").asInt
+        val achievedRate = resultItemObject.get("achievedRate").asInt
+        val summary = resultItemObject.get("summary").asString
+        val thumbnail = resultItemObject.get("thumbnail").asString
+        val authenticate = resultItemObject.get("authenticate").asBoolean
+        val user = resultItemObject.get("user").asString
+
+        val project = Project(
+            id = id,
+            title = title,
+            openingDate = openingDate,
+            closingDate = closingDate,
+            totalAmount = totalAmount,
+            achievedRate = achievedRate,
+            summary = summary,
+            thumbnail = thumbnail,
+            authenticate = authenticate,
+            user = user
+        )
+        return project
     }
 }
