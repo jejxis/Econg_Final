@@ -73,3 +73,11 @@ data class OrderBeforePay(//->use in PaymentActivity
     val price: Int,
     val combination: String
 )
+
+data class OrderForPay(//->use in PaymentActivity
+    val projectId: Long,
+    val rewardId: Long,
+    val rewardName: String,
+    val price: Int,
+    val deliveryAddress: String
+)

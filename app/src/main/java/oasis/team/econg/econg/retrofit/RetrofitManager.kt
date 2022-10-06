@@ -289,12 +289,40 @@ class RetrofitManager {
                             val body = it.asJsonObject.get("result").asString
 
                             completion(RESPONSE_STATE.OKAY, body)
-                            Log.d(TAG, "onResponse: $body")
+                            Log.d(TAG, "onResponse: $body"
                         }
                     }
                 }
             }
 
+        })
+    }
+    
+    //API12 상품 주문
+    fun payOrder(auth: String?, param: OrderForPay, completion: (RESPONSE_STATE, String?) -> Unit){
+        var au = auth.let{it}?:""
+        val call = iRetrofit?.payOrder(auth = au, param = param).let{
+            it
+        }?:return
+
+        call.enqueue(object: retrofit2.Callback<JsonElement>{
+            override fun onFailure(call: Call<JsonElement>, t: Throwable) {
+                Log.d(TAG, "Payment - payOrder: RetrofitManager - onFailure() called/ t: $t")
+                completion(RESPONSE_STATE.FAIL, null)
+            }
+
+            override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
+                Log.d(TAG, "Payment - payOrder: RetrofitManager - onResponse() called/ response: ${response.raw()}")
+
+                when(response.code()){
+                    200 ->{
+                        response.body()?.let{
+                            val body = it.asJsonObject.get("result").asString
+                            completion(RESPONSE_STATE.OKAY, body)
+                        }
+                    }
+                }
+            }
         })
     }
 }
