@@ -289,7 +289,7 @@ class RetrofitManager {
                             val body = it.asJsonObject.get("result").asString
 
                             completion(RESPONSE_STATE.OKAY, body)
-                            Log.d(TAG, "onResponse: $body"
+                            Log.d(TAG, "onResponse: $body")
                         }
                     }
                 }
