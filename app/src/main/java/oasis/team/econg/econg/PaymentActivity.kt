@@ -10,6 +10,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import oasis.team.econg.econg.data.OrderBeforePay
 import oasis.team.econg.econg.data.OrderConfirmation
+import oasis.team.econg.econg.data.OrderForPay
 import oasis.team.econg.econg.databinding.ActivityPaymentBinding
 import oasis.team.econg.econg.retrofit.RetrofitManager
 import oasis.team.econg.econg.utils.API
@@ -23,6 +24,7 @@ class PaymentActivity : AppCompatActivity() {
     var rewardID = ""
     var projectID = ""
     val storage = Firebase.storage(ECONG_URL)
+    var kakaopayLink: String? = ""
     private var orderInfo: OrderBeforePay? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,15 +40,28 @@ class PaymentActivity : AppCompatActivity() {
         loadOrderInfo()
 
         binding.goToKakaoPay.setOnClickListener {
-            //use orderInfo data & binding.deliveryAddress.text.toString()
-
-            // call "/app/orders" API12
-
-            //get link from API
-
-            //move to the link
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://m.naver.com"))
-            startActivity(intent)
+            val orderForPay = OrderForPay(
+                projectId = orderInfo!!.projectId,
+                rewardId = orderInfo!!.rewardId,
+                rewardName = orderInfo!!.rewardName,
+                price = orderInfo!!.price,
+                deliveryAddress = binding.deliveryAddress.text.toString()
+            )
+            RetrofitManager.instance.payOrder(auth = API.HEADER_TOKEN, param = orderForPay, completion = {
+                responseState, responseBody ->
+                when(responseState){
+                    RESPONSE_STATE.OKAY ->{
+                        kakaopayLink = responseBody
+                        Log.d(TAG, "kakaopayLink: $kakaopayLink")
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(kakaopayLink))
+                        startActivity(intent)
+                    }
+                    RESPONSE_STATE.FAIL -> {
+                        Log.d(TAG, "Payment: api call fail : $responseBody")
+                        Toast.makeText(this@PaymentActivity, "결제 요청에 실패했습니다.", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            })
         }
     }
 
