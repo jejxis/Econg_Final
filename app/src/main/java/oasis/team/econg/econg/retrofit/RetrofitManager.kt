@@ -264,4 +264,39 @@ class RetrofitManager {
             }
         })
     }
+
+    fun pushFavorite(auth: String?, projectId: Long?, completion: (RESPONSE_STATE, String?) -> Unit){
+        var au = auth.let{ it}?: ""
+        var projectId = projectId.let{it}?: -1
+        Log.d(TAG, "DetailProject: RetrofitManager - in API")
+        val data = PostFavorite(projectId)
+        val call = iRetrofit?.postFavorite(auth = au, data).let{
+            it
+        }?: return
+
+        call.enqueue(object : retrofit2.Callback<JsonElement>{
+            override fun onFailure(call: Call<JsonElement>, t: Throwable) {
+                Log.d(TAG, "DetailProject: RetrofitManager - onFailure() called/ t: $t")
+                completion(RESPONSE_STATE.FAIL, null)
+            }
+
+            override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
+                Log.d(TAG, "DetailProject: RetrofitManager - onResponse() called/ response: ${response.raw()}")
+
+                when(response.code()){
+                    200 -> {
+                        response.body()?.let{
+                            val body = it.asJsonObject.get("result").asString
+
+                            completion(RESPONSE_STATE.OKAY, body)
+                            Log.d(TAG, "onResponse: $body")
+                        }
+                    }
+                }
+            }
+
+        })
+    }
 }
+
+

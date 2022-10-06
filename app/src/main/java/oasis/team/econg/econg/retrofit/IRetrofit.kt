@@ -2,8 +2,10 @@ package oasis.team.econg.econg.retrofit
 
 import com.google.android.gms.common.internal.safeparcel.SafeParcelable
 import com.google.gson.JsonElement
+import oasis.team.econg.econg.data.PostFavorite
 import oasis.team.econg.econg.data.PostLogin
 import oasis.team.econg.econg.data.PostRegister
+import oasis.team.econg.econg.data.Register
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -31,4 +33,6 @@ interface IRetrofit {
     @GET("/app/orders/pay")
     fun showProjectOrder(@Header("Authorization") auth: String, @Query("rewardId") rewardId: Long): Call<JsonElement>
 
+    @POST("/app/favorites")
+    fun postFavorite(@Header("Authorization") auth: String, @Body jsonparams: PostFavorite): Call<JsonElement>
 }
