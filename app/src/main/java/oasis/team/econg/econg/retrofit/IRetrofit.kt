@@ -9,6 +9,9 @@ import retrofit2.http.*
 
 interface IRetrofit {
 
+    //API3 프로젝트 등록
+    @POST("app/projects")
+    fun openProject()
 
     //API4 상품 조회
     @GET("/app/projects")
@@ -18,14 +21,14 @@ interface IRetrofit {
     @GET("/app/projects")
     fun showConditionedProjects(@Header("Authorization") auth: String, @Query("type") type: String): Call<JsonElement>
 
-    /*//API4 상품 조회 - 90% 이상 달성 상품
-    @GET("/app/projects")
-    fun showAchievedProjects(@Header("Authorization") auth: String, @Query("type") type: String): Call<JsonElement>*/
-
     //API5 특정 프로젝트 조회
     @GET("/app/projects/{projectId}")
     fun showDetailProject(
         @Header("Authorization") auth: String,
         @Path("projectId") projectId: Long): Call<JsonElement>
+
+    //API11 상품 주문 화면 가져오기
+    @GET("/app/orders/pay")
+    fun showProjectOrder(@Header("Authorization") auth: String, @Query("rewardId") rewardId: Long): Call<JsonElement>
 
 }

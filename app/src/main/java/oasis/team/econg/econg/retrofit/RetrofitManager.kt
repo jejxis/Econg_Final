@@ -93,11 +93,6 @@ class RetrofitManager {
         })
     }
 
-    /*//API4  상품 조회 - 마감 임박 상품
-    fun showAchievedProjects(auth: String?, type: String?, completion: (RESPONSE_STATE, ArrayList<Project>?) -> Unit){
-
-    }*/
-
     //API5 특정 프로젝트 화면
     fun showDetailProject(auth: String?, projectId: Long?, completion: (RESPONSE_STATE, ProjectDetail?) -> Unit){
         var au = auth.let{ it}?: ""
@@ -219,5 +214,54 @@ class RetrofitManager {
             user = user
         )
         return project
+    }
+
+    //API11 상품 주문 화면 가져오기
+    fun showProjectOrder(auth: String?, rewardId: Long?, completion: (RESPONSE_STATE, OrderBeforePay?) -> Unit){
+        var au = auth.let{it}?:""
+        var rewardId = rewardId.let{it}?:-1
+        Log.d(TAG, "Payment: RetrofitManager - in API")
+        val call = iRetrofit?.showProjectOrder(auth = au, rewardId = rewardId).let{
+            it
+        }?: return
+
+        call.enqueue(object : retrofit2.Callback<JsonElement>{
+            override fun onFailure(call: Call<JsonElement>, t: Throwable) {
+                Log.d(TAG, "Payment: RetrofitManager - onFailure() called/ t: $t")
+                completion(RESPONSE_STATE.FAIL, null)
+            }
+
+            override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
+                Log.d(TAG, "Payment: RetrofitManager - onResponse() called/ response: ${response.raw()}")
+
+                when(response.code()){
+                    200 -> {
+                        response.body()?.let{
+                            val body = it.asJsonObject.get("result").asJsonObject
+
+                            val projectId = body.get("projectId").asLong
+                            val title = body.get("title").asString
+                            val thumbnail = body.get("thumbnail").asString
+                            val rewardId = body.get("rewardId").asLong
+                            val rewardName = body.get("rewardName").asString
+                            val price = body.get("price").asInt
+                            val combination = body.get("combination").asString
+
+                            val orderBeforePay = OrderBeforePay(
+                                projectId = projectId,
+                                title = title,
+                                thumbnail = thumbnail,
+                                rewardId = rewardId,
+                                rewardName = rewardName,
+                                price = price,
+                                combination = combination
+                            )
+
+                            completion(RESPONSE_STATE.OKAY, orderBeforePay)
+                        }
+                    }
+                }
+            }
+        })
     }
 }
