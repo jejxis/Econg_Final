@@ -76,13 +76,14 @@ class DetailProjectActivity : AppCompatActivity() {
         binding.btnUp.setOnClickListener { binding.myScroll.scrollToView(binding.projectImageSlider) }
 
         binding.btnFav.setOnClickListener {
-            if(isItFilled){//팔로우된 상태
-                binding.btnFav.setImageResource(R.drawable.ic_baseline_favorite_border_pink_24)
-                isItFilled = false
-            }else{//팔로우 안된 상태
-                binding.btnFav.setImageResource(R.drawable.ic_baseline_favorite_pink_24)
-                isItFilled = true
-            }
+            pushFavorite()
+//            if(isItFilled){//팔로우된 상태
+//                binding.btnFav.setImageResource(R.drawable.ic_baseline_favorite_border_pink_24)
+//                isItFilled = false
+//            }else{//팔로우 안된 상태
+//                binding.btnFav.setImageResource(R.drawable.ic_baseline_favorite_pink_24)
+//                isItFilled = true
+//            }
         }
 
         binding.btnFund.setOnClickListener {
@@ -121,6 +122,28 @@ class DetailProjectActivity : AppCompatActivity() {
             }
         })
     }
+
+    private fun pushFavorite(){
+        RetrofitManager.instance.pushFavorite(auth = API.HEADER_TOKEN, projectId = str.toLong(), completion = {
+                responseState, responseBody ->
+            when(responseState){
+                RESPONSE_STATE.OKAY -> {
+                    var result = responseBody
+                    if(result.equals("찜 추가"))
+                        binding.btnFav.setImageResource(R.drawable.ic_baseline_favorite_pink_24)
+                    else
+                        binding.btnFav.setImageResource(R.drawable.ic_baseline_favorite_border_pink_24)
+
+                }
+
+                RESPONSE_STATE.FAIL -> {
+                    Log.d(TAG, "DetailProject: api call fail : $responseBody")
+                    Toast.makeText(this@DetailProjectActivity, "찜콩 실패했습니다.", Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
+    }
+
 
     private fun setData(){
 
