@@ -77,13 +77,6 @@ class DetailProjectActivity : AppCompatActivity() {
 
         binding.btnFav.setOnClickListener {
             pushFavorite()
-//            if(isItFilled){//팔로우된 상태
-//                binding.btnFav.setImageResource(R.drawable.ic_baseline_favorite_border_pink_24)
-//                isItFilled = false
-//            }else{//팔로우 안된 상태
-//                binding.btnFav.setImageResource(R.drawable.ic_baseline_favorite_pink_24)
-//                isItFilled = true
-//            }
         }
 
         binding.btnFund.setOnClickListener {
@@ -129,7 +122,7 @@ class DetailProjectActivity : AppCompatActivity() {
             when(responseState){
                 RESPONSE_STATE.OKAY -> {
                     var result = responseBody
-                    if(result.equals("찜 추가"))
+                    if(result.equals("찜 등록"))
                         binding.btnFav.setImageResource(R.drawable.ic_baseline_favorite_pink_24)
                     else
                         binding.btnFav.setImageResource(R.drawable.ic_baseline_favorite_border_pink_24)

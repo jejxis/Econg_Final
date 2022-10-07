@@ -46,7 +46,8 @@ data class ProjectForOpen(
     val summary: String,
     val thumbnail: String,
     val content: String,
-    val productImgList: ArrayList<String>,
+    val projectImgList: ArrayList<ImageUrl>,
     val rewardList: ArrayList<PreReward>
 )
 data class ProjectImage(val projectImgId: Long, val projectImgUrl: String)
+data class ImageUrl(val projectImgUrl: String)

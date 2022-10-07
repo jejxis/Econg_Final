@@ -2,6 +2,7 @@ package oasis.team.econg.econg
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.icu.lang.UCharacter
 import android.net.Uri
@@ -22,15 +23,20 @@ import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import oasis.team.econg.econg.data.ImageUrl
 import oasis.team.econg.econg.data.PreReward
 import oasis.team.econg.econg.data.ProjectForOpen
 import oasis.team.econg.econg.data.Reward
 import oasis.team.econg.econg.databinding.ActivityOpenProjectBinding
 import oasis.team.econg.econg.dialog.DatePickerFragment
+import oasis.team.econg.econg.retrofit.RetrofitManager
 import oasis.team.econg.econg.rvAdapter.ImageData
 import oasis.team.econg.econg.rvAdapter.OpenProjectImageAdapter
 import oasis.team.econg.econg.rvAdapter.RewardAdapter
+import oasis.team.econg.econg.utils.API
 import oasis.team.econg.econg.utils.Constants.ECONG_URL
+import oasis.team.econg.econg.utils.Constants.TAG
+import oasis.team.econg.econg.utils.RESPONSE_STATE
 
 
 /*ProjectDetail(//프로젝트 상세화면에서 사용할 거.
@@ -58,7 +64,7 @@ class OpenProjectActivity : AppCompatActivity() {
     private var rewardAdapter = RewardAdapter(this)
 
     private var imgDataList: MutableList<ImageData>? = mutableListOf()
-    private var imgUrlList: MutableList<String> = mutableListOf()
+    private var imgUrlList: MutableList<ImageUrl> = mutableListOf()
     private var imgAdapter = OpenProjectImageAdapter(this)
 
     private var pos = -1
@@ -99,14 +105,29 @@ class OpenProjectActivity : AppCompatActivity() {
         }
 
         binding.upload.setOnClickListener {
-            uploadImage(toThumbnail, toThumbnailUri!!)
-            for(img in imgDataList!!){
-                if(img.str.compareTo("") != 0 && img.uri != null){
-                    Log.d("MY", img.toString())
-                    uploadImage(img.str, img.uri!!)
-                }
-            }
+
             projectForUpload = makeProject()//이거 가지고 레트로핏
+            RetrofitManager.instance.openProject(auth = API.HEADER_TOKEN, param = projectForUpload, completion = {
+                    responseState, responseBody ->
+                when(responseState){
+                    RESPONSE_STATE.OKAY ->{
+                        Log.d(TAG, "result: $responseBody")
+                        uploadImage(toThumbnail, toThumbnailUri!!)
+                        for(img in imgDataList!!){
+                            if(img.str.compareTo("") != 0 && img.uri != null){
+                                Log.d("MY", img.toString())
+                                uploadImage(img.str, img.uri!!)
+                            }
+                        }
+                        val intent = Intent(this@OpenProjectActivity, MainActivity::class.java)
+                        startActivity(intent)
+                    }
+                    RESPONSE_STATE.FAIL -> {
+                        Log.d(TAG, "Payment: api call fail : $responseBody")
+                        Toast.makeText(this@OpenProjectActivity, "결제 요청에 실패했습니다.", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            })
         }
 
         binding.btnAddImage.setOnClickListener {
@@ -210,6 +231,9 @@ class OpenProjectActivity : AppCompatActivity() {
     }
 
     fun makeProject(): ProjectForOpen{
+        for(img in imgDataList!!){
+            imgUrlList.add(ImageUrl(img.str))
+        }
        return ProjectForOpen(
                 title = binding.name.toString(),
                 openingDate = binding.openingDate.toString(),
@@ -218,7 +242,7 @@ class OpenProjectActivity : AppCompatActivity() {
                 summary = binding.summary.toString(),
                 thumbnail = toThumbnail,
                 content = binding.story.toString(),
-                productImgList = imgUrlList as ArrayList<String>,
+                projectImgList = imgUrlList as ArrayList<ImageUrl>,
                 rewardList = rewards as ArrayList<PreReward>
             )
     }

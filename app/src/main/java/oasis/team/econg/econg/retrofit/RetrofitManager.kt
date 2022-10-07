@@ -20,6 +20,32 @@ class RetrofitManager {
     //get retrofit interface
     private val iRetrofit : IRetrofit? = RetrofitClient.getClient(API.BASE_URL)?.create(IRetrofit::class.java)
 
+    //API3 상품 등록
+    fun openProject(auth: String?, param: ProjectForOpen, completion: (RESPONSE_STATE, String?) -> Unit){
+        var au = auth.let{it}?:""
+        val call = iRetrofit?.openProject(auth = au, param = param).let{it}?:return
+
+        call.enqueue(object: retrofit2.Callback<JsonElement>{
+            override fun onFailure(call: Call<JsonElement>, t: Throwable) {
+                Log.d(TAG, "OpenProject: RetrofitManager - onFailure() called/ t: $t")
+                completion(RESPONSE_STATE.FAIL, null)
+            }
+
+            override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
+                Log.d(TAG, "OpenProject: RetrofitManager - onResponse() called/ response: ${response.raw()}")
+
+                when(response.code()){
+                    200 ->{
+                        response.body()?.let{
+                            val body = it.asJsonObject.get("result").asString
+                            completion(RESPONSE_STATE.OKAY, body)
+                        }
+                    }
+                }
+            }
+        })
+    }
+
     //API4 상품 조회
     fun showProjects(auth: String?, completion: (RESPONSE_STATE, ArrayList<Project>?) -> Unit){
         var au = auth.let{it}?:""
