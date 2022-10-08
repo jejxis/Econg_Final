@@ -39,4 +39,6 @@ interface IRetrofit {
     fun payOrder(@Header("Authorization") auth: String, @Body param : OrderForPay): Call<JsonElement>
 
 
+    @GET("/app/recent-users")
+    fun getRecentUsers(@Header("Authorization") auth: String): Call<JsonElement>
 }
