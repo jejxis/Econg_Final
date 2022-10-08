@@ -94,7 +94,6 @@ class DetailProjectCommunityFragment : Fragment() {
             }
         })
 
-        //setListData()
     }
 
     private fun setListData(){

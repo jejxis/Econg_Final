@@ -514,6 +514,56 @@ class RetrofitManager {
         })
     }
 
+    //API13 자신의 사용정보 조회
+    fun showMyInfo(auth: String?, completion:(RESPONSE_STATE, UserProfile?) -> Unit){
+        var au = auth.let{it}?:""
+        val call = iRetrofit?.showMyInfo(auth = au).let{it}?:return
+
+        call.enqueue(object: retrofit2.Callback<JsonElement>{
+            override fun onFailure(call: Call<JsonElement>, t: Throwable) {
+                Log.d(TAG, "RetrofitManager: showMyInfo() - onFailure() called/ t: $t")
+                completion(RESPONSE_STATE.FAIL, null)
+            }
+
+            override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
+                Log.d(TAG, "RetrofitManager: showMyInfo() - onResponse() called/ response: ${response.raw()}")
+                when(response.code()){
+                    200 ->
+                        response.body()?.let{
+                            val body = it.asJsonObject.get("result").asJsonObject
+
+                            val userId = body.get("userId").asLong
+                            val nickName = body.get("nickName").asString
+
+                            var description = ""
+                            if(body.get("description").isJsonNull) description = ""
+                            else description = body.get("description").asString
+
+                            val profileUrl = body.get("profileUrl").asString
+                            val authenticate = body.get("authenticate").asBoolean
+                            val followingNum = body.get("followingNum").asInt
+                            val followerNum = body.get("followerNum").asInt
+                            val myProfile = body.get("myProfile").asBoolean
+
+                            val userProfile = UserProfile(
+                                userId = userId,
+                                nickName = nickName,
+                                description = description,
+                                profileUrl = profileUrl,
+                                authenticate = authenticate,
+                                followingNum = followingNum,
+                                followerNum = followerNum,
+                                myProfile = myProfile
+                            )
+
+                            completion(RESPONSE_STATE.OKAY, userProfile)
+                            Log.d(TAG, "RetrofitManager - showMyInfo: onResponse: $userProfile")
+                        }
+                }
+            }
+        })
+    }
+
     //API14 특정 유저 조회
     fun showDetailUser(auth: String?, userId: Long?, completion:(RESPONSE_STATE, UserProfile?) -> Unit){
         var au = auth.let{it}?:""
