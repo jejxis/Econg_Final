@@ -14,8 +14,8 @@ data class ProjectCommunity(
 data class MyCommunity(
     val id: Long,
     val content: String,
-    val updatedAt: LocalDateTime,
-    val userid: Long,
+    val updatedAt: String,
+    val userId: Long,
     val userName: String,
     val userProfileUrl: String,
     val projectId: Long,
