@@ -54,5 +54,7 @@ interface IRetrofit {
     @GET("/app/profiles/{userId}")
     fun getUserProfile(@Header("Authorization") auth: String, @Path("userId") userId:Long): Call<JsonElement>
 
+    @GET("/app/users/post-projects/{userId}")
+    fun getUserOpenedProjects(@Header("Authorization") auth: String,  @Path("userId") userId:Long): Call<JsonElement>
 
 }
