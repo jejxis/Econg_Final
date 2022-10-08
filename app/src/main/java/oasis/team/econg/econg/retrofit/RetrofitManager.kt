@@ -250,7 +250,7 @@ class RetrofitManager {
     fun showProjectCommunities(auth: String?, projectId: Long?, completion: (RESPONSE_STATE, ArrayList<ProjectCommunity>?) -> Unit) {
         var au = auth.let{it}?:""
         var projectId = projectId.let{it}?: -1
-        val call = iRetrofit?.showProjects(auth = au).let{it}?:return
+        val call = iRetrofit?.showProjectCommunities(auth = au, projectId = projectId).let{it}?:return
 
         call.enqueue(object :retrofit2.Callback<JsonElement>{
             override fun onFailure(call: Call<JsonElement>, t: Throwable) {
@@ -265,7 +265,6 @@ class RetrofitManager {
                         response.body()?.let{
                             var parsedDataArray = ArrayList<ProjectCommunity>()
                             val body = it.asJsonObject.get("result").asJsonArray
-                            Log.d(TAG, "Array Size: $body")
                             Log.d(TAG, "showProjectCommunities: RetrofitManager - onResponse() called")
                             if(body.size() > 0){
                                 body.forEach{   resultItem ->
@@ -276,7 +275,7 @@ class RetrofitManager {
                                         updatedAt = resultItemObject.get("updatedAt").asString,
                                         userId = resultItemObject.get("userId").asLong,
                                         userName = resultItemObject.get("userName").asString,
-                                        userProfileUrl = resultItemObject.get("userProfileUrl").asString
+                                        userProfileUrl = resultItemObject.get("useProfileUrl").asString
                                     )
                                     parsedDataArray.add(community)
                                 }
@@ -441,6 +440,13 @@ class RetrofitManager {
             }
         })
     }
-}
 
+    //API14 특정 유저 조회
+    fun showDetailUser(auth: String?, userId: Long?, completion:(RESPONSE_STATE, UserProfile?) -> Unit){
+        var au = auth.let{it}?:""
+        var userId = userId.let{it}?:-1
+        Log.d(TAG, "showDetailUser: RetrofitManager - in API")
+
+    }
+}
 
