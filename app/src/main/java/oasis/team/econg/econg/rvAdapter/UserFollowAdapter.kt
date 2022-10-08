@@ -15,6 +15,8 @@ import oasis.team.econg.econg.utils.loadImageSetView
 class UserFollowAdapter(val context: Context?) : RecyclerView.Adapter<UserFollowAdapter.UserFollowHolder>() {
     var listData = mutableListOf<User>()
     var itemListener: UserFollowAdapter.OnItemClickListener? = null
+    var bfl : BtnFollowListener? = null
+    var bul : BtnUnfollowListener? = null
     private val storage = Firebase.storage(Constants.ECONG_URL)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserFollowHolder {
@@ -50,19 +52,34 @@ class UserFollowAdapter(val context: Context?) : RecyclerView.Adapter<UserFollow
             binding.userName.text = data.nickName
 
             binding.btnFollow.setOnClickListener {
+                bfl!!.follow(data.userId)
                 binding.btnFollow.visibility = View.GONE
                 binding.btnUnfollow.visibility = View.VISIBLE
             }
 
             binding.btnUnfollow.setOnClickListener {
+                bul!!.unfollow(data.userId)
                 binding.btnUnfollow.visibility = View.GONE
                 binding.btnFollow.visibility = View.VISIBLE
             }
         }
     }
 
+    fun setBtnFollowListener(li: BtnFollowListener){
+        bfl = li
+    }
+    fun setBtnUnfollowListener(li: BtnUnfollowListener){
+        bul = li
+    }
     interface OnItemClickListener{
         fun onClicked(id: String)
     }
 
+    interface BtnFollowListener{
+        fun follow(userId: Long)
+    }
+
+    interface BtnUnfollowListener{
+        fun unfollow(userId: Long)
+    }
 }

@@ -19,3 +19,10 @@ data class UserProfile(
     val myProfile: Boolean,
     val isFollow: Boolean
 )
+data class UserForFollow(
+    val userId: Long,
+    val userName: String,
+    val profileUrl: String,
+    val follow: Boolean,
+    val myProfile: Boolean
+)

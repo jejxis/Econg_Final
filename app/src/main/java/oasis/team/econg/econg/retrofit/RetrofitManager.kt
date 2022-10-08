@@ -601,6 +601,92 @@ class RetrofitManager {
         })
     }
 
+    fun getUserOpenedProjects(auth: String?, userId: Long?, completion: (RESPONSE_STATE, ArrayList<Project>?) -> Unit){
+        var au = auth.let{it}?:""
+        var userId = userId.let{it}?: -1
+
+        val call = iRetrofit?.getUserOpenedProjects(auth = au, userId= userId).let{it}?:return
+
+        call.enqueue(object: retrofit2.Callback<JsonElement>{
+
+            override fun onFailure(call: Call<JsonElement>, t: Throwable) {
+                Log.d(TAG, "RetrofitManager - onFailure() called/ t: $t")
+                completion(RESPONSE_STATE.FAIL, null)
+            }
+
+            override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
+                Log.d(TAG, "RetrofitManager - onResponse() called/ response: ${response.raw()}")
+
+                when(response.code()){
+                    200 ->{
+                        response.body()?.let{
+                            var parsedDataArray = ArrayList<Project>()
+                            val body = it.asJsonObject.get("result").asJsonArray
+
+                            Log.d(TAG, "getUserOpenedProject: RetrofitManager - onResponse() called")
+
+                            body.forEach{   resultItem ->
+                                val project = convertJsonElementToProject(resultItem)
+                                parsedDataArray.add(project)
+                            }
+                            completion(RESPONSE_STATE.OKAY, parsedDataArray)
+                        }
+                    }
+                }
+            }
+
+        })
+    }
+
+    //API16 내 팔로잉
+    fun getMyFollowings(auth: String?, completion: (RESPONSE_STATE, ArrayList<UserForFollow>?) -> Unit){
+        var au = auth.let{it}?:""
+        val call = iRetrofit?.getMyFollowings(auth = au).let{it}?:return
+
+        call.enqueue(object: retrofit2.Callback<JsonElement>{
+            override fun onFailure(call: Call<JsonElement>, t: Throwable) {
+                Log.d(TAG, "RetrofitManager: getMyFollowings - onFailure() called/ t: $t")
+                completion(RESPONSE_STATE.FAIL, null)
+            }
+
+            override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
+                Log.d(TAG, "RetrofitManager: getMyFollowings - onResponse() called/ response: ${response.raw()}")
+
+                when(response.code()){
+                    200 ->{
+                        response.body()?.let{
+                            val parsedDataArray = ArrayList<UserForFollow>()
+                            val body = it.asJsonObject.get("result").asJsonArray
+                            body.forEach { resultItem ->
+                                val uff = convertJsonElementToUserForFollow(resultItem)
+                                parsedDataArray.add(uff)
+                            }
+                        }
+                    }
+                }
+            }
+        })
+    }
+
+    fun convertJsonElementToUserForFollow(element: JsonElement): UserForFollow{
+        val  resultItemObject = element.asJsonObject
+        val userId = resultItemObject.get("userId").asLong
+        val userName = resultItemObject.get("userName").asString
+        val profileUrl = resultItemObject.get("profileUrl").asString
+        val follow = resultItemObject.get("follow").asBoolean
+        val myProfile = resultItemObject.get("myProfile").asBoolean
+
+        val uff = UserForFollow(
+            userId,
+            userName,
+            profileUrl,
+            follow,
+            myProfile
+        )
+
+        return uff
+    }
+
     //API 20
     fun getMyCommunites(auth:String?, completion: (RESPONSE_STATE, ArrayList<MyCommunity>?) -> Unit){
         var au = auth.let{it}?:""
@@ -644,45 +730,5 @@ class RetrofitManager {
             }
         })
     }
-
-
-        fun getUserOpenedProjects(auth: String?, userId: Long?, completion: (RESPONSE_STATE, ArrayList<Project>?) -> Unit){
-        var au = auth.let{it}?:""
-        var userId = userId.let{it}?: -1
-
-        val call = iRetrofit?.getUserOpenedProjects(auth = au, userId= userId).let{it}?:return
-
-        call.enqueue(object: retrofit2.Callback<JsonElement>{
-
-            override fun onFailure(call: Call<JsonElement>, t: Throwable) {
-                Log.d(TAG, "RetrofitManager - onFailure() called/ t: $t")
-                completion(RESPONSE_STATE.FAIL, null)
-            }
-
-            override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
-                Log.d(TAG, "RetrofitManager - onResponse() called/ response: ${response.raw()}")
-
-                when(response.code()){
-                    200 ->{
-                        response.body()?.let{
-                            var parsedDataArray = ArrayList<Project>()
-                            val body = it.asJsonObject.get("result").asJsonArray
-
-                            Log.d(TAG, "getUserOpenedProject: RetrofitManager - onResponse() called")
-
-                            body.forEach{   resultItem ->
-                                val project = convertJsonElementToProject(resultItem)
-                                parsedDataArray.add(project)
-                            }
-                            completion(RESPONSE_STATE.OKAY, parsedDataArray)
-                        }
-                    }
-                }
-            }
-
-        })
-    }
-
-
 }
 

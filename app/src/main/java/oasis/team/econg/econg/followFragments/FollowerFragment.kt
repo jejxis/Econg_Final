@@ -3,6 +3,7 @@ package oasis.team.econg.econg.followFragments
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +15,11 @@ import oasis.team.econg.econg.UserFollowActivity
 import oasis.team.econg.econg.data.User
 import oasis.team.econg.econg.databinding.FragmentFollowerBinding
 import oasis.team.econg.econg.imageSlide.ImageSlideFragment
+import oasis.team.econg.econg.retrofit.RetrofitManager
 import oasis.team.econg.econg.rvAdapter.UserFollowAdapter
+import oasis.team.econg.econg.utils.API
+import oasis.team.econg.econg.utils.Constants
+import oasis.team.econg.econg.utils.RESPONSE_STATE
 
 class FollowerFragment : Fragment() {
 
@@ -47,6 +52,8 @@ class FollowerFragment : Fragment() {
 
         loadFollowerList()
         followerAdapter.setClickListener(onClickedUserItem)
+        followerAdapter.setBtnFollowListener(btnFollowListener)
+        followerAdapter.setBtnUnfollowListener(btnUnfollowListener)
 
         return binding.root
     }
@@ -72,6 +79,38 @@ class FollowerFragment : Fragment() {
             var intent = Intent(context, DetailCompanyActivity::class.java)
             intent.putExtra("id", id)
             startActivity(intent)
+        }
+    }
+
+    private val btnFollowListener = object: UserFollowAdapter.BtnFollowListener{
+        override fun follow(userId: Long) {
+            RetrofitManager.instance.pushFollow(auth = API.HEADER_TOKEN, userId= userId, completion = {
+                    responseState, responseBody->
+                when(responseState){
+                    RESPONSE_STATE.OKAY->{
+                        Log.d(Constants.TAG, "follow - success: $responseBody")
+                    }
+                    RESPONSE_STATE.FAIL->{
+                        Log.d(Constants.TAG, "follow - fail: $responseBody")
+                    }
+                }
+            })
+        }
+    }
+
+    private val btnUnfollowListener = object: UserFollowAdapter.BtnUnfollowListener{
+        override fun unfollow(userId: Long) {
+            RetrofitManager.instance.pushFollow(auth = API.HEADER_TOKEN, userId= userId, completion = {
+                    responseState, responseBody->
+                when(responseState){
+                    RESPONSE_STATE.OKAY->{
+                        Log.d(Constants.TAG, "unfollow - success: $responseBody")
+                    }
+                    RESPONSE_STATE.FAIL->{
+                        Log.d(Constants.TAG, "unfollow - fail: $responseBody")
+                    }
+                }
+            })
         }
     }
 }
