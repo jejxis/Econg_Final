@@ -601,7 +601,52 @@ class RetrofitManager {
         })
     }
 
-    fun getUserOpenedProjects(auth: String?, userId: Long?, completion: (RESPONSE_STATE, ArrayList<Project>?) -> Unit){
+    //API 20
+    fun getMyCommunites(auth:String?, completion: (RESPONSE_STATE, ArrayList<MyCommunity>?) -> Unit){
+        var au = auth.let{it}?:""
+
+        val call = iRetrofit?.getMyCommunities(auth = au).let{it}?:return
+
+        call.enqueue(object :retrofit2.Callback<JsonElement>{
+            override fun onFailure(call: Call<JsonElement>, t: Throwable) {
+                Log.d(TAG, "MycommunityList - onFailure() called/ t: $t")
+                completion(RESPONSE_STATE.FAIL, null)
+            }
+
+            override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
+                Log.d(TAG, "MycommunityList - onResponse() called/ response: ${response.raw()}")
+                when(response.code()){
+                    200 ->{
+                        response.body()?.let{
+                            var parsedDataArray = ArrayList<MyCommunity>()
+                            val body = it.asJsonObject.get("result").asJsonArray
+                            Log.d(TAG, "MycommunityList: RetrofitManager - onResponse() called")
+                            if(body.size() > 0){
+                                body.forEach{   resultItem ->
+                                    val resultItemObject = resultItem.asJsonObject
+                                    val community = MyCommunity(
+                                        id = resultItemObject.get("id").asLong,
+                                        content = resultItemObject.get("content").asString,
+                                        updatedAt = resultItemObject.get("updatedAt").asString,
+                                        userId = resultItemObject.get("userId").asLong,
+                                        userName = resultItemObject.get("userName").asString,
+                                        userProfileUrl = resultItemObject.get("useProfileUrl").asString,
+                                        projectId = resultItemObject.get("projectId").asLong,
+                                        projectName = resultItemObject.get("projectName").asString
+                                    )
+                                    parsedDataArray.add(community)
+                                }
+                            }
+                            completion(RESPONSE_STATE.OKAY, parsedDataArray)
+                        }
+                    }
+                }
+            }
+        })
+    }
+
+
+        fun getUserOpenedProjects(auth: String?, userId: Long?, completion: (RESPONSE_STATE, ArrayList<Project>?) -> Unit){
         var au = auth.let{it}?:""
         var userId = userId.let{it}?: -1
 

@@ -7,7 +7,11 @@ import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import oasis.team.econg.econg.data.MyCommunity
 import oasis.team.econg.econg.databinding.ActivityMyCommunityBinding
+import oasis.team.econg.econg.retrofit.RetrofitManager
 import oasis.team.econg.econg.rvAdapter.MyCommunityAdapter
+import oasis.team.econg.econg.utils.API
+import oasis.team.econg.econg.utils.Constants
+import oasis.team.econg.econg.utils.RESPONSE_STATE
 import java.time.LocalDateTime
 
 class MyCommunityActivity : AppCompatActivity() {
@@ -36,24 +40,24 @@ class MyCommunityActivity : AppCompatActivity() {
     }
 
     private fun loadData() {//신규 프로젝트 데이터
-        for(i: Int in 1..20){
-            myCommunity!!.add(
-                MyCommunity(
-                    id = i.toLong(),
-                    content = "Content$i",
-                    updatedAt = LocalDateTime.now(),
-                    userProfileUrl = "gs://econg-7e3f6.appspot.com/bud.png",
-                    userid = 1,
-                    userName = "나잖아?",
-                    projectId = i.toLong(),
-                    projectName = "Project$i"
-                )
-            )
-        }
 
-        communityAdapter.setData(myCommunity)
-        binding.communityList.layoutManager = LinearLayoutManager(this,
-            LinearLayoutManager.VERTICAL,false)
-        binding.communityList.adapter = communityAdapter
+        RetrofitManager.instance.getMyCommunites(auth = API.HEADER_TOKEN, completion = {
+                responseState, responseBody ->
+            when(responseState){
+                RESPONSE_STATE.OKAY ->{
+                    Log.d(Constants.TAG, "loadData: MyCommunityList: api call Success: ${responseBody.toString()}")
+                    myCommunity = responseBody
+
+                    communityAdapter.setData(myCommunity)
+                    binding.communityList.layoutManager = LinearLayoutManager(this,
+                        LinearLayoutManager.VERTICAL,false)
+                    binding.communityList.adapter = communityAdapter
+                }
+                RESPONSE_STATE.FAIL -> {
+                    Log.d(Constants.TAG, "loadData: MyCommunityList: api call fail : $responseBody")
+                }
+            }
+        })
+
     }
 }
