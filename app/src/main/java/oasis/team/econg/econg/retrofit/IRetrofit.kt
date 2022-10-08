@@ -30,6 +30,12 @@ interface IRetrofit {
     @POST("/app/favorites")
     fun postFavorite(@Header("Authorization") auth: String, @Body jsonparams: PostFavorite): Call<JsonElement>
 
+    //API8 프로젝트 커뮤니티 등록
+    @POST("/app/projects/{projectId}/communities")
+    fun postProjectCommunity(@Header("Authorization") auth: String,
+                             @Path("projectId") projectId: Long, @Body content: String):Call<JsonElement>
+
+    //API9 프로젝트 커뮤니티 조회
     @GET("/app/projects/{projectId}/communities")
     fun showProjectCommunities(@Header("Authorization") auth: String, @Path("projectId") projectId: Long):Call<JsonElement>
     

@@ -246,6 +246,34 @@ class RetrofitManager {
         return project
     }
 
+    //API8 프로젝트 커뮤니티 등록
+    fun postProjectCommunity(auth: String?, projectId: Long?, content: String?, completion: (RESPONSE_STATE, String?) -> Unit){
+        var au = auth.let{it}?:""
+        var projectId = projectId.let{it}?: -1
+        var content = content.let{it}?:""
+
+        val call = iRetrofit?.postProjectCommunity(auth = au, projectId = projectId, content = content).let{it}?:return
+
+        call.enqueue(object : retrofit2.Callback<JsonElement>{
+            override fun onFailure(call: Call<JsonElement>, t: Throwable) {
+                Log.d(TAG, "DetailProject: postCommunity - onFailure() called/ t: $t")
+                completion(RESPONSE_STATE.FAIL, null)
+            }
+
+            override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
+                Log.d(TAG, "DetailProject: postCommunity - onResponse() called/ response: ${response.raw()}")
+                when(response.code()){
+                    200 ->{
+                        response.body()?.let{
+                            val body = it.asJsonObject.get("result").asString
+                            completion(RESPONSE_STATE.OKAY, body)
+                        }
+                    }
+                }
+            }
+        })
+    }
+
     //API9 프로젝트 커뮤니티 조회
     fun showProjectCommunities(auth: String?, projectId: Long?, completion: (RESPONSE_STATE, ArrayList<ProjectCommunity>?) -> Unit) {
         var au = auth.let{it}?:""
