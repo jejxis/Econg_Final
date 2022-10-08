@@ -140,17 +140,25 @@ class HomeFragment(/*context: Context*/) : Fragment() {
     }
 
     private fun loadNewCompany(){//신규 기업 데이터
-        for(i: Int in 1..5){
-            newUser!!.add(User(
-                i.toLong(),
-                "사용자$i",
-                null,
-                "gs://econg-7e3f6.appspot.com/bud.png",
-                true))
-        }
-        newCompanyAdapter.setData(newUser)
-        binding.newCompany.layoutManager = LinearLayoutManager(requireActivity(),LinearLayoutManager.HORIZONTAL,false)
-        binding.newCompany.adapter = newCompanyAdapter
+
+        RetrofitManager.instance.getRecentUsers(auth = API.HEADER_TOKEN, completion = {
+                responseState, responseBody ->
+            when(responseState){
+                RESPONSE_STATE.OKAY -> {
+                    Log.d(Constants.TAG, "UserList: api call success : ${responseBody.toString()}")
+                    newUser = responseBody
+                    newCompanyAdapter.setData(newUser)
+                    binding.newCompany.layoutManager = LinearLayoutManager(main,LinearLayoutManager.HORIZONTAL,false)
+                    binding.newCompany.adapter = newCompanyAdapter
+                }
+                RESPONSE_STATE.FAIL -> {
+//                    Toast.makeText(main, "api call error", Toast.LENGTH_SHORT).show()
+                    Log.d(Constants.TAG, "UserList: api call fail : $responseBody")
+                }
+            }
+        })
+
+
     }
 
     //이미지 슬라이드 어댑터

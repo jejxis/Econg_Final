@@ -355,6 +355,49 @@ class RetrofitManager {
             }
         })
     }
+
+    fun getRecentUsers(auth: String?, completion:(RESPONSE_STATE, ArrayList<User>?) -> Unit){
+        var au = auth.let{it}?:""
+
+        val call = iRetrofit?.getRecentUsers(auth = au).let{
+            it
+        }?: return
+
+        call.enqueue(object: retrofit2.Callback<JsonElement>{
+            override fun onFailure(call: Call<JsonElement>, t: Throwable) {
+                Log.d(TAG, "UserList: RetrofitManager - onFailure() called/ t: $t")
+                completion(RESPONSE_STATE.FAIL, null)
+            }
+
+            override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
+                Log.d(TAG, "UserList: RetrofitManager - onResponse() called/ response: ${response.raw()}")
+
+                when(response.code()){
+                    200 ->{
+                        response.body()?.let{
+                            var parsedDataArray = ArrayList<User>()
+                            val body = it.asJsonObject.get("result").asJsonArray
+
+                            Log.d(TAG, "UserList: RetrofitManager - onResponse() called")
+
+                            body.forEach{   resultItem ->
+                                val obj = resultItem.asJsonObject
+                                var desc = if(obj.get("description").isJsonNull)" " else obj.get("description").asString
+                                val user = User(obj.get("userId").asLong,
+                                                obj.get("nickName").asString,
+                                                desc,
+                                                obj.get("profileUrl").asString,
+                                                obj.get("authenticate").asBoolean
+                                                )
+                                parsedDataArray.add(user)
+                            }
+                            completion(RESPONSE_STATE.OKAY, parsedDataArray)
+                        }
+                    }
+                }
+            }
+        })
+    }
 }
 
 
