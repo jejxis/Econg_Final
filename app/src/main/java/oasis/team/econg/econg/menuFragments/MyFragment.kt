@@ -98,7 +98,7 @@ class MyFragment(/*context: Context*/) : Fragment() {
         storage.loadImageSetView(myProfile!!.profileUrl, binding.imgProfile)
         binding.userName.text = myProfile!!.nickName
         binding.followers.text = "팔로워 ${myProfile!!.followerNum}명"
-        binding.following.text = "팔로워 ${myProfile!!.followingNum}명"
+        binding.following.text = "팔로잉 ${myProfile!!.followingNum}명"
         binding.description.text = myProfile!!.description
     }
 }

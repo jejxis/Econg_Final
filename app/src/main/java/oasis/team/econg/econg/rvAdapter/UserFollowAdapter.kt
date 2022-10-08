@@ -52,7 +52,13 @@ class UserFollowAdapter(val context: Context?) : RecyclerView.Adapter<UserFollow
             storage.loadImageSetView(data.profileUrl, binding.imgProfile)
             binding.userName.text = data.userName
 
-
+            if(data.follow){
+                binding.btnFollow.visibility = View.GONE
+                binding.btnUnfollow.visibility = View.VISIBLE
+            }else{
+                binding.btnUnfollow.visibility = View.GONE
+                binding.btnFollow.visibility = View.VISIBLE
+            }
 
             binding.btnFollow.setOnClickListener {
                 bfl!!.follow(data.userId)
