@@ -78,25 +78,22 @@ class DetailCompanyActivity : AppCompatActivity() {
     }
 
     private fun loadCompanyProjectData() {
-        for(i: Int in 1..3){
-            projects!!.add(Project(
-                i.toLong(),
-                "프로젝트${i}",
-                "2022-08-25",
-                "2022-08-28",
-                20000000,
-                "gs://econg-7e3f6.appspot.com/bud.png",
-                "프로젝트${i}인데요",
-                false,
-                "사용자${i}",
-                "ONGOING",
-                75
-            ))
-        }
-
-        companyProjectAdapter.setData(projects)
-        binding.companyProjects.layoutManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
-        binding.companyProjects.adapter = companyProjectAdapter
+        RetrofitManager.instance.getUserOpenedProjects(auth = API.HEADER_TOKEN, userId = str.toLong(), completion = {
+                responseState, responseBody ->
+            when(responseState){
+                RESPONSE_STATE.OKAY -> {
+                    Log.d(Constants.TAG, "UserOpenedProjectList: api call success : ${responseBody.toString()}")
+                    projects = responseBody
+                    companyProjectAdapter.setData(projects)
+                    binding.companyProjects.layoutManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
+                    binding.companyProjects.adapter = companyProjectAdapter
+                }
+                RESPONSE_STATE.FAIL -> {
+//                    Toast.makeText(this, "api call error", Toast.LENGTH_SHORT).show()
+                    Log.d(Constants.TAG, "UserOpenedProjectList: api call fail : $responseBody")
+                }
+            }
+        })
     }
 
     private val onClickedProjectItem = object : ProjectAdapter.OnItemClickListener{
