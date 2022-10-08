@@ -5,15 +5,20 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import oasis.team.econg.econg.data.Project
 import oasis.team.econg.econg.data.UserProfile
 import oasis.team.econg.econg.databinding.ActivityDetailCompanyBinding
+import oasis.team.econg.econg.retrofit.RetrofitManager
 import oasis.team.econg.econg.rvAdapter.CompanyVerAdapter
 import oasis.team.econg.econg.rvAdapter.ProjectVerAdapter
+import oasis.team.econg.econg.utils.API
+import oasis.team.econg.econg.utils.Constants
 import oasis.team.econg.econg.utils.Constants.ECONG_URL
+import oasis.team.econg.econg.utils.RESPONSE_STATE
 import oasis.team.econg.econg.utils.loadImageSetView
 import oasis.team.econg.forui.rvAdapter.ProjectAdapter
 
@@ -23,7 +28,7 @@ class DetailCompanyActivity : AppCompatActivity() {
     var companyProjectAdapter = ProjectAdapter(this)//인기 프로젝트 어댑터
     var str = ""
     val storage = Firebase.storage(ECONG_URL)
-    lateinit var user: UserProfile
+    var user: UserProfile? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -34,7 +39,7 @@ class DetailCompanyActivity : AppCompatActivity() {
         }
 
         loadUserData()
-        setData()
+//        setData()
 
         binding.userCard.setOnClickListener {
             var intent = Intent(this@DetailCompanyActivity, UserFollowActivity::class.java)
@@ -55,17 +60,21 @@ class DetailCompanyActivity : AppCompatActivity() {
         loadCompanyProjectData()
         companyProjectAdapter.setClickListener(onClickedProjectItem)
     }
-    private fun loadUserData(){//API14 /app/profiles
-        user = UserProfile(
-            userId = str.toLong(),
-            nickName = "User${str}",
-            description = "저는 김치찌개를 좋아합니다.",
-            profileUrl = "gs://econg-7e3f6.appspot.com/bud.png",
-            authenticate = true,
-            followerNum = 5,
-            followingNum = 3,
-            myProfile = false
-        )
+    private fun loadUserData(){
+        RetrofitManager.instance.getUserProfile(auth = API.HEADER_TOKEN, userId = str.toLong(), completion = {
+                responseState, responseBody ->
+            when(responseState){
+                RESPONSE_STATE.OKAY -> {
+                    user = responseBody
+                    Log.d(Constants.TAG, "loadProjectInfo: $user")
+                    setData()
+                }
+                RESPONSE_STATE.FAIL -> {
+//                    Toast.makeText(this, "api call error", Toast.LENGTH_SHORT).show()
+                    Log.d(Constants.TAG, "UserProfile: api call fail : $responseBody")
+                }
+            }
+        })
     }
 
     private fun loadCompanyProjectData() {
@@ -101,11 +110,11 @@ class DetailCompanyActivity : AppCompatActivity() {
     }
 
     fun setData(){
-        binding.userName.text = user.nickName
-        if(user.authenticate) binding.authenticate.visibility = View.VISIBLE
-        storage.loadImageSetView(user.profileUrl, binding.imgProfile)
-        binding.followers.text = "팔로워 ${user.followerNum}명"
-        binding.following.text = "팔로잉 ${user.followingNum}명"
-        binding.description.text = user.description
+        binding.userName.text = user!!.nickName
+        if(user!!.authenticate) binding.authenticate.visibility = View.VISIBLE
+        storage.loadImageSetView(user!!.profileUrl, binding.imgProfile)
+        binding.followers.text = "팔로워 ${user!!.followerNum}명"
+        binding.following.text = "팔로잉 ${user!!.followingNum}명"
+        binding.description.text = user?.description
     }
 }

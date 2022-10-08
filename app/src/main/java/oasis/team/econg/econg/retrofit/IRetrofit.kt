@@ -41,10 +41,14 @@ interface IRetrofit {
     @POST("/app/orders/pay")
     fun payOrder(@Header("Authorization") auth: String, @Body param : OrderForPay): Call<JsonElement>
 
+    @GET("/app/recent-users")
+    fun getRecentUsers(@Header("Authorization") auth: String): Call<JsonElement>
+
     //API14 유저 정보
     @GET("/app/profiles")
     fun showDetailUser(@Header("Authorization") auth: String): Call<JsonElement>
 
-    @GET("/app/recent-users")
-    fun getRecentUsers(@Header("Authorization") auth: String): Call<JsonElement>
+    @GET("/app/profiles/{userId}")
+    fun getUserProfile(@Header("Authorization") auth: String, @Path("userId") userId:Long): Call<JsonElement>
+
 }
