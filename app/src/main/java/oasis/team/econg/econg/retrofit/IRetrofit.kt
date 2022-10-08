@@ -52,5 +52,7 @@ interface IRetrofit {
 
     //API14 유저 정보
     @GET("/app/profiles/{userId}")
-    fun showDetailUser(@Header("Authorization") auth: String, @Path("userId") userId: Long): Call<JsonElement>
+    fun getUserProfile(@Header("Authorization") auth: String, @Path("userId") userId:Long): Call<JsonElement>
+
+
 }

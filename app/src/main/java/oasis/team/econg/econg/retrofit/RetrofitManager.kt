@@ -467,6 +467,51 @@ class RetrofitManager {
                 }
             }
         })
+
+
+    }
+
+    fun getUserProfile(auth: String?, userId: Long?, completion: (RESPONSE_STATE, UserProfile?) -> Unit){
+        var au = auth.let{ it}?: ""
+        var userId = userId.let{it}?: -1
+        Log.d(TAG, "UserProfile: RetrofitManager - in API")
+        val call = iRetrofit?.getUserProfile(auth = au, userId = userId).let{
+            it
+        }?: return
+
+        call.enqueue(object : retrofit2.Callback<JsonElement>{
+            override fun onFailure(call: Call<JsonElement>, t: Throwable) {
+                Log.d(TAG, "UserProfile: RetrofitManager - onFailure() called/ t: $t")
+                completion(RESPONSE_STATE.FAIL, null)
+            }
+
+            override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
+                Log.d(TAG, "UserProfile: RetrofitManager - onResponse() called/ response: ${response.raw()}")
+
+                when(response.code()){
+                    200 -> {
+                        response.body()?.let{
+                            val body = it.asJsonObject.get("result").asJsonObject
+                            var desc = if(body.get("description").isJsonNull) " " else body.get("description").asString
+                            val userProfile = UserProfile(
+                                body.get("userId").asLong,
+                                body.get("nickName").asString,
+                                desc,
+                                body.get("profileUrl").asString,
+                                body.get("authenticate").asBoolean,
+                                body.get("followingNum").asInt,
+                                body.get("followerNum").asInt,
+                                body.get("myProfile").asBoolean
+                            )
+
+                            completion(RESPONSE_STATE.OKAY, userProfile)
+                            Log.d(TAG, "onResponse: $userProfile")
+                        }
+                    }
+                }
+            }
+
+        })
     }
 
     //API14 특정 유저 조회
