@@ -28,16 +28,15 @@
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/imgProfile"
-                        android:layout_margin="15dp"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_gravity="center"
+                        android:layout_margin="15dp"
                         android:background="@color/transparent"
                         android:src="@drawable/ic_baseline_favorite_pink_24"
                         app:civ_border_color="#000000"
                         app:civ_border_overlay="true"
                         app:civ_border_width="0dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -52,6 +51,15 @@
                         app:layout_constraintStart_toEndOf="@+id/imgProfile"
                         app:layout_constraintTop_toTopOf="parent"
                         android:textSize="15dp"/>
+                    <ImageView
+                        android:id="@+id/authenticate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        app:layout_constraintStart_toEndOf="@+id/userName"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_baseline_eco_24"
+                        android:visibility="invisible"/>
 
                     <ImageButton
                         android:id="@+id/btnEdit"
@@ -62,6 +70,48 @@
                         android:src="@drawable/ic_baseline_edit_24"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/followers"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="20dp"
+                        android:text="팔로워 n명"
+                        android:textSize="11dp"
+                        app:layout_constraintStart_toEndOf="@+id/imgProfile"
+                        app:layout_constraintTop_toBottomOf="@+id/userName" />
+
+                    <TextView
+                        android:id="@+id/textView5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text=" | "
+                        android:textSize="11dp"
+                        app:layout_constraintStart_toEndOf="@+id/followers"
+                        app:layout_constraintTop_toBottomOf="@+id/userName" />
+
+                    <TextView
+                        android:id="@+id/following"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="팔로잉 n명"
+                        android:textSize="11dp"
+                        app:layout_constraintStart_toEndOf="@+id/textView5"
+                        app:layout_constraintTop_toBottomOf="@+id/userName" />
+
+                    <TextView
+                        android:id="@+id/description"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="18dp"
+                        android:text="저는 김치찌개를 좋아합니다."
+                        android:textSize="12dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/imgProfile" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
