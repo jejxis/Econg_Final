@@ -598,7 +598,6 @@ class RetrofitManager {
                     }
                 }
             }
-
         })
     }
 
