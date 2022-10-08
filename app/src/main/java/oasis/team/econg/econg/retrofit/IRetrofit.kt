@@ -30,6 +30,12 @@ interface IRetrofit {
     @POST("/app/favorites")
     fun postFavorite(@Header("Authorization") auth: String, @Body jsonparams: PostFavorite): Call<JsonElement>
 
+    //API8 프로젝트 커뮤니티 등록
+    @POST("/app/projects/{projectId}/communities")
+    fun postProjectCommunity(@Header("Authorization") auth: String,
+                             @Path("projectId") projectId: Long, @Body content: String):Call<JsonElement>
+
+    //API9 프로젝트 커뮤니티 조회
     @GET("/app/projects/{projectId}/communities")
     fun showProjectCommunities(@Header("Authorization") auth: String, @Path("projectId") projectId: Long):Call<JsonElement>
     
@@ -45,10 +51,8 @@ interface IRetrofit {
     fun getRecentUsers(@Header("Authorization") auth: String): Call<JsonElement>
 
     //API14 유저 정보
-    @GET("/app/profiles")
-    fun showDetailUser(@Header("Authorization") auth: String): Call<JsonElement>
-
     @GET("/app/profiles/{userId}")
     fun getUserProfile(@Header("Authorization") auth: String, @Path("userId") userId:Long): Call<JsonElement>
+
 
 }

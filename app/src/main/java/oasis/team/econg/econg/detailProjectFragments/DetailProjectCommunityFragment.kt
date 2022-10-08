@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import oasis.team.econg.econg.DetailProjectActivity
 import oasis.team.econg.econg.R
@@ -61,15 +62,18 @@ class DetailProjectCommunityFragment : Fragment() {
     }
 
     private fun uploadCommunity() {//API8 :/projectId/communities
-        /*projectCommunity!!.add(
-            ProjectCommunity(
-            id =  200,
-            content = binding.replyPlace.text.toString(),
-            userId = myId!!.toLong(), -> myId..?
-            userName = "content200",
-            userProfileUrl = "gs://econg-7e3f6.appspot.com/bud.png"
-            )
-        )*/
+        RetrofitManager.instance.postProjectCommunity(auth = API.HEADER_TOKEN, projectId = projectId!!.toLong(),content = binding.replyPlace.text.toString(), completion = {
+            responseState, responseBody ->
+            when(responseState){
+                RESPONSE_STATE.OKAY ->{
+                    loadData()
+                }
+                RESPONSE_STATE.FAIL ->{
+                    Log.d(TAG, "uploadCommunity: $responseBody")
+                    Toast.makeText(detailProject, "결제 요청에 실패했습니다.", Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
 
         setListData()
     }
@@ -90,7 +94,7 @@ class DetailProjectCommunityFragment : Fragment() {
             }
         })
 
-        setListData()
+        //setListData()
     }
 
     private fun setListData(){
