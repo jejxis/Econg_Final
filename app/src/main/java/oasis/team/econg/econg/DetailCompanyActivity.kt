@@ -80,6 +80,7 @@ class DetailCompanyActivity : AppCompatActivity() {
                 "프로젝트${i}인데요",
                 false,
                 "사용자${i}",
+                "ONGOING",
                 75
             ))
         }

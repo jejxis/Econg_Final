@@ -24,6 +24,7 @@ class RetrofitManager {
     fun openProject(auth: String?, param: ProjectForOpen, completion: (RESPONSE_STATE, String?) -> Unit){
         var au = auth.let{it}?:""
         val call = iRetrofit?.openProject(auth = au, param = param).let{it}?:return
+        Log.d(TAG, "OpenProject: RetrofitManager - In API")
 
         call.enqueue(object: retrofit2.Callback<JsonElement>{
             override fun onFailure(call: Call<JsonElement>, t: Throwable) {
@@ -159,6 +160,7 @@ class RetrofitManager {
                             val userId = body.get("userId").asLong
                             val userName = body.get("userName").asString
                             val userAuthenticate = body.get("userAuthenticate").asBoolean
+                            val status = body.get("status").asString
 
                             val imageList = body.get("projectImgList").asJsonArray
 
@@ -201,7 +203,7 @@ class RetrofitManager {
                                 goalAmount = goalAmount, totalAmount = totalAmount, achievedRate = achievedRate, summary = summary,
                                 content = content, thumbnail = thumbnail, projectAuthenticate = projectAuthenticate,
                                 favorite = favorite, userId = userId, userName = userName, userAuthenticate = userAuthenticate,
-                                projectImgList = projectImgList, rewardList = rewardList
+                                projectImgList = projectImgList, rewardList = rewardList, status = status
                             )
 
                             completion(RESPONSE_STATE.OKAY, detailProject)
@@ -226,6 +228,7 @@ class RetrofitManager {
         val thumbnail = resultItemObject.get("thumbnail").asString
         val authenticate = resultItemObject.get("authenticate").asBoolean
         val user = resultItemObject.get("user").asString
+        val status = resultItemObject.get("status").asString
 
         val project = Project(
             id = id,
@@ -237,7 +240,8 @@ class RetrofitManager {
             summary = summary,
             thumbnail = thumbnail,
             authenticate = authenticate,
-            user = user
+            user = user,
+            status = status
         )
         return project
     }

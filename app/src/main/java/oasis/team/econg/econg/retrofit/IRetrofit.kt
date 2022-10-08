@@ -10,6 +10,7 @@ interface IRetrofit {
 
     //API3 프로젝트 등록
     @POST("/app/projects")
+    @Headers("content-type: application/json")
     fun openProject(@Header("Authorization") auth: String, @Body param: ProjectForOpen): Call<JsonElement>
 
     //API4 상품 조회

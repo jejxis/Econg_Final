@@ -38,20 +38,6 @@ import oasis.team.econg.econg.utils.Constants.ECONG_URL
 import oasis.team.econg.econg.utils.Constants.TAG
 import oasis.team.econg.econg.utils.RESPONSE_STATE
 
-
-/*ProjectDetail(//프로젝트 상세화면에서 사용할 거.
-val projectId: Long,
-val title: String,
-val openingDate: String,
-val closingDate: String,
-val goalAmount: Int,
-val totalAmount: Int,
-val summary: String,
-val supporter: Int,
-val status: Int,
-val userid: Long,
-val thumbnail: Int,//나중에 String 으로 고치기.
-val achievedRate: Double)*/
 class OpenProjectActivity : AppCompatActivity() {
     val binding by lazy { ActivityOpenProjectBinding.inflate(layoutInflater) }
     private val storage = Firebase.storage(ECONG_URL)
@@ -208,18 +194,20 @@ class OpenProjectActivity : AppCompatActivity() {
     }
 
     fun processDatePickerOpenResult(year: Int, month: Int, day: Int) {
-        val month_string = Integer.toString(month + 1)
+        var month_string = Integer.toString(month + 1)
         val day_string = Integer.toString(day)
         val year_string = Integer.toString(year)
-        val dateMessage = "$month_string/$day_string/$year_string"
+        if(month < 9) month_string = "0$month_string"
+        val dateMessage = "$year_string-$month_string-$day_string"
         binding.openingDate.text = dateMessage
     }
 
     fun processDatePickerCloseResult(year: Int, month: Int, day: Int) {
-        val month_string = Integer.toString(month + 1)
+        var month_string = Integer.toString(month + 1)
         val day_string = Integer.toString(day)
         val year_string = Integer.toString(year)
-        val dateMessage = "$month_string/$day_string/$year_string"
+        if(month < 9) month_string = "0$month_string"
+        val dateMessage = "$year_string-$month_string-$day_string"
         binding.closingDate.text = dateMessage
     }
 
@@ -232,18 +220,20 @@ class OpenProjectActivity : AppCompatActivity() {
 
     fun makeProject(): ProjectForOpen{
         for(img in imgDataList!!){
-            imgUrlList.add(ImageUrl(img.str))
+            imgUrlList.add(ImageUrl(img.str))//add(ImageUrl(img.str))
         }
-       return ProjectForOpen(
-                title = binding.name.toString(),
-                openingDate = binding.openingDate.toString(),
-                closingDate = binding.closingDate.toString(),
+        val project =  ProjectForOpen(
+                title = binding.name.text.toString(),
+                openingDate = binding.openingDate.text.toString(),
+                closingDate = binding.closingDate.text.toString(),
                 goalAmount = binding.goalAmount.text.toString().toInt(),
-                summary = binding.summary.toString(),
+                summary = binding.summary.text.toString(),
                 thumbnail = toThumbnail,
-                content = binding.story.toString(),
+                content = binding.story.text.toString(),
                 projectImgList = imgUrlList as ArrayList<ImageUrl>,
                 rewardList = rewards as ArrayList<PreReward>
             )
+        Log.d(TAG, "makeProject: $project")
+        return project
     }
 }

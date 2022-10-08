@@ -179,14 +179,26 @@
                     android:text="2022.08.25"
                     android:textColor="@color/hintTextColor"
                     android:textSize="14dp" />
+
+                <TextView
+                    android:id="@+id/status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_weight="1"
+                    android:text="펀딩 상태"
+                    android:textColor="@color/selected"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
             </LinearLayout>
+
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/goToDetailCompany"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:background="#E1E1E1"
                 android:layout_marginTop="15dp"
-                android:id="@+id/goToDetailCompany">
+                android:background="#E1E1E1"
+                android:padding="5dp">
 
                 <TextView
                     android:id="@+id/user"

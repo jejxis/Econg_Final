@@ -88,8 +88,9 @@ class EditProjectActivity : AppCompatActivity() {
                 PreReward(
                     "리워드$i",
                     5000,
-                    "연필 하나, 볼펜 하나",
-                    100
+                    100,
+                    "연필 하나, 볼펜 하나"
+
                 )
             )
         }

@@ -2,6 +2,7 @@ package oasis.team.econg.econg
 
 
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
@@ -80,6 +81,10 @@ class DetailProjectActivity : AppCompatActivity() {
         }
 
         binding.btnFund.setOnClickListener {
+            if(project!!.status != "ONGOING"){
+                Toast.makeText(this@DetailProjectActivity, "후원할 수 없는 프로젝트입니다.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
             val dialog = FundDialog(this, project!!.rewardList, project!!.id)
             dialog.isCancelable = true
             dialog.show(this.supportFragmentManager, "FundDialog")
@@ -148,6 +153,12 @@ class DetailProjectActivity : AppCompatActivity() {
         binding.totalAmount.text = project!!.totalAmount.toString()
         binding.achievedRate.text = project!!.achievedRate.toString()
         binding.achievedProgress.progress = project!!.achievedRate
+        binding.status.text = project!!.status
+
+        if(project!!.status != "ONGOING"){
+            binding.btnFund.background = resources.getDrawable(R.drawable.button, null)
+            binding.btnFund.setTextColor(Color.parseColor("#787878"))
+        }
 
         if(project!!.projectAuthenticate){
             binding.projectEcoAuth.visibility = View.VISIBLE

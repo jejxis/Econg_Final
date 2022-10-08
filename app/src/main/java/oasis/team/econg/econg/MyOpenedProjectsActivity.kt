@@ -38,6 +38,7 @@ class MyOpenedProjectsActivity : AppCompatActivity() {
                 "프로젝트${i}인데요",
                 true,
                 "사용자${i}",
+                "ONGOING",
                 75
             ))
         }

@@ -16,6 +16,7 @@ data class Project(//프로젝트 리사이클러뷰에서 사용
     val summary: String,
     val authenticate: Boolean,
     val user: String,
+    val status: String,
     val achievedRate: Int
     )
 data class ProjectDetail(//프로젝트 상세화면에서 사용할 거.
@@ -35,7 +36,8 @@ data class ProjectDetail(//프로젝트 상세화면에서 사용할 거.
     val userName: String,
     val userAuthenticate: Boolean,
     val projectImgList: ArrayList<ProjectImage>,
-    val rewardList: ArrayList<SimpleReward>
+    val rewardList: ArrayList<SimpleReward>,
+    val status: String
 )
 
 data class ProjectForOpen(
