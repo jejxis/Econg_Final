@@ -700,6 +700,70 @@ class RetrofitManager {
         })
     }
 
+    //API18 특정 팔로잉
+    fun getUserFollowings(auth: String?, userId: Long?, completion: (RESPONSE_STATE, ArrayList<UserForFollow>?) -> Unit){
+        var au = auth.let{it}?:""
+        var ui = userId.let{it}?:-1
+        val call = iRetrofit?.getUserFollowings(auth = au, userId = ui).let{it}?:return
+
+        call.enqueue(object: retrofit2.Callback<JsonElement>{
+            override fun onFailure(call: Call<JsonElement>, t: Throwable) {
+                Log.d(TAG, "RetrofitManager: getMyFollowings - onFailure() called/ t: $t")
+                completion(RESPONSE_STATE.FAIL, null)
+            }
+
+            override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
+                Log.d(TAG, "RetrofitManager: getMyFollowings - onResponse() called/ response: ${response.raw()}")
+
+                when(response.code()){
+                    200 ->{
+                        response.body()?.let{
+                            val parsedDataArray = ArrayList<UserForFollow>()
+                            val body = it.asJsonObject.get("result").asJsonArray
+                            body.forEach { resultItem ->
+                                val uff = convertJsonElementToUserForFollow(resultItem)
+                                parsedDataArray.add(uff)
+                            }
+                            completion(RESPONSE_STATE.OKAY, parsedDataArray)
+                        }
+                    }
+                }
+            }
+        })
+    }
+
+    //API19 특정 유저 팔로워
+    fun getUserFollowers(auth: String?, userId: Long?,completion: (RESPONSE_STATE, ArrayList<UserForFollow>?) -> Unit){
+        var au = auth.let{it}?:""
+        var ui = userId.let{it}?:-1
+        val call = iRetrofit?.getUserFollowers(auth = au, userId = ui).let{it}?:return
+
+        call.enqueue(object: retrofit2.Callback<JsonElement>{
+            override fun onFailure(call: Call<JsonElement>, t: Throwable) {
+                Log.d(TAG, "RetrofitManager: getUserFollowers - onFailure() called/ t: $t")
+                completion(RESPONSE_STATE.FAIL, null)
+            }
+
+            override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
+                Log.d(TAG, "RetrofitManager: getUserFollowers - onResponse() called/ response: ${response.raw()}")
+
+                when(response.code()){
+                    200 ->{
+                        response.body()?.let{
+                            val parsedDataArray = ArrayList<UserForFollow>()
+                            val body = it.asJsonObject.get("result").asJsonArray
+                            body.forEach { resultItem ->
+                                val uff = convertJsonElementToUserForFollow(resultItem)
+                                parsedDataArray.add(uff)
+                            }
+                            completion(RESPONSE_STATE.OKAY, parsedDataArray)
+                        }
+                    }
+                }
+            }
+        })
+    }
+
     fun convertJsonElementToUserForFollow(element: JsonElement): UserForFollow{
         val  resultItemObject = element.asJsonObject
         val userId = resultItemObject.get("userId").asLong

@@ -68,13 +68,21 @@ interface IRetrofit {
     fun getMyCommunities(@Header("Authorization") auth: String): Call<JsonElement>
 
 
-    //API16 내 팔로윙
+    //API16 내 팔로잉
     @GET("/app/followings")
     fun getMyFollowings(@Header("Authorization") auth: String): Call<JsonElement>
 
     //API17 내 팔로워
     @GET("/app/followers")
     fun getMyFollowers(@Header("Authorization") auth: String): Call<JsonElement>
+
+    //API18 특정 유저 팔로잉
+    @GET("/app/followings/{userId}")
+    fun getUserFollowings(@Header("Authorization") auth: String, @Path("userId")userId: Long): Call<JsonElement>
+
+    //API19 특정 유저 팔로워
+    @GET("/app/followers/{userId}")
+    fun getUserFollowers(@Header("Authorization") auth: String, @Path("userId")userId: Long): Call<JsonElement>
 
     @GET("/app/users/post-projects/{userId}")
     fun getUserOpenedProjects(@Header("Authorization") auth: String,  @Path("userId") userId:Long): Call<JsonElement>
