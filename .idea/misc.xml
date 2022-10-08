@@ -4,35 +4,10 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/AndroidStudioProjects/Econg_Final/app/src/main/res/layout/activity_company_list.xml" value="0.21965579710144928" />
-        <entry key="..\:/AndroidStudioProjects/Econg_Final/app/src/main/res/layout/activity_detail_company.xml" value="0.1" />
-        <entry key="..\:/AndroidStudioProjects/Econg_Final/app/src/main/res/layout/activity_detail_order.xml" value="0.1" />
-        <entry key="..\:/AndroidStudioProjects/Econg_Final/app/src/main/res/layout/activity_detail_project.xml" value="0.1" />
-        <entry key="..\:/AndroidStudioProjects/Econg_Final/app/src/main/res/layout/activity_edit_project.xml" value="0.1" />
-        <entry key="..\:/AndroidStudioProjects/Econg_Final/app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="..\:/AndroidStudioProjects/Econg_Final/app/src/main/res/layout/activity_my_community.xml" value="0.1" />
-        <entry key="..\:/AndroidStudioProjects/Econg_Final/app/src/main/res/layout/activity_my_opened_projects.xml" value="0.1" />
-        <entry key="..\:/AndroidStudioProjects/Econg_Final/app/src/main/res/layout/activity_my_supported.xml" value="0.1" />
         <entry key="..\:/AndroidStudioProjects/Econg_Final/app/src/main/res/layout/activity_order_list.xml" value="0.21965579710144928" />
-
-        <entry key="..\:/AndroidStudioProjects/Econg_Final/app/src/main/res/layout/activity_payment.xml" value="0.1" />
-        <entry key="..\:/AndroidStudioProjects/Econg_Final/app/src/main/res/layout/activity_project_list.xml" value="0.1" />
-        <entry key="..\:/AndroidStudioProjects/Econg_Final/app/src/main/res/layout/activity_sign_up.xml" value="0.1" />
-        <entry key="..\:/AndroidStudioProjects/Econg_Final/app/src/main/res/layout/dialog_delete_community.xml" value="0.1" />
-        <entry key="..\:/AndroidStudioProjects/Econg_Final/app/src/main/res/layout/fragment_detail_project_story.xml" value="0.1" />
-        <entry key="..\:/AndroidStudioProjects/Econg_Final/app/src/main/res/layout/fragment_follower.xml" value="0.1" />
-        <entry key="..\:/AndroidStudioProjects/Econg_Final/app/src/main/res/layout/fragment_following.xml" value="0.1" />
-        <entry key="..\:/AndroidStudioProjects/Econg_Final/app/src/main/res/layout/fragment_home.xml" value="0.1" />
-        <entry key="..\:/AndroidStudioProjects/Econg_Final/app/src/main/res/layout/fragment_image_slide.xml" value="0.1" />
-        <entry key="..\:/AndroidStudioProjects/Econg_Final/app/src/main/res/layout/fragment_my.xml" value="0.264" />
-
         <entry key="..\:/AndroidStudioProjects/Econg_Final/app/src/main/res/layout/item_community.xml" value="0.21965579710144928" />
         <entry key="..\:/AndroidStudioProjects/Econg_Final/app/src/main/res/layout/item_company_hor.xml" value="0.21965579710144928" />
-        <entry key="..\:/AndroidStudioProjects/Econg_Final/app/src/main/res/layout/item_open_project_image.xml" value="0.1" />
         <entry key="..\:/AndroidStudioProjects/Econg_Final/app/src/main/res/layout/item_order_ver.xml" value="0.21965579710144928" />
-        <entry key="..\:/AndroidStudioProjects/Econg_Final/app/src/main/res/layout/item_project_community.xml" value="0.1" />
-        <entry key="..\:/AndroidStudioProjects/Econg_Final/app/src/main/res/layout/item_user_ver.xml" value="0.1" />
-        <entry key="..\:/AndroidStudioProjects/Econg_Final/app/src/main/res/layout/item_ver.xml" value="0.1" />
-        <entry key="..\:/AndroidStudioProjects/Econg_Final/app/src/main/res/layout/layout_reward.xml" value="0.1" />
         <entry key="..\:/Users/31900/AndroidStudioProjects/Econg/app/src/main/res/drawable/button.xml" value="0.109" />
         <entry key="..\:/Users/31900/AndroidStudioProjects/Econg/app/src/main/res/drawable/button_kakaopay.xml" value="0.1" />
         <entry key="..\:/Users/31900/AndroidStudioProjects/Econg/app/src/main/res/drawable/button_selected.xml" value="0.109" />
@@ -53,6 +28,7 @@
         <entry key="..\:/Users/31900/AndroidStudioProjects/Econg/app/src/main/res/layout/activity_edit_project.xml" value="0.3619791666666667" />
         <entry key="..\:/Users/31900/AndroidStudioProjects/Econg/app/src/main/res/layout/activity_main.xml" value="0.3619791666666667" />
         <entry key="..\:/Users/31900/AndroidStudioProjects/Econg/app/src/main/res/layout/activity_my_community.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/31900/AndroidStudioProjects/Econg/app/src/main/res/layout/activity_my_follow.xml" value="0.33" />
         <entry key="..\:/Users/31900/AndroidStudioProjects/Econg/app/src/main/res/layout/activity_my_opened_projects.xml" value="0.3619791666666667" />
         <entry key="..\:/Users/31900/AndroidStudioProjects/Econg/app/src/main/res/layout/activity_my_supported.xml" value="0.34739583333333335" />
         <entry key="..\:/Users/31900/AndroidStudioProjects/Econg/app/src/main/res/layout/activity_open_project.xml" value="0.3619791666666667" />
@@ -78,6 +54,8 @@
         <entry key="..\:/Users/31900/AndroidStudioProjects/Econg/app/src/main/res/layout/fragment_home_company.xml" value="0.296875" />
         <entry key="..\:/Users/31900/AndroidStudioProjects/Econg/app/src/main/res/layout/fragment_image_slide.xml" value="0.3463541666666667" />
         <entry key="..\:/Users/31900/AndroidStudioProjects/Econg/app/src/main/res/layout/fragment_my.xml" value="0.33" />
+        <entry key="..\:/Users/31900/AndroidStudioProjects/Econg/app/src/main/res/layout/fragment_my_follower.xml" value="0.3614583333333333" />
+        <entry key="..\:/Users/31900/AndroidStudioProjects/Econg/app/src/main/res/layout/fragment_my_following.xml" value="0.3614583333333333" />
         <entry key="..\:/Users/31900/AndroidStudioProjects/Econg/app/src/main/res/layout/item_community.xml" value="0.3619791666666667" />
         <entry key="..\:/Users/31900/AndroidStudioProjects/Econg/app/src/main/res/layout/item_company_hor.xml" value="0.33" />
         <entry key="..\:/Users/31900/AndroidStudioProjects/Econg/app/src/main/res/layout/item_company_ver.xml" value="0.33" />
@@ -94,7 +72,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="11" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

@@ -41,6 +41,11 @@ class MyFragment(/*context: Context*/) : Fragment() {
 
         loadData()
 
+        binding.myInfo.setOnClickListener {
+            var intent = Intent(main, MyFollowActivity::class.java)
+            startActivity(intent)
+        }
+
         binding.reply.setOnClickListener {
             var intent = Intent(main, MyCommunityActivity::class.java)
             intent.putExtra("userid", "user")

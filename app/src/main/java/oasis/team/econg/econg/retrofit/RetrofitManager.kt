@@ -564,14 +564,6 @@ class RetrofitManager {
         })
     }
 
-    //API14 특정 유저 조회
-    fun showDetailUser(auth: String?, userId: Long?, completion:(RESPONSE_STATE, UserProfile?) -> Unit){
-        var au = auth.let{it}?:""
-        var userId = userId.let{it}?:-1
-        Log.d(TAG, "showDetailUser: RetrofitManager - in API")
-
-    }
-
     fun getUserOpenedProjects(auth: String?, userId: Long?, completion: (RESPONSE_STATE, ArrayList<Project>?) -> Unit){
         var au = auth.let{it}?:""
         var userId = userId.let{it}?: -1
