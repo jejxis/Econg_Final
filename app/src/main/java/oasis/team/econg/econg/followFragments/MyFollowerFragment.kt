@@ -13,6 +13,7 @@ import oasis.team.econg.econg.DetailCompanyActivity
 import oasis.team.econg.econg.MyFollowActivity
 import oasis.team.econg.econg.R
 import oasis.team.econg.econg.data.User
+import oasis.team.econg.econg.data.UserForFollow
 import oasis.team.econg.econg.databinding.FragmentMyFollowerBinding
 import oasis.team.econg.econg.retrofit.RetrofitManager
 import oasis.team.econg.econg.rvAdapter.UserFollowAdapter
@@ -26,7 +27,7 @@ class MyFollowerFragment : Fragment() {
     lateinit var binding: FragmentMyFollowerBinding
     lateinit var myFollow: MyFollowActivity
 
-    var followerList: MutableList<User>? = mutableListOf()
+    var followerList: MutableList<UserForFollow>? = mutableListOf()
     private lateinit var followerAdapter: UserFollowAdapter
 
     override fun onAttach(context: Context) {
@@ -50,19 +51,22 @@ class MyFollowerFragment : Fragment() {
     }
 
     private fun loadFollowerList(){
-        followerList = mutableListOf()
-        for(i: Int in 1..5){
-            followerList!!.add(User(
-                i.toLong(),
-                "사용자$i",
-                null,
-                "gs://econg-7e3f6.appspot.com/bud.png",
-                true))
-        }
-        followerAdapter.setData(followerList)
-        binding.followerList.layoutManager = LinearLayoutManager(requireActivity(),
-            LinearLayoutManager.VERTICAL,false)
-        binding.followerList.adapter = followerAdapter
+        RetrofitManager.instance.getMyFollowers(auth = API.HEADER_TOKEN, completion = {
+                responseState, responseBody ->
+            when(responseState){
+                RESPONSE_STATE.OKAY ->{
+                    followerList = responseBody
+                    Log.d(TAG, "load MyFollowingList success: ${responseBody.toString()}")
+                    followerAdapter.setData(followerList)
+                    binding.followerList.layoutManager = LinearLayoutManager(requireActivity(),
+                        LinearLayoutManager.VERTICAL,false)
+                    binding.followerList.adapter = followerAdapter
+                }
+                RESPONSE_STATE.FAIL->{
+                    Log.d(TAG, "load MyFollowingList fail: ${responseBody.toString()}")
+                }
+            }
+        })
     }
 
     private val onClickedUserItem = object: UserFollowAdapter.OnItemClickListener{

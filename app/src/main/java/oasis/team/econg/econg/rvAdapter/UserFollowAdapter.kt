@@ -8,12 +8,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import oasis.team.econg.econg.data.User
+import oasis.team.econg.econg.data.UserForFollow
 import oasis.team.econg.econg.databinding.ItemUserVerBinding
 import oasis.team.econg.econg.utils.Constants
 import oasis.team.econg.econg.utils.loadImageSetView
 
 class UserFollowAdapter(val context: Context?) : RecyclerView.Adapter<UserFollowAdapter.UserFollowHolder>() {
-    var listData = mutableListOf<User>()
+    var listData = mutableListOf<UserForFollow>()
     var itemListener: UserFollowAdapter.OnItemClickListener? = null
     var bfl : BtnFollowListener? = null
     var bul : BtnUnfollowListener? = null
@@ -38,8 +39,8 @@ class UserFollowAdapter(val context: Context?) : RecyclerView.Adapter<UserFollow
         return listData.size
     }
 
-    fun setData(arrData: MutableList<User>?){
-        listData = arrData as ArrayList<User>
+    fun setData(arrData: MutableList<UserForFollow>?){
+        listData = arrData as ArrayList<UserForFollow>
     }
 
     fun setClickListener(listener1: UserFollowAdapter.OnItemClickListener){
@@ -47,9 +48,11 @@ class UserFollowAdapter(val context: Context?) : RecyclerView.Adapter<UserFollow
     }
 
     inner class UserFollowHolder(val binding: ItemUserVerBinding): RecyclerView.ViewHolder(binding.root){
-        fun setData(data: User){
+        fun setData(data: UserForFollow){
             storage.loadImageSetView(data.profileUrl, binding.imgProfile)
-            binding.userName.text = data.nickName
+            binding.userName.text = data.userName
+
+
 
             binding.btnFollow.setOnClickListener {
                 bfl!!.follow(data.userId)

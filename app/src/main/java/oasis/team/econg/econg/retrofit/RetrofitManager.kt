@@ -661,6 +661,38 @@ class RetrofitManager {
                                 val uff = convertJsonElementToUserForFollow(resultItem)
                                 parsedDataArray.add(uff)
                             }
+                            completion(RESPONSE_STATE.OKAY, parsedDataArray)
+                        }
+                    }
+                }
+            }
+        })
+    }
+
+    //API17 내 팔로워
+    fun getMyFollowers(auth: String?, completion: (RESPONSE_STATE, ArrayList<UserForFollow>?) -> Unit){
+        var au = auth.let{it}?:""
+        val call = iRetrofit?.getMyFollowers(auth = au).let{it}?:return
+
+        call.enqueue(object: retrofit2.Callback<JsonElement>{
+            override fun onFailure(call: Call<JsonElement>, t: Throwable) {
+                Log.d(TAG, "RetrofitManager: getMyFollowers - onFailure() called/ t: $t")
+                completion(RESPONSE_STATE.FAIL, null)
+            }
+
+            override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
+                Log.d(TAG, "RetrofitManager: getMyFollowers - onResponse() called/ response: ${response.raw()}")
+
+                when(response.code()){
+                    200 ->{
+                        response.body()?.let{
+                            val parsedDataArray = ArrayList<UserForFollow>()
+                            val body = it.asJsonObject.get("result").asJsonArray
+                            body.forEach { resultItem ->
+                                val uff = convertJsonElementToUserForFollow(resultItem)
+                                parsedDataArray.add(uff)
+                            }
+                            completion(RESPONSE_STATE.OKAY, parsedDataArray)
                         }
                     }
                 }
