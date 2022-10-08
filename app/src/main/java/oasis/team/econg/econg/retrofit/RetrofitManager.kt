@@ -471,48 +471,6 @@ class RetrofitManager {
 
     }
 
-    fun getUserProfile(auth: String?, userId: Long?, completion: (RESPONSE_STATE, UserProfile?) -> Unit){
-        var au = auth.let{ it}?: ""
-        var userId = userId.let{it}?: -1
-        Log.d(TAG, "UserProfile: RetrofitManager - in API")
-        val call = iRetrofit?.getUserProfile(auth = au, userId = userId).let{
-            it
-        }?: return
-
-        call.enqueue(object : retrofit2.Callback<JsonElement>{
-            override fun onFailure(call: Call<JsonElement>, t: Throwable) {
-                Log.d(TAG, "UserProfile: RetrofitManager - onFailure() called/ t: $t")
-                completion(RESPONSE_STATE.FAIL, null)
-            }
-
-            override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
-                Log.d(TAG, "UserProfile: RetrofitManager - onResponse() called/ response: ${response.raw()}")
-
-                when(response.code()){
-                    200 -> {
-                        response.body()?.let{
-                            val body = it.asJsonObject.get("result").asJsonObject
-                            var desc = if(body.get("description").isJsonNull) " " else body.get("description").asString
-                            val userProfile = UserProfile(
-                                body.get("userId").asLong,
-                                body.get("nickName").asString,
-                                desc,
-                                body.get("profileUrl").asString,
-                                body.get("authenticate").asBoolean,
-                                body.get("followingNum").asInt,
-                                body.get("followerNum").asInt,
-                                body.get("myProfile").asBoolean
-                            )
-
-                            completion(RESPONSE_STATE.OKAY, userProfile)
-                            Log.d(TAG, "onResponse: $userProfile")
-                        }
-                    }
-                }
-            }
-
-        })
-    }
 
     //API13 자신의 사용정보 조회
     fun showMyInfo(auth: String?, completion:(RESPONSE_STATE, UserProfile?) -> Unit){
@@ -553,7 +511,8 @@ class RetrofitManager {
                                 authenticate = authenticate,
                                 followingNum = followingNum,
                                 followerNum = followerNum,
-                                myProfile = myProfile
+                                myProfile = myProfile,
+                                body.get("isFollow").asBoolean
                             )
 
                             completion(RESPONSE_STATE.OKAY, userProfile)
@@ -564,12 +523,83 @@ class RetrofitManager {
         })
     }
 
-    //API14 특정 유저 조회
-    fun showDetailUser(auth: String?, userId: Long?, completion:(RESPONSE_STATE, UserProfile?) -> Unit){
-        var au = auth.let{it}?:""
-        var userId = userId.let{it}?:-1
-        Log.d(TAG, "showDetailUser: RetrofitManager - in API")
+//    API 14
+    fun getUserProfile(auth: String?, userId: Long?, completion: (RESPONSE_STATE, UserProfile?) -> Unit){
+        var au = auth.let{ it}?: ""
+        var userId = userId.let{it}?: -1
+        Log.d(TAG, "UserProfile: RetrofitManager - in API")
+        val call = iRetrofit?.getUserProfile(auth = au, userId = userId).let{
+            it
+        }?: return
 
+        call.enqueue(object : retrofit2.Callback<JsonElement>{
+            override fun onFailure(call: Call<JsonElement>, t: Throwable) {
+                Log.d(TAG, "UserProfile: RetrofitManager - onFailure() called/ t: $t")
+                completion(RESPONSE_STATE.FAIL, null)
+            }
+
+            override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
+                Log.d(TAG, "UserProfile: RetrofitManager - onResponse() called/ response: ${response.raw()}")
+
+                when(response.code()){
+                    200 -> {
+                        response.body()?.let{
+                            val body = it.asJsonObject.get("result").asJsonObject
+                            var desc = if(body.get("description").isJsonNull) " " else body.get("description").asString
+                            val userProfile = UserProfile(
+                                body.get("userId").asLong,
+                                body.get("nickName").asString,
+                                desc,
+                                body.get("profileUrl").asString,
+                                body.get("authenticate").asBoolean,
+                                body.get("followingNum").asInt,
+                                body.get("followerNum").asInt,
+                                body.get("myProfile").asBoolean,
+                                body.get("isFollow").asBoolean
+                            )
+
+                            completion(RESPONSE_STATE.OKAY, userProfile)
+                            Log.d(TAG, "onResponse: $userProfile")
+                        }
+                    }
+                }
+            }
+
+        })
+    }
+
+//API 15
+    fun pushFollow(auth: String?, userId: Long?, completion: (RESPONSE_STATE, String?) -> Unit){
+        var au = auth.let{ it}?: ""
+        var userId = userId.let{it}?: -1
+        Log.d(TAG, "pushFollow: RetrofitManager - in API")
+        val data = Follow(userId)
+        val call = iRetrofit?.postFollow(auth = au, data).let{
+            it
+        }?: return
+
+        call.enqueue(object : retrofit2.Callback<JsonElement>{
+            override fun onFailure(call: Call<JsonElement>, t: Throwable) {
+                Log.d(TAG, "pushFollow: RetrofitManager - onFailure() called/ t: $t")
+                completion(RESPONSE_STATE.FAIL, null)
+            }
+
+            override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
+                Log.d(TAG, "pushFollow: RetrofitManager - onResponse() called/ response: ${response.raw()}")
+
+                when(response.code()){
+                    200 -> {
+                        response.body()?.let{
+                            val body = it.asJsonObject.get("result").asString
+
+                            completion(RESPONSE_STATE.OKAY, body)
+                            Log.d(TAG, "onResponse: $body")
+                        }
+                    }
+                }
+            }
+
+        })
     }
 
     fun getUserOpenedProjects(auth: String?, userId: Long?, completion: (RESPONSE_STATE, ArrayList<Project>?) -> Unit){
@@ -608,5 +638,7 @@ class RetrofitManager {
 
         })
     }
+
+
 }
 

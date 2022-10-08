@@ -59,6 +59,10 @@ interface IRetrofit {
     @GET("/app/profiles/{userId}")
     fun getUserProfile(@Header("Authorization") auth: String, @Path("userId") userId:Long): Call<JsonElement>
 
+    //API15
+    @POST("/app/follows")
+    fun postFollow(@Header("Authorization") auth: String, @Body jsonparams: Follow): Call<JsonElement>
+
     @GET("/app/users/post-projects/{userId}")
     fun getUserOpenedProjects(@Header("Authorization") auth: String,  @Path("userId") userId:Long): Call<JsonElement>
 

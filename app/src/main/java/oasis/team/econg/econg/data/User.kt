@@ -16,5 +16,6 @@ data class UserProfile(
     val authenticate: Boolean,
     val followingNum: Int,
     val followerNum: Int,
-    val myProfile: Boolean
+    val myProfile: Boolean,
+    val isFollow: Boolean
 )

@@ -48,13 +48,11 @@ class DetailCompanyActivity : AppCompatActivity() {
         }
 
         binding.btnFollow.setOnClickListener {
-            binding.btnFollow.visibility = View.GONE
-            binding.btnUnfollow.visibility = View.VISIBLE
+            pushFollow()
         }
 
         binding.btnUnfollow.setOnClickListener {
-            binding.btnUnfollow.visibility = View.GONE
-            binding.btnFollow.visibility = View.VISIBLE
+            pushFollow()
         }
 
         loadCompanyProjectData()
@@ -113,5 +111,45 @@ class DetailCompanyActivity : AppCompatActivity() {
         binding.followers.text = "팔로워 ${user!!.followerNum}명"
         binding.following.text = "팔로잉 ${user!!.followingNum}명"
         binding.description.text = user?.description
+
+        if(user!!.myProfile){
+            binding.btnFollow.visibility = View.GONE
+            binding.btnUnfollow.visibility = View.GONE
+        }
+
+        if(user!!.isFollow){
+            binding.btnFollow.visibility = View.GONE
+            binding.btnUnfollow.visibility = View.VISIBLE
+
+        }
+        else{
+            binding.btnUnfollow.visibility = View.GONE
+            binding.btnFollow.visibility = View.VISIBLE
+        }
+    }
+
+    private fun pushFollow(){
+        RetrofitManager.instance.pushFollow(auth = API.HEADER_TOKEN, userId = str.toLong(), completion = {
+                responseState, responseBody ->
+            when(responseState){
+                RESPONSE_STATE.OKAY -> {
+                    var result = responseBody
+                    if(result.equals("팔로우 완료")) {
+                        binding.btnFollow.visibility = View.GONE
+                        binding.btnUnfollow.visibility = View.VISIBLE
+                    }
+                    else{
+                        binding.btnUnfollow.visibility = View.GONE
+                        binding.btnFollow.visibility = View.VISIBLE
+                    }
+
+                }
+
+                RESPONSE_STATE.FAIL -> {
+                    Log.d(Constants.TAG, "PUSHfOLLOW: api call fail : $responseBody")
+//                    Toast.makeText(this@DetailProjectActivity, "찜콩 실패했습니다.", Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
     }
 }
