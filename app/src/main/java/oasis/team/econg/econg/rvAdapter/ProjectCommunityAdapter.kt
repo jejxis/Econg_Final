@@ -11,7 +11,7 @@ import oasis.team.econg.econg.databinding.ItemProjectCommunityBinding
 import oasis.team.econg.econg.utils.Constants.ECONG_URL
 import oasis.team.econg.econg.utils.loadImageSetView
 
-class ProjectCommunityAdapter(val context: Context?,val id: String): RecyclerView.Adapter<ProjectCommunityAdapter.ProjectCommunityHolder>() {
+class ProjectCommunityAdapter(val context: Context?): RecyclerView.Adapter<ProjectCommunityAdapter.ProjectCommunityHolder>() {
     var listData = mutableListOf<ProjectCommunity>()
     var listener: ProjectCommunityAdapter.OnItemClickListener? = null
     private val storage = Firebase.storage(ECONG_URL)

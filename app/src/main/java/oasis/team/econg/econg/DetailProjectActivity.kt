@@ -99,7 +99,7 @@ class DetailProjectActivity : AppCompatActivity() {
 
     fun showProjectCommunity(){
         supportFragmentManager.beginTransaction()
-            .replace(R.id.detailProjectFrame, DetailProjectCommunityFragment().newInstance(MYID))
+            .replace(R.id.detailProjectFrame, DetailProjectCommunityFragment().newInstance(str))
             .commitAllowingStateLoss()
     }
 

@@ -29,6 +29,9 @@ interface IRetrofit {
 
     @POST("/app/favorites")
     fun postFavorite(@Header("Authorization") auth: String, @Body jsonparams: PostFavorite): Call<JsonElement>
+
+    @GET("/app/projects/{projectId}/communities")
+    fun showProjectCommunities(@Header("Authorization") auth: String, @Path("projectId") projectId: Long):Call<JsonElement>
     
     //API11 상품 주문 화면 가져오기
     @GET("/app/orders/pay")
@@ -38,6 +41,9 @@ interface IRetrofit {
     @POST("/app/orders/pay")
     fun payOrder(@Header("Authorization") auth: String, @Body param : OrderForPay): Call<JsonElement>
 
+    //API14 유저 정보
+    @GET("/app/profiles")
+    fun showDetailUser(@Header("Authorization") auth: String): Call<JsonElement>
 
     @GET("/app/recent-users")
     fun getRecentUsers(@Header("Authorization") auth: String): Call<JsonElement>

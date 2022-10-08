@@ -6,7 +6,7 @@ import java.time.LocalDateTime
 data class ProjectCommunity(
     val id: Int,
     val content: String,
-    //val updatedAt: LocalDateTime,
+    val updatedAt: String,
     val userId: Long,
     val userName: String,
     val userProfileUrl: String

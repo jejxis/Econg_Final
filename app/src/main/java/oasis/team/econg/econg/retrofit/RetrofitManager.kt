@@ -246,6 +246,49 @@ class RetrofitManager {
         return project
     }
 
+    //API9 프로젝트 커뮤니티 조회
+    fun showProjectCommunities(auth: String?, projectId: Long?, completion: (RESPONSE_STATE, ArrayList<ProjectCommunity>?) -> Unit) {
+        var au = auth.let{it}?:""
+        var projectId = projectId.let{it}?: -1
+        val call = iRetrofit?.showProjects(auth = au).let{it}?:return
+
+        call.enqueue(object :retrofit2.Callback<JsonElement>{
+            override fun onFailure(call: Call<JsonElement>, t: Throwable) {
+                Log.d(TAG, "DetailProject: communityList - onFailure() called/ t: $t")
+                completion(RESPONSE_STATE.FAIL, null)
+            }
+
+            override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
+                Log.d(TAG, "DetailProject: communityList - onResponse() called/ response: ${response.raw()}")
+                when(response.code()){
+                    200 ->{
+                        response.body()?.let{
+                            var parsedDataArray = ArrayList<ProjectCommunity>()
+                            val body = it.asJsonObject.get("result").asJsonArray
+                            Log.d(TAG, "Array Size: $body")
+                            Log.d(TAG, "showProjectCommunities: RetrofitManager - onResponse() called")
+                            if(body.size() > 0){
+                                body.forEach{   resultItem ->
+                                    val resultItemObject = resultItem.asJsonObject
+                                    val community = ProjectCommunity(
+                                        id = resultItemObject.get("id").asInt,
+                                        content = resultItemObject.get("content").asString,
+                                        updatedAt = resultItemObject.get("updatedAt").asString,
+                                        userId = resultItemObject.get("userId").asLong,
+                                        userName = resultItemObject.get("userName").asString,
+                                        userProfileUrl = resultItemObject.get("userProfileUrl").asString
+                                    )
+                                    parsedDataArray.add(community)
+                                }
+                            }
+                            completion(RESPONSE_STATE.OKAY, parsedDataArray)
+                        }
+                    }
+                }
+            }
+        })
+    }
+
     //API11 상품 주문 화면 가져오기
     fun showProjectOrder(auth: String?, rewardId: Long?, completion: (RESPONSE_STATE, OrderBeforePay?) -> Unit){
         var au = auth.let{it}?:""

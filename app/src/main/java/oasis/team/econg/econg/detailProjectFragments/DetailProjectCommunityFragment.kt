@@ -2,6 +2,7 @@ package oasis.team.econg.econg.detailProjectFragments
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +12,11 @@ import oasis.team.econg.econg.DetailProjectActivity
 import oasis.team.econg.econg.R
 import oasis.team.econg.econg.data.ProjectCommunity
 import oasis.team.econg.econg.databinding.FragmentDetailProjectCommunityBinding
+import oasis.team.econg.econg.retrofit.RetrofitManager
 import oasis.team.econg.econg.rvAdapter.ProjectCommunityAdapter
+import oasis.team.econg.econg.utils.API
+import oasis.team.econg.econg.utils.Constants.TAG
+import oasis.team.econg.econg.utils.RESPONSE_STATE
 import java.time.LocalDateTime
 
 
@@ -20,22 +25,22 @@ class DetailProjectCommunityFragment : Fragment() {
     lateinit var binding: FragmentDetailProjectCommunityBinding
     lateinit var detailProject: DetailProjectActivity
 
-    var projectCommunity: MutableList<ProjectCommunity>? = mutableListOf()
+    var projectCommunityList: MutableList<ProjectCommunity>? = mutableListOf()
     lateinit var projectReplyAdapter :ProjectCommunityAdapter
 
-    private val MyID = "KEY"
+    private val projectID = "KEY"
     fun newInstance(data: String) = DetailProjectCommunityFragment().apply {
         arguments = Bundle().apply {
-            putString(MyID, data)
+            putString(projectID, data)
         }
     }
 
-    private val myId by lazy { requireArguments().getString(MyID) }
+    private val projectId by lazy { requireArguments().getString(projectID) }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         detailProject = context as DetailProjectActivity
-        projectReplyAdapter = ProjectCommunityAdapter(detailProject, myId!!)
+        projectReplyAdapter = ProjectCommunityAdapter(detailProject)
     }
 
     override fun onCreateView(
@@ -43,7 +48,7 @@ class DetailProjectCommunityFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentDetailProjectCommunityBinding.inflate(inflater, container, false)
-
+        Log.d(TAG, "DetailProjectCommunityFragment projectId: $projectId")
         loadData()
 
         //projectReplyAdapter.setClickListener(onClickedListItem)
@@ -56,43 +61,40 @@ class DetailProjectCommunityFragment : Fragment() {
     }
 
     private fun uploadCommunity() {//API8 :/projectId/communities
-        projectCommunity!!.add(
+        /*projectCommunity!!.add(
             ProjectCommunity(
             id =  200,
             content = binding.replyPlace.text.toString(),
-            userId = myId!!.toLong(),
+            userId = myId!!.toLong(), -> myId..?
             userName = "content200",
             userProfileUrl = "gs://econg-7e3f6.appspot.com/bud.png"
             )
-        )
+        )*/
 
         setListData()
     }
 
-    /*private val onClickedListItem = object : ProjectCommunityAdapter.OnItemClickListener{
-        override fun onClicked(id: String) {
-
-        }
-    }*/
 
     private fun loadData(){
-        for(i: Int in 1..5){
-            projectCommunity!!.add(
-                ProjectCommunity(
-                    id =  i,
-                    content = "content200",
-                    userId = 200,
-                    userName = "누구게",
-                    userProfileUrl = "gs://econg-7e3f6.appspot.com/bud.png"
-                )
-            )
-        }
+        RetrofitManager.instance.showProjectCommunities(auth = API.HEADER_TOKEN, projectId = projectId!!.toLong(), completion = {
+            responseState, responseBody ->
+            when(responseState){
+                RESPONSE_STATE.OKAY ->{
+                    Log.d(TAG, "loadData: ProjectCommunityList: api call Success: ${responseBody.toString()}")
+                    projectCommunityList = responseBody
+                    setListData()
+                }
+                RESPONSE_STATE.FAIL -> {
+                    Log.d(TAG, "loadData: ProjectCommunityList: api call fail : $responseBody")
+                }
+            }
+        })
 
         setListData()
     }
 
     private fun setListData(){
-        projectReplyAdapter.setData(projectCommunity)
+        projectReplyAdapter.setData(projectCommunityList)
         binding.projectCommunity.layoutManager = LinearLayoutManager(detailProject,
             LinearLayoutManager.VERTICAL, false)
         binding.projectCommunity.adapter = projectReplyAdapter
