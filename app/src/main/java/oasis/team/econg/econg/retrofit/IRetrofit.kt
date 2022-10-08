@@ -77,11 +77,11 @@ interface IRetrofit {
     fun getMyFollowers(@Header("Authorization") auth: String): Call<JsonElement>
 
     //API18 특정 유저 팔로잉
-    @GET("/app/followings/{userId}")
+    @GET("/app/users/{userId}/followings")
     fun getUserFollowings(@Header("Authorization") auth: String, @Path("userId")userId: Long): Call<JsonElement>
 
     //API19 특정 유저 팔로워
-    @GET("/app/followers/{userId}")
+    @GET("/app/users/{userId}/followers")
     fun getUserFollowers(@Header("Authorization") auth: String, @Path("userId")userId: Long): Call<JsonElement>
 
     @GET("/app/users/post-projects/{userId}")
