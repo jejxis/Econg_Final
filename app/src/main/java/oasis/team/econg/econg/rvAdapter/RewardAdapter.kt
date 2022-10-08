@@ -74,6 +74,7 @@ class RewardAdapter(val context: Context?): RecyclerView.Adapter<RewardAdapter.R
             binding.rewardName.setText(data.name)
             binding.rewardPrice.setText(data.price?.toString())
             binding.rewardCombination.setText(data.combination)
+            binding.rewardStock.setText(data.stock?.toString())
 
             binding.btnRemoveReward.setOnClickListener {
 
@@ -90,6 +91,7 @@ class RewardAdapter(val context: Context?): RecyclerView.Adapter<RewardAdapter.R
             binding.rewardName.addTextChangedListener(textWatcherReward)
             binding.rewardPrice.addTextChangedListener(textWatcherReward)
             binding.rewardCombination.addTextChangedListener(textWatcherReward)
+            binding.rewardStock.addTextChangedListener(textWatcherReward)
         }
     }
 }

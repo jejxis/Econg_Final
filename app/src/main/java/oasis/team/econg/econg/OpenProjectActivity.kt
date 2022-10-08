@@ -195,18 +195,20 @@ class OpenProjectActivity : AppCompatActivity() {
 
     fun processDatePickerOpenResult(year: Int, month: Int, day: Int) {
         var month_string = Integer.toString(month + 1)
-        val day_string = Integer.toString(day)
+        var day_string = Integer.toString(day)
         val year_string = Integer.toString(year)
         if(month < 9) month_string = "0$month_string"
+        if(day < 10) day_string = "0$day_string"
         val dateMessage = "$year_string-$month_string-$day_string"
         binding.openingDate.text = dateMessage
     }
 
     fun processDatePickerCloseResult(year: Int, month: Int, day: Int) {
         var month_string = Integer.toString(month + 1)
-        val day_string = Integer.toString(day)
+        var day_string = Integer.toString(day)
         val year_string = Integer.toString(year)
         if(month < 9) month_string = "0$month_string"
+        if(day < 10) day_string = "0$day_string"
         val dateMessage = "$year_string-$month_string-$day_string"
         binding.closingDate.text = dateMessage
     }
@@ -220,7 +222,7 @@ class OpenProjectActivity : AppCompatActivity() {
 
     fun makeProject(): ProjectForOpen{
         for(img in imgDataList!!){
-            imgUrlList.add(ImageUrl(img.str))//add(ImageUrl(img.str))
+            imgUrlList.add(ImageUrl(ECONG_URL+"/"+img.str))//add(ImageUrl(img.str))
         }
         val project =  ProjectForOpen(
                 title = binding.name.text.toString(),
@@ -228,7 +230,7 @@ class OpenProjectActivity : AppCompatActivity() {
                 closingDate = binding.closingDate.text.toString(),
                 goalAmount = binding.goalAmount.text.toString().toInt(),
                 summary = binding.summary.text.toString(),
-                thumbnail = toThumbnail,
+                thumbnail = "$ECONG_URL/$toThumbnail",
                 content = binding.story.text.toString(),
                 projectImgList = imgUrlList as ArrayList<ImageUrl>,
                 rewardList = rewards as ArrayList<PreReward>
