@@ -7,7 +7,11 @@ import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import oasis.team.econg.econg.data.Project
 import oasis.team.econg.econg.databinding.ActivityMyOpenedProjectsBinding
+import oasis.team.econg.econg.retrofit.RetrofitManager
 import oasis.team.econg.econg.rvAdapter.ProjectVerAdapter
+import oasis.team.econg.econg.utils.API
+import oasis.team.econg.econg.utils.Constants
+import oasis.team.econg.econg.utils.RESPONSE_STATE
 
 class MyOpenedProjectsActivity : AppCompatActivity() {
 
@@ -16,9 +20,15 @@ class MyOpenedProjectsActivity : AppCompatActivity() {
     var projects: MutableList<Project>? = mutableListOf()//신규 프로젝트 데이터
     var projectAdapter = ProjectVerAdapter(this)//신규 프로젝트 어댑터
 
+    var userId = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+        if(intent.hasExtra("id")){
+            //binding.productName.text = intent.getStringExtra("id")
+            userId = intent.getStringExtra("id").toString()
+        }
 
         loadData()
 
@@ -27,26 +37,25 @@ class MyOpenedProjectsActivity : AppCompatActivity() {
     }
 
     private fun loadData() {
-        for(i: Int in 1..3){
-            projects!!.add(Project(
-                i.toLong(),
-                "프로젝트${i}",
-                "2022-08-25",
-                "2022-08-28",
-                20000000,
-                "gs://econg-7e3f6.appspot.com/bud.png",
-                "프로젝트${i}인데요",
-                true,
-                "사용자${i}",
-                "ONGOING",
-                75
-            ))
-        }
+        RetrofitManager.instance.getUserOpenedProjects(auth = API.HEADER_TOKEN, userId = userId.toLong(), completion = {
+                responseState, responseBody ->
+            when(responseState){
+                RESPONSE_STATE.OKAY -> {
+                    Log.d(Constants.TAG, "UserOpenedProjectList: api call success : ${responseBody.toString()}")
+                    projects = responseBody
+                    projectAdapter.setData(projects)
+                    binding.myProjects.layoutManager = LinearLayoutManager(this,
+                        LinearLayoutManager.VERTICAL,false)
+                    binding.myProjects.adapter = projectAdapter
+                }
+                RESPONSE_STATE.FAIL -> {
+//                    Toast.makeText(this, "api call error", Toast.LENGTH_SHORT).show()
+                    Log.d(Constants.TAG, "UserOpenedProjectList: api call fail : $responseBody")
+                }
+            }
+        })
 
-        projectAdapter.setData(projects)
-        binding.myProjects.layoutManager = LinearLayoutManager(this,
-            LinearLayoutManager.VERTICAL,false)
-        binding.myProjects.adapter = projectAdapter
+
     }
 
     private val onClickedListItem = object : ProjectVerAdapter.OnItemClickListener{

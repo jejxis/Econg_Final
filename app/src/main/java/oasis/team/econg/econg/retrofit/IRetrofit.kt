@@ -63,10 +63,6 @@ interface IRetrofit {
     @POST("/app/follows")
     fun postFollow(@Header("Authorization") auth: String, @Body jsonparams: Follow): Call<JsonElement>
 
-    //API20
-    @GET("/app/communities")
-    fun getMyCommunities(@Header("Authorization") auth: String): Call<JsonElement>
-
 
     //API16 내 팔로잉
     @GET("/app/followings")
@@ -84,6 +80,19 @@ interface IRetrofit {
     @GET("/app/users/{userId}/followers")
     fun getUserFollowers(@Header("Authorization") auth: String, @Path("userId")userId: Long): Call<JsonElement>
 
+    //API20
+    @GET("/app/communities")
+    fun getMyCommunities(@Header("Authorization") auth: String): Call<JsonElement>
+
+    //API 22
+    @GET("/app/orders/detail/{orderId}")
+    fun getDetailOrderInfo(@Header("Authorization") auth: String,  @Path("orderId")orderId: Long): Call<JsonElement>
+
+    //API 23
+    @GET("/app/orders")
+    fun getOrderedProjects(@Header("Authorization") auth: String): Call<JsonElement>
+
+    //API 24
     @GET("/app/users/post-projects/{userId}")
     fun getUserOpenedProjects(@Header("Authorization") auth: String,  @Path("userId") userId:Long): Call<JsonElement>
 

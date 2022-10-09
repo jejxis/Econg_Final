@@ -3,17 +3,26 @@ package oasis.team.econg.econg
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import oasis.team.econg.econg.data.Order
 import oasis.team.econg.econg.data.OrderConfirmation
 import oasis.team.econg.econg.databinding.ActivityOrderListBinding
+import oasis.team.econg.econg.retrofit.RetrofitManager
 import oasis.team.econg.econg.rvAdapter.OrderVerAdapter
+import oasis.team.econg.econg.utils.API
+import oasis.team.econg.econg.utils.Constants
+import oasis.team.econg.econg.utils.RESPONSE_STATE
 
 class OrderListActivity : AppCompatActivity() {
     val binding by lazy{ActivityOrderListBinding.inflate(layoutInflater)}
 
     var orders: MutableList<OrderConfirmation>? = mutableListOf()
     var orderAdapter = OrderVerAdapter(this)
+
+    var projectId:Long = 0
+    var orderId:Long =0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -25,25 +34,24 @@ class OrderListActivity : AppCompatActivity() {
     }
 
     private fun loadOrders() {
-        orders = mutableListOf()
-        for(i: Int in 1..20){
-            orders!!.add(OrderConfirmation(
-                id = i.toLong(),
-                combination = "연필 ${i}자루 + 볼펜 ${i}자루",
-                price = 5000,
-                projectId = i,
-                rewardId = i,
-                rewardName = "리워드${i}",
-                thumbnail = "",
-                title = "프로젝트${i}",
-                orderStatus = 1
-            ))
-        }
+        RetrofitManager.instance.getOrderedProjects(auth = API.HEADER_TOKEN, completion = {
+                responseState, responseBody ->
+            when(responseState){
+                RESPONSE_STATE.OKAY ->{
+                    Log.d(Constants.TAG, "loadData: MyOrderList: api call Success: ${responseBody.toString()}")
+                    orders = responseBody
+                    orderAdapter.setData(orders)
+                    binding.rvOrder.layoutManager = LinearLayoutManager(this,
+                        LinearLayoutManager.VERTICAL,false)
+                    binding.rvOrder.adapter = orderAdapter
+                }
+                RESPONSE_STATE.FAIL -> {
+                    Log.d(Constants.TAG, "loadData: MyOrderList: api call fail : $responseBody")
+                }
+            }
+        })
 
-        orderAdapter.setData(orders)
-        binding.rvOrder.layoutManager = LinearLayoutManager(this,
-            LinearLayoutManager.VERTICAL,false)
-        binding.rvOrder.adapter = orderAdapter
+
     }
 
     private val onClickedOrderItem = object : OrderVerAdapter.OnItemClickListener{

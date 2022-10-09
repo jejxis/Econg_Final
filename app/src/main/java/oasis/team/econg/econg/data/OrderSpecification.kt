@@ -39,29 +39,26 @@ data class OrderSpecification(
 )
 
 data class Order(
-    val id: Long,
     val price: Int,
     val orderStatus: Int,
-    val userId: Long,
-    val rewardId: Long,
-    val projectId: Int,
+    val projectId: Long,
     val deliveryAddress: String,
     val rewardName: String,
-    val thumbnail: String,
     val title: String,
     val combination: String
 )
 
 data class OrderConfirmation(
-    val id: Long,
     val combination: String,
     val price: Int,
-    val projectId: Int,
-    val rewardId: Int,
+    val projectId: Long,
+    val rewardId: Long,
     val rewardName: String,
     val thumbnail: String,
     val title: String,
     val orderStatus: Int,
+    val orderId:Long,
+    val status:Boolean
 )
 
 data class OrderBeforePay(//->use in PaymentActivity
