@@ -48,11 +48,12 @@ class OrderVerAdapter(val context: Context?): RecyclerView.Adapter<OrderVerAdapt
             //binding.projectImage.set
             if(data.orderStatus == 0) binding.projectState.text = "성공"
             else if(data.orderStatus == 1) binding.projectState.text = "진행중"
+            else if (data.orderStatus==2) binding.projectState.text = "실패"
 
             binding.projectName.text = data.title
             binding.rewardName.text = data.rewardName
             binding.btnOrderDetail.setOnClickListener {
-                listener!!.goToDetailOrder(data.id.toString())
+                listener!!.goToDetailOrder(data.orderId.toString())
             }
         }
 

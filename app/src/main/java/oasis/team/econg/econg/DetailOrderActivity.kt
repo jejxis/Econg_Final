@@ -3,8 +3,14 @@ package oasis.team.econg.econg
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import androidx.recyclerview.widget.LinearLayoutManager
 import oasis.team.econg.econg.data.Order
 import oasis.team.econg.econg.databinding.ActivityDetailOrderBinding
+import oasis.team.econg.econg.retrofit.RetrofitManager
+import oasis.team.econg.econg.utils.API
+import oasis.team.econg.econg.utils.Constants
+import oasis.team.econg.econg.utils.RESPONSE_STATE
 
 class DetailOrderActivity : AppCompatActivity() {
     val binding by lazy{ActivityDetailOrderBinding.inflate(layoutInflater)}
@@ -18,24 +24,25 @@ class DetailOrderActivity : AppCompatActivity() {
             //binding.productName.text = intent.getStringExtra("id")
             orderId = intent.getStringExtra("id").toString()
         }
-        order = loadOrderData(orderId)
-        setScreen()
+        loadOrderData(orderId)
+//        setScreen()
     }
 
-    private fun loadOrderData(id: String): Order {
-        return Order(
-            id = id.toLong(),
-            price = 5000,
-            orderStatus = 0,
-            userId = id.toLong(),
-            rewardId = id.toLong(),
-            projectId = id.toInt(),
-            deliveryAddress = "대한민국 어딘가",
-            rewardName = "리워드 $id",
-            thumbnail = "",
-            title = "프로젝트 $id",
-            combination = "연필 1자루 + 볼펜 1자루"
-        )
+    private fun loadOrderData(id: String) {
+        RetrofitManager.instance.getDetailOrderInfo(auth = API.HEADER_TOKEN, id.toLong(),completion = {
+                responseState, responseBody ->
+            when(responseState){
+                RESPONSE_STATE.OKAY ->{
+                    Log.d(Constants.TAG, "loadData: MyOrderList: api call Success: ${responseBody.toString()}")
+                    order = responseBody
+                    setScreen()
+                }
+                RESPONSE_STATE.FAIL -> {
+                    Log.d(Constants.TAG, "loadData: MyOrderList: api call fail : $responseBody")
+                }
+            }
+        })
+
     }
 
     private fun setScreen(){
@@ -44,8 +51,11 @@ class DetailOrderActivity : AppCompatActivity() {
             intent.putExtra("id", order!!.projectId.toString())
             startActivity(intent)
         }
-        if(order!!.orderStatus == 0) binding.orderStatus.text = "성공"
-        else if(order!!.orderStatus == 1) binding.orderStatus.text = "진행중"
+        if(order!!.orderStatus == 0) binding.orderStatus.text = "결제실패"
+        else if(order!!.orderStatus == 1) binding.orderStatus.text = "결제완료"
+        else binding.orderStatus.text = "실패"
+
+        binding.userName.text = order!!.title
         binding.rewardName.text = order!!.rewardName
 
         binding.rewardName2.text = order!!.rewardName

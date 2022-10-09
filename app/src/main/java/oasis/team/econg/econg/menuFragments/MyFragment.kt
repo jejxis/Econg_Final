@@ -27,6 +27,7 @@ class MyFragment(/*context: Context*/) : Fragment() {
     var myProfile: UserProfile? = null
     private val storage = Firebase.storage(Constants.ECONG_URL)
 
+    var userId= ""
     override fun onAttach(context: Context) {
         super.onAttach(context)
         main = context as MainActivity
@@ -54,12 +55,14 @@ class MyFragment(/*context: Context*/) : Fragment() {
 
         binding.mySupportedProjects.setOnClickListener {
             var intent = Intent(main, MySupportedProjectsActivity::class.java)
+            intent.putExtra("id",myProfile!!.userId)
             startActivity(intent)
         }
 
         //내가 올린 프로젝트
         binding.myOpenedProjects.setOnClickListener {
             var intent = Intent(main, MyOpenedProjectsActivity::class.java)
+            intent.putExtra("id",userId)
             startActivity(intent)
         }
 
@@ -100,5 +103,6 @@ class MyFragment(/*context: Context*/) : Fragment() {
         binding.followers.text = "팔로워 ${myProfile!!.followerNum}명"
         binding.following.text = "팔로잉 ${myProfile!!.followingNum}명"
         binding.description.text = myProfile!!.description
+        userId= myProfile!!.userId.toString()
     }
 }

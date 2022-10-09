@@ -15,7 +15,11 @@ import oasis.team.econg.econg.R
 import oasis.team.econg.econg.data.Project
 import oasis.team.econg.econg.databinding.FragmentFavoriteBinding
 import oasis.team.econg.econg.databinding.FragmentFavoriteProjectBinding
+import oasis.team.econg.econg.retrofit.RetrofitManager
 import oasis.team.econg.econg.rvAdapter.ProjectVerAdapter
+import oasis.team.econg.econg.utils.API
+import oasis.team.econg.econg.utils.Constants
+import oasis.team.econg.econg.utils.RESPONSE_STATE
 import oasis.team.econg.forui.rvAdapter.ProjectAdapter
 
 class FavoriteProjectFragment : Fragment() {
@@ -46,27 +50,25 @@ class FavoriteProjectFragment : Fragment() {
     }
 
     private fun loadFavProject() {//좋아요 프로젝트 데이터
-        favProject = mutableListOf()
-        for(i: Int in 1..20){
-            favProject!!.add(Project(
-                i.toLong(),
-                "프로젝트${i}",
-                "2022-08-25",
-                "2022-08-28",
-                20000000,
-                "gs://econg-7e3f6.appspot.com/bud.png",
-                "프로젝트${i}인데요",
-                true,
-                "사용자${i}",
-                "ONGOING",
-                75
-            ))
-        }
+        RetrofitManager.instance.getFavorites(auth = API.HEADER_TOKEN,  completion = {
+                responseState, responseBody ->
+            when(responseState){
+                RESPONSE_STATE.OKAY -> {
+                    Log.d(Constants.TAG, "UserOpenedProjectList: api call success : ${responseBody.toString()}")
+                    favProject = responseBody
+                    projectAdapter.setData(favProject)
+                    binding.favProject.layoutManager = LinearLayoutManager(requireActivity(),
+                        LinearLayoutManager.VERTICAL,false)
+                    binding.favProject.adapter = projectAdapter
+                }
+                RESPONSE_STATE.FAIL -> {
+//                    Toast.makeText(this, "api call error", Toast.LENGTH_SHORT).show()
+                    Log.d(Constants.TAG, "UserOpenedProjectList: api call fail : $responseBody")
+                }
+            }
+        })
 
-        projectAdapter.setData(favProject)
-        binding.favProject.layoutManager = LinearLayoutManager(requireActivity(),
-            LinearLayoutManager.VERTICAL,false)
-        binding.favProject.adapter = projectAdapter
+
     }
 
     //신규 프로젝트 클릭 이벤트 처리 -> 프로젝트 상세 화면으로 이동

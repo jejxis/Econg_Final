@@ -246,6 +246,80 @@ class RetrofitManager {
         return project
     }
 
+    //API 6
+    fun pushFavorite(auth: String?, projectId: Long?, completion: (RESPONSE_STATE, String?) -> Unit){
+        var au = auth.let{ it}?: ""
+        var projectId = projectId.let{it}?: -1
+        Log.d(TAG, "DetailProject: RetrofitManager - in API")
+        val data = PostFavorite(projectId)
+        val call = iRetrofit?.postFavorite(auth = au, data).let{
+            it
+        }?: return
+
+        call.enqueue(object : retrofit2.Callback<JsonElement>{
+            override fun onFailure(call: Call<JsonElement>, t: Throwable) {
+                Log.d(TAG, "DetailProject: RetrofitManager - onFailure() called/ t: $t")
+                completion(RESPONSE_STATE.FAIL, null)
+            }
+
+            override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
+                Log.d(TAG, "DetailProject: RetrofitManager - onResponse() called/ response: ${response.raw()}")
+
+                when(response.code()){
+                    200 -> {
+                        response.body()?.let{
+                            val body = it.asJsonObject.get("result").asString
+
+                            completion(RESPONSE_STATE.OKAY, body)
+                            Log.d(TAG, "onResponse: $body")
+                        }
+                    }
+                }
+            }
+
+        })
+    }
+
+    //API 7
+    fun getFavorites(auth: String?,  completion: (RESPONSE_STATE,ArrayList<Project>?) -> Unit){
+        var au = auth.let{ it}?: ""
+
+        Log.d(TAG, "FavoriteProjects: RetrofitManager - in API")
+        val call = iRetrofit?.getFavorites(auth = au).let{
+            it
+        }?: return
+
+        call.enqueue(object: retrofit2.Callback<JsonElement>{
+
+            override fun onFailure(call: Call<JsonElement>, t: Throwable) {
+                Log.d(TAG, "RetrofitManager - onFailure() called/ t: $t")
+                completion(RESPONSE_STATE.FAIL, null)
+            }
+
+            override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
+                Log.d(TAG, "RetrofitManager - onResponse() called/ response: ${response.raw()}")
+
+                when(response.code()){
+                    200 ->{
+                        response.body()?.let{
+                            var parsedDataArray = ArrayList<Project>()
+                            val body = it.asJsonObject.get("result").asJsonArray
+
+                            Log.d(TAG, "FavoriteProjects: RetrofitManager - onResponse() called")
+
+                            body.forEach{   resultItem ->
+                                val project = convertJsonElementToProject(resultItem)
+                                parsedDataArray.add(project)
+                            }
+                            completion(RESPONSE_STATE.OKAY, parsedDataArray)
+                        }
+                    }
+                }
+            }
+
+        })
+    }
+
     //API8 프로젝트 커뮤니티 등록
     fun postProjectCommunity(auth: String?, projectId: Long?, content: String?, completion: (RESPONSE_STATE, String?) -> Unit){
         var au = auth.let{it}?:""
@@ -365,38 +439,7 @@ class RetrofitManager {
         })
     }
 
-    fun pushFavorite(auth: String?, projectId: Long?, completion: (RESPONSE_STATE, String?) -> Unit){
-        var au = auth.let{ it}?: ""
-        var projectId = projectId.let{it}?: -1
-        Log.d(TAG, "DetailProject: RetrofitManager - in API")
-        val data = PostFavorite(projectId)
-        val call = iRetrofit?.postFavorite(auth = au, data).let{
-            it
-        }?: return
 
-        call.enqueue(object : retrofit2.Callback<JsonElement>{
-            override fun onFailure(call: Call<JsonElement>, t: Throwable) {
-                Log.d(TAG, "DetailProject: RetrofitManager - onFailure() called/ t: $t")
-                completion(RESPONSE_STATE.FAIL, null)
-            }
-
-            override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
-                Log.d(TAG, "DetailProject: RetrofitManager - onResponse() called/ response: ${response.raw()}")
-
-                when(response.code()){
-                    200 -> {
-                        response.body()?.let{
-                            val body = it.asJsonObject.get("result").asString
-
-                            completion(RESPONSE_STATE.OKAY, body)
-                            Log.d(TAG, "onResponse: $body")
-                        }
-                    }
-                }
-            }
-
-        })
-    }
     
     //API12 상품 주문
     fun payOrder(auth: String?, param: OrderForPay, completion: (RESPONSE_STATE, String?) -> Unit){
@@ -601,42 +644,7 @@ class RetrofitManager {
         })
     }
 
-    fun getUserOpenedProjects(auth: String?, userId: Long?, completion: (RESPONSE_STATE, ArrayList<Project>?) -> Unit){
-        var au = auth.let{it}?:""
-        var userId = userId.let{it}?: -1
 
-        val call = iRetrofit?.getUserOpenedProjects(auth = au, userId= userId).let{it}?:return
-
-        call.enqueue(object: retrofit2.Callback<JsonElement>{
-
-            override fun onFailure(call: Call<JsonElement>, t: Throwable) {
-                Log.d(TAG, "RetrofitManager - onFailure() called/ t: $t")
-                completion(RESPONSE_STATE.FAIL, null)
-            }
-
-            override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
-                Log.d(TAG, "RetrofitManager - onResponse() called/ response: ${response.raw()}")
-
-                when(response.code()){
-                    200 ->{
-                        response.body()?.let{
-                            var parsedDataArray = ArrayList<Project>()
-                            val body = it.asJsonObject.get("result").asJsonArray
-
-                            Log.d(TAG, "getUserOpenedProject: RetrofitManager - onResponse() called")
-
-                            body.forEach{   resultItem ->
-                                val project = convertJsonElementToProject(resultItem)
-                                parsedDataArray.add(project)
-                            }
-                            completion(RESPONSE_STATE.OKAY, parsedDataArray)
-                        }
-                    }
-                }
-            }
-
-        })
-    }
 
     //API16 내 팔로잉
     fun getMyFollowings(auth: String?, completion: (RESPONSE_STATE, ArrayList<UserForFollow>?) -> Unit){
@@ -824,6 +832,139 @@ class RetrofitManager {
                     }
                 }
             }
+        })
+    }
+
+    //API 22
+    fun getDetailOrderInfo(auth:String?, orderId: Long?,completion: (RESPONSE_STATE, Order?) -> Unit){
+        var au = auth.let{it}?:""
+        var orderId = orderId.let{it}?: -1
+
+        val call = iRetrofit?.getDetailOrderInfo(auth = au, orderId= orderId).let{it}?:return
+
+        call.enqueue(object :retrofit2.Callback<JsonElement>{
+            override fun onFailure(call: Call<JsonElement>, t: Throwable) {
+                Log.d(TAG, "MyOrderList - onFailure() called/ t: $t")
+                completion(RESPONSE_STATE.FAIL, null)
+            }
+
+            override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
+                Log.d(TAG, "MyOrderList - onResponse() called/ response: ${response.raw()}")
+                when(response.code()){
+                    200 ->{
+                        response.body()?.let{
+                            val body = it.asJsonObject.get("result").asJsonObject
+                            Log.d(TAG, "DetailOrder: RetrofitManager - onResponse() called")
+                            val resultItemObject = body.asJsonObject
+                            var orderStatus :Int =
+                                if(resultItemObject.get("orderStatus").asString == "PAYCOMPLETED") 1
+                                else 0
+                            val order = Order(
+                                price = resultItemObject.get("totalMoney").asInt,
+                                combination = resultItemObject.get("combination").asString,
+                                projectId = resultItemObject.get("projectId").asLong,
+                                deliveryAddress = resultItemObject.get("deliveryAddress").asString,
+                                rewardName = resultItemObject.get("rewardName").asString,
+                                title = resultItemObject.get("projectName").asString,
+                                orderStatus = orderStatus,
+                            )
+                            completion(RESPONSE_STATE.OKAY, order)
+                        }
+                    }
+                }
+            }
+        })
+
+    }
+
+    //API 23
+    fun getOrderedProjects(auth:String?, completion: (RESPONSE_STATE, ArrayList<OrderConfirmation>?) -> Unit){
+        var au = auth.let{it}?:""
+
+        val call = iRetrofit?.getOrderedProjects(auth = au).let{it}?:return
+
+        call.enqueue(object :retrofit2.Callback<JsonElement>{
+            override fun onFailure(call: Call<JsonElement>, t: Throwable) {
+                Log.d(TAG, "MyOrderList - onFailure() called/ t: $t")
+                completion(RESPONSE_STATE.FAIL, null)
+            }
+
+            override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
+                Log.d(TAG, "MyOrderList - onResponse() called/ response: ${response.raw()}")
+                when(response.code()){
+                    200 ->{
+                        response.body()?.let{
+                            var parsedDataArray = ArrayList<OrderConfirmation>()
+                            val body = it.asJsonObject.get("result").asJsonArray
+                            Log.d(TAG, "MyOrderList: RetrofitManager - onResponse() called")
+                            if(body.size() > 0){
+                                body.forEach{   resultItem ->
+                                    val resultItemObject = resultItem.asJsonObject
+                                    var orderStatus :Int =
+                                        if(resultItemObject.get("status").asString == "ONGOING") 1
+                                        else if(resultItemObject.get("status").asString == "SUCCESS") 0
+                                        else 2
+                                    val project = OrderConfirmation(
+                                        combination = resultItemObject.get("combination").asString,
+                                        price = resultItemObject.get("price").asInt,
+                                        projectId = resultItemObject.get("projectId").asLong,
+                                        rewardId = resultItemObject.get("rewardId").asLong,
+                                        rewardName = resultItemObject.get("rewardName").asString,
+                                        title = resultItemObject.get("title").asString,
+                                        thumbnail = resultItemObject.get("thumbnail").asString,
+                                        orderStatus = orderStatus,
+                                        orderId = resultItemObject.get("orderId").asLong,
+                                        status = resultItemObject.get("status").asBoolean,
+
+                                    )
+                                    parsedDataArray.add(project)
+                                }
+                            }
+                            completion(RESPONSE_STATE.OKAY, parsedDataArray)
+                        }
+                    }
+                }
+            }
+        })
+    }
+
+
+
+    //API 24
+    fun getUserOpenedProjects(auth: String?, userId: Long?, completion: (RESPONSE_STATE, ArrayList<Project>?) -> Unit){
+        var au = auth.let{it}?:""
+        var userId = userId.let{it}?: -1
+
+        val call = iRetrofit?.getUserOpenedProjects(auth = au, userId= userId).let{it}?:return
+
+        call.enqueue(object: retrofit2.Callback<JsonElement>{
+
+            override fun onFailure(call: Call<JsonElement>, t: Throwable) {
+                Log.d(TAG, "RetrofitManager - onFailure() called/ t: $t")
+                completion(RESPONSE_STATE.FAIL, null)
+            }
+
+            override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
+                Log.d(TAG, "RetrofitManager - onResponse() called/ response: ${response.raw()}")
+
+                when(response.code()){
+                    200 ->{
+                        response.body()?.let{
+                            var parsedDataArray = ArrayList<Project>()
+                            val body = it.asJsonObject.get("result").asJsonArray
+
+                            Log.d(TAG, "getUserOpenedProject: RetrofitManager - onResponse() called")
+
+                            body.forEach{   resultItem ->
+                                val project = convertJsonElementToProject(resultItem)
+                                parsedDataArray.add(project)
+                            }
+                            completion(RESPONSE_STATE.OKAY, parsedDataArray)
+                        }
+                    }
+                }
+            }
+
         })
     }
 }
