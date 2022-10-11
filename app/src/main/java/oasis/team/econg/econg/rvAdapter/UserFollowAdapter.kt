@@ -49,7 +49,7 @@ class UserFollowAdapter(val context: Context?) : RecyclerView.Adapter<UserFollow
 
     inner class UserFollowHolder(val binding: ItemUserVerBinding): RecyclerView.ViewHolder(binding.root){
         fun setData(data: UserForFollow){
-            storage.loadImageSetView(data.profileUrl, binding.imgProfile)
+            //storage.loadImageSetView(data.profileUrl, binding.imgProfile)복구!!!!
             binding.userName.text = data.userName
 
             if(data.follow){
@@ -58,6 +58,11 @@ class UserFollowAdapter(val context: Context?) : RecyclerView.Adapter<UserFollow
             }else{
                 binding.btnUnfollow.visibility = View.GONE
                 binding.btnFollow.visibility = View.VISIBLE
+            }
+
+            if(data.myProfile){
+                binding.btnFollow.visibility = View.GONE
+                binding.btnUnfollow.visibility = View.GONE
             }
 
             binding.btnFollow.setOnClickListener {

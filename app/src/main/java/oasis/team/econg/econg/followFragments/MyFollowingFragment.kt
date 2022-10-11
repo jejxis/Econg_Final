@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import oasis.team.econg.econg.DetailCompanyActivity
+import oasis.team.econg.econg.MainActivity
 import oasis.team.econg.econg.MyFollowActivity
 import oasis.team.econg.econg.R
 import oasis.team.econg.econg.data.User

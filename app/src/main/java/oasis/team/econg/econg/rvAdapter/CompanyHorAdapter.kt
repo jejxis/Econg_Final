@@ -48,7 +48,7 @@ class CompanyHorAdapter(val context: Context?) : RecyclerView.Adapter<CompanyHor
 
     inner class CompanyHorHolder(val binding: ItemCompanyHorBinding): RecyclerView.ViewHolder(binding.root){
         fun setData(data: User) {
-            storage.loadImageSetView(data.profileUrl, binding.imgCompany)
+            //storage.loadImageSetView(data.profileUrl, binding.imgCompany)복구할것
             binding.companyName.text = "${data.nickName}"
             binding.companyInfo.text = "${data.description}"
         }

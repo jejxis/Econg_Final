@@ -1,5 +1,7 @@
 package oasis.team.econg.econg.data
 
+import java.io.Serializable
+
 data class User(
     val userId: Long,
     val nickName: String,
@@ -26,3 +28,14 @@ data class UserForFollow(
     val follow: Boolean,
     val myProfile: Boolean
 )
+data class UserEditProfile(
+    val nickName: String,
+    val description: String,
+    val profileUrl: String
+)
+data class UserTransfer(
+    val userId: Long,
+    val nickName: String,
+    val description: String?,
+    val profileUrl: String
+): Serializable

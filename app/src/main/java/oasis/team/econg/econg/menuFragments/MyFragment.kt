@@ -11,7 +11,9 @@ import android.view.ViewGroup
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import oasis.team.econg.econg.*
+import oasis.team.econg.econg.data.UserEditProfile
 import oasis.team.econg.econg.data.UserProfile
+import oasis.team.econg.econg.data.UserTransfer
 import oasis.team.econg.econg.databinding.FragmentHomeBinding
 import oasis.team.econg.econg.databinding.FragmentMyBinding
 import oasis.team.econg.econg.retrofit.RetrofitManager
@@ -49,7 +51,7 @@ class MyFragment(/*context: Context*/) : Fragment() {
 
         binding.reply.setOnClickListener {
             var intent = Intent(main, MyCommunityActivity::class.java)
-            intent.putExtra("userid", "user")
+            intent.putExtra("userid", userId)//"user"
             startActivity(intent)
         }
 
@@ -74,6 +76,14 @@ class MyFragment(/*context: Context*/) : Fragment() {
 
         binding.orderList.setOnClickListener {
             var intent = Intent(main, OrderListActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.btnEdit.setOnClickListener {
+            var intent = Intent(main, EditProfileActivity::class.java)
+            intent.putExtra("obj",
+                UserTransfer(userId = myProfile!!.userId,nickName = myProfile!!.nickName,
+                    profileUrl = myProfile!!.profileUrl, description = myProfile!!.description))
             startActivity(intent)
         }
 

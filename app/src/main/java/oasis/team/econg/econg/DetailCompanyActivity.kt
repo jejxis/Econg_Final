@@ -122,6 +122,10 @@ class DetailCompanyActivity : AppCompatActivity() {
             binding.btnUnfollow.visibility = View.VISIBLE
 
         }
+        if(user!!.myProfile){
+            binding.btnFollow.visibility = View.GONE
+            binding.btnUnfollow.visibility = View.GONE
+        }
         else{
             binding.btnUnfollow.visibility = View.GONE
             binding.btnFollow.visibility = View.VISIBLE

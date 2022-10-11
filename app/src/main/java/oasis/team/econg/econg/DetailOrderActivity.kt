@@ -21,11 +21,9 @@ class DetailOrderActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         if(intent.hasExtra("id")){
-            //binding.productName.text = intent.getStringExtra("id")
             orderId = intent.getStringExtra("id").toString()
         }
         loadOrderData(orderId)
-//        setScreen()
     }
 
     private fun loadOrderData(id: String) {

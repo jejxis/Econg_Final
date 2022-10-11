@@ -68,7 +68,6 @@ interface IRetrofit {
     @POST("/app/follows")
     fun postFollow(@Header("Authorization") auth: String, @Body jsonparams: Follow): Call<JsonElement>
 
-
     //API16 내 팔로잉
     @GET("/app/followings")
     fun getMyFollowings(@Header("Authorization") auth: String): Call<JsonElement>
@@ -101,4 +100,7 @@ interface IRetrofit {
     @GET("/app/users/post-projects/{userId}")
     fun getUserOpenedProjects(@Header("Authorization") auth: String,  @Path("userId") userId:Long): Call<JsonElement>
 
+    //API21
+    @PATCH("/app/profiles/modify/{userId}")
+    fun editMyProfile(@Header("Authorization") auth: String, @Path("userId") userId:Long, @Body profile: UserEditProfile): Call<JsonElement>
 }

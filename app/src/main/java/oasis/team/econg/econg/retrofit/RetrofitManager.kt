@@ -967,5 +967,38 @@ class RetrofitManager {
 
         })
     }
+
+    //API21
+    fun editMyProfile(auth: String,userId: Long,profile: UserEditProfile, completion: (RESPONSE_STATE, String?) -> Unit) {
+        var au = auth.let{it}?:""
+        var userId = userId.let{it}?:-1
+        Log.d(TAG, "editMyProfile: RetrofitManager - in API")
+        val call = iRetrofit?.editMyProfile(auth = au, userId = userId,
+        profile = profile).let{
+            it
+        }?:return
+
+        call.enqueue(object : retrofit2.Callback<JsonElement>{
+            override fun onFailure(call: Call<JsonElement>, t: Throwable) {
+                Log.d(TAG, "editMyProfile: RetrofitManager - onFailure() called/ t: $t")
+                completion(RESPONSE_STATE.FAIL, null)
+            }
+
+            override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
+                Log.d(TAG, "editMyProfile - onResponse() called/ response: ${response.raw()}")
+
+                when(response.code()){
+                    200 -> {
+                        response.body()?.let{
+                            val body = it.asJsonObject.get("result").asString
+
+                            completion(RESPONSE_STATE.OKAY, body)
+                            Log.d(TAG, "onResponse: $body")
+                        }
+                    }
+                }
+            }
+        })
+    }
 }
 
