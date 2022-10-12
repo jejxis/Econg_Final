@@ -48,9 +48,6 @@
             android:name=".UserFollowActivity"
             android:exported="false" />
         <activity
-            android:name=".MySupportedProjectsActivity"
-            android:exported="false" />
-        <activity
             android:name=".MyOpenedProjectsActivity"
             android:exported="false" />
         <activity

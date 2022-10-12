@@ -55,12 +55,6 @@ class MyFragment(/*context: Context*/) : Fragment() {
             startActivity(intent)
         }
 
-        binding.mySupportedProjects.setOnClickListener {
-            var intent = Intent(main, MySupportedProjectsActivity::class.java)
-            intent.putExtra("id",myProfile!!.userId)
-            startActivity(intent)
-        }
-
         //내가 올린 프로젝트
         binding.myOpenedProjects.setOnClickListener {
             var intent = Intent(main, MyOpenedProjectsActivity::class.java)
