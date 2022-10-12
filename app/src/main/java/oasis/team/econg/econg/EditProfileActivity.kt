@@ -27,9 +27,8 @@ class EditProfileActivity : AppCompatActivity() {
     private val storage = Firebase.storage(ECONG_URL)
     private var filePath = ""
     private var toThumbnail = ""
+    private var toFirebase = ""
     private var toThumbnailUri : Uri? = null
-    private var toUri : Uri? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -49,8 +48,8 @@ class EditProfileActivity : AppCompatActivity() {
                 when(responseState){
                     RESPONSE_STATE.OKAY->{
                         Log.d(TAG, "result: $responseBody")
-                        if(toThumbnail.isNotEmpty() && toThumbnailUri != null)
-                            uploadImage(toThumbnail, toThumbnailUri!!)
+                        if(toThumbnailUri != null)
+                            uploadImage(toFirebase, toThumbnailUri!!)
                         val intent = Intent(this@EditProfileActivity, MainActivity::class.java)
                         startActivity(intent)
                     }
@@ -70,6 +69,7 @@ class EditProfileActivity : AppCompatActivity() {
         binding.nickName.setText(user!!.nickName)
         binding.description.setText(user!!.description)
         storage.loadImageSetView(user!!.profileUrl, binding.imgProfile)
+        toThumbnail = user.profileUrl
     }
 
     fun makeEditProfile(): UserEditProfile{
@@ -83,12 +83,13 @@ class EditProfileActivity : AppCompatActivity() {
 
     val galleryLauncherForThumbnail = registerForActivityResult(ActivityResultContracts.GetContent()){
             uri ->
-        //uploadImage(uri!!)
+        toThumbnailUri = uri
         filePath = makeFilePath("images", "temp", uri!!)
-        toUri = uri
         toThumbnail = "$ECONG_URL/$filePath"
-        toThumbnailUri = toUri
-        Glide.with(binding.imgProfile).load(toUri).into(binding.imgProfile)
+        toFirebase = filePath
+        Glide.with(binding.imgProfile).load(uri).into(binding.imgProfile)
+        Log.d(TAG, "uri: $toThumbnailUri")
+        Log.d(TAG, "filename: $toThumbnail")
     }
 
     val permissionLauncherForThumbnail = registerForActivityResult(ActivityResultContracts.RequestPermission()){isGranted ->

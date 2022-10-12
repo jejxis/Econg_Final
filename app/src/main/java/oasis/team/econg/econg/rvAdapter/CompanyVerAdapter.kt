@@ -48,7 +48,7 @@ class CompanyVerAdapter (val context: Context?) : RecyclerView.Adapter<CompanyVe
 
     inner class CompanyVerHolder(val binding: ItemCompanyVerBinding): RecyclerView.ViewHolder(binding.root){
         fun setData(data: User) {
-            //storage.loadImageSetView(data.profileUrl, binding.imgCompany) 복구할것
+            storage.loadImageSetView(data.profileUrl, binding.imgCompany)
             binding.companyName.text = "${data.nickName}"
             binding.companyInfo.text = "${data.description}"
         }
