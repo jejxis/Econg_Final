@@ -1,144 +1,175 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".DetailCompanyActivity"
-    android:padding="10dp">
+    tools:context=".DetailCompanyActivity">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/userCard"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/detailCompanyToolBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        app:cardCornerRadius="5dp"
-        app:cardElevation="5dp">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/imgProfile"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:layout_margin="15dp"
-                android:background="@color/transparent"
-                android:src="@drawable/ic_baseline_favorite_pink_24"
-                app:civ_border_color="#000000"
-                app:civ_border_overlay="true"
-                app:civ_border_width="0dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/userName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:text="사용자 이름"
-                android:textColor="@color/black"
-                android:textSize="15dp"
-                app:layout_constraintStart_toEndOf="@+id/imgProfile"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/authenticate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                app:layout_constraintStart_toEndOf="@+id/userName"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_baseline_eco_24"
-                android:visibility="invisible"/>
-
-            <Button
-                android:id="@+id/btnFollow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="32dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/button_selected"
-                android:text="팔로우"
-                android:textColor="@color/white"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
-                android:id="@+id/btnUnfollow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="32dp"
-                android:background="@drawable/button"
-                android:text="팔로잉"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/followers"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="팔로워 n명"
-                android:textSize="11dp"
-                app:layout_constraintStart_toEndOf="@+id/textView5"
-                app:layout_constraintTop_toBottomOf="@+id/userName" />
-
-            <TextView
-                android:id="@+id/textView5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text=" | "
-                android:textSize="11dp"
-                app:layout_constraintStart_toEndOf="@+id/following"
-                app:layout_constraintTop_toBottomOf="@+id/userName" />
-
-            <TextView
-                android:id="@+id/following"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="5dp"
-                android:text="팔로잉 n명"
-                android:textSize="11dp"
-                app:layout_constraintStart_toEndOf="@+id/imgProfile"
-                app:layout_constraintTop_toBottomOf="@+id/userName" />
-
-            <TextView
-                android:id="@+id/description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="18dp"
-                android:text="저는 김치찌개를 좋아합니다."
-                android:textSize="12dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imgProfile" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/white"/>
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:text="올린 프로젝트"
-        android:textColor="@color/black"
-        android:textAlignment="center"
-        android:textSize="15dp"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/companyProjects"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        tools:itemCount="1"
-        tools:listitem="@layout/item_hor"/>
+        android:layout_gravity="center"
+        android:text="크리에이터 프로필"
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toBottomOf="@+id/detailCompanyToolBar"
+        app:layout_constraintEnd_toEndOf="@+id/detailCompanyToolBar"
+        app:layout_constraintStart_toStartOf="@+id/detailCompanyToolBar"
+        app:layout_constraintTop_toTopOf="@+id/detailCompanyToolBar" />
 
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detailCompanyToolBar"
+        tools:layout_editor_absoluteX="-16dp">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/userCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="5dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/imgProfile"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="15dp"
+                    android:background="@color/transparent"
+                    android:src="@drawable/ic_baseline_favorite_pink_24"
+                    app:civ_border_color="#000000"
+                    app:civ_border_overlay="true"
+                    app:civ_border_width="0dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/userName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:text="사용자 이름"
+                    android:textColor="@color/black"
+                    android:textSize="15dp"
+                    app:layout_constraintStart_toEndOf="@+id/imgProfile"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/authenticate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:visibility="invisible"
+                    app:layout_constraintStart_toEndOf="@+id/userName"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_baseline_eco_24" />
+
+                <Button
+                    android:id="@+id/btnFollow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="32dp"
+                    android:background="@drawable/button_selected"
+                    android:text="팔로우"
+                    android:textColor="@color/white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/btnUnfollow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="32dp"
+                    android:background="@drawable/button"
+                    android:text="팔로잉"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/followers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="팔로워 n명"
+                    android:textSize="11dp"
+                    app:layout_constraintStart_toEndOf="@+id/textView5"
+                    app:layout_constraintTop_toBottomOf="@+id/userName" />
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text=" | "
+                    android:textSize="11dp"
+                    app:layout_constraintStart_toEndOf="@+id/following"
+                    app:layout_constraintTop_toBottomOf="@+id/userName" />
+
+                <TextView
+                    android:id="@+id/following"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="5dp"
+                    android:text="팔로잉 n명"
+                    android:textSize="11dp"
+                    app:layout_constraintStart_toEndOf="@+id/imgProfile"
+                    app:layout_constraintTop_toBottomOf="@+id/userName" />
+
+                <TextView
+                    android:id="@+id/description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="18dp"
+                    android:text="저는 김치찌개를 좋아합니다."
+                    android:textSize="12dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imgProfile" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="올린 프로젝트"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="15dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/companyProjects"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            tools:itemCount="1"
+            tools:listitem="@layout/item_hor" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

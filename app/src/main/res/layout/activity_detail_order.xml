@@ -6,14 +6,36 @@
     android:layout_height="match_parent"
     tools:context=".DetailOrderActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/detailOrderToolBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/white"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="주문 상세"
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toBottomOf="@+id/detailOrderToolBar"
+        app:layout_constraintEnd_toEndOf="@+id/detailOrderToolBar"
+        app:layout_constraintStart_toStartOf="@+id/detailOrderToolBar"
+        app:layout_constraintTop_toTopOf="@+id/detailOrderToolBar" />
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:fillViewport="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/detailOrderToolBar">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -23,8 +45,8 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginBottom="15dp"
                 app:cardElevation="5dp">
 
                 <LinearLayout
@@ -63,10 +85,10 @@
                         android:textSize="18dp" />
 
                     <Button
-                        android:background="@drawable/button"
                         android:id="@+id/btnGoToProject"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/button"
                         android:text="프로젝트 보러가기" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -74,8 +96,8 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginBottom="15dp"
                 app:cardElevation="5dp">
 
                 <LinearLayout
@@ -114,8 +136,8 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginBottom="15dp"
                 app:cardElevation="5dp">
 
                 <LinearLayout
@@ -149,8 +171,8 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginBottom="15dp"
                 app:cardElevation="5dp">
 
                 <LinearLayout

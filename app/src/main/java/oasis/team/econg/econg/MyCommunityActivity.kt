@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
 import oasis.team.econg.econg.data.MyCommunity
 import oasis.team.econg.econg.databinding.ActivityMyCommunityBinding
@@ -25,6 +26,12 @@ class MyCommunityActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         loadData()
+
+        setSupportActionBar(binding.myCommunityToolBar);
+        supportActionBar?.setDisplayShowCustomEnabled(true)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24)
 
         communityAdapter.setClickListener(onClickedListItem)
     }
@@ -59,5 +66,15 @@ class MyCommunityActivity : AppCompatActivity() {
             }
         })
 
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item?.itemId) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
     }
 }

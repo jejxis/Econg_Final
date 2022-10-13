@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -39,6 +40,12 @@ class PaymentActivity : AppCompatActivity() {
         }
 
         loadOrderInfo()
+
+        setSupportActionBar(binding.paymentToolBar);
+        supportActionBar?.setDisplayShowCustomEnabled(true)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24)
 
         binding.goToMyPage.setOnClickListener {
             val intent = Intent(this@PaymentActivity, MainActivity::class.java)
@@ -101,4 +108,15 @@ class PaymentActivity : AppCompatActivity() {
         binding.title.text = orderInfo!!.title
         storage.loadImageSetView(orderInfo!!.thumbnail, binding.thumbnail)
     }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item?.itemId) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
+    }
+
 }

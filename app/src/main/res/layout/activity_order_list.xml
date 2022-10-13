@@ -6,13 +6,36 @@
     android:layout_height="match_parent"
     tools:context=".OrderListActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvOrder"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/orderListToolBar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/item_order_ver"
-        tools:itemCount="3"/>
+        android:background="@color/white"/>
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="주문한 제품 목록"
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toBottomOf="@+id/orderListToolBar"
+        app:layout_constraintEnd_toEndOf="@+id/orderListToolBar"
+        app:layout_constraintStart_toStartOf="@+id/orderListToolBar"
+        app:layout_constraintTop_toTopOf="@+id/orderListToolBar" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvOrder"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/orderListToolBar"
+        tools:itemCount="3"
+        tools:listitem="@layout/item_order_ver" />
 </androidx.constraintlayout.widget.ConstraintLayout>

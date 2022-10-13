@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
 import oasis.team.econg.econg.data.Project
 import oasis.team.econg.econg.databinding.ActivityMyOpenedProjectsBinding
@@ -26,11 +27,16 @@ class MyOpenedProjectsActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         if(intent.hasExtra("id")){
-            //binding.productName.text = intent.getStringExtra("id")
             userId = intent.getStringExtra("id").toString()
         }
 
         loadData()
+
+        setSupportActionBar(binding.myOpenedProjectsToolBar);
+        supportActionBar?.setDisplayShowCustomEnabled(true)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24)
 
         //내가 올린 프로젝트 클릭 리스너 달기
         projectAdapter.setClickListener(onClickedListItem)
@@ -65,6 +71,16 @@ class MyOpenedProjectsActivity : AppCompatActivity() {
             startActivity(intent)
             //Toast.makeText(activity, "프로젝트${id}입니다.", Toast.LENGTH_SHORT).show()
             Log.d("MY", "onClicked: ")
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item?.itemId) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+            else -> return super.onOptionsItemSelected(item)
         }
     }
 }

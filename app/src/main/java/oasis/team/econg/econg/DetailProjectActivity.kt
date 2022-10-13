@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -46,6 +47,12 @@ class DetailProjectActivity : AppCompatActivity() {
             //binding.productName.text = intent.getStringExtra("id")
             str = intent.getStringExtra("id").toString()
         }
+
+        setSupportActionBar(binding.detailProjectToolBar);
+        supportActionBar?.setDisplayShowCustomEnabled(true)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24)
 
         loadProjectInfo()
 
@@ -155,6 +162,8 @@ class DetailProjectActivity : AppCompatActivity() {
         binding.achievedProgress.progress = project!!.achievedRate
         binding.status.text = project!!.status
 
+        binding.detailProjectText.text = project!!.title
+
         if(project!!.status != "ONGOING"){
             binding.btnFund.background = resources.getDrawable(R.drawable.button, null)
             binding.btnFund.setTextColor(Color.parseColor("#787878"))
@@ -209,5 +218,15 @@ class DetailProjectActivity : AppCompatActivity() {
             location[0] + view.measuredWidth,
             location[1] + view.measuredHeight
         )
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item?.itemId) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
     }
 }

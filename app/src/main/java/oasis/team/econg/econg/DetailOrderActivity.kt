@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
 import oasis.team.econg.econg.data.Order
 import oasis.team.econg.econg.databinding.ActivityDetailOrderBinding
@@ -23,6 +24,13 @@ class DetailOrderActivity : AppCompatActivity() {
         if(intent.hasExtra("id")){
             orderId = intent.getStringExtra("id").toString()
         }
+
+        setSupportActionBar(binding.detailOrderToolBar);
+        supportActionBar?.setDisplayShowCustomEnabled(true)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24)
+
         loadOrderData(orderId)
     }
 
@@ -63,5 +71,15 @@ class DetailOrderActivity : AppCompatActivity() {
         binding.payPrice.text = "${order!!.price}원"
 
         binding.deliveryAddress.text = order!!.deliveryAddress
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item?.itemId) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
     }
 }

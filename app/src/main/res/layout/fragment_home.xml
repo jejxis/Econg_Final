@@ -65,40 +65,6 @@
                     tools:itemCount="1"
                     tools:listitem="@layout/item_hor" />
 
-                <!--RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp">
-
-                    <TextView
-                        android:id="@+id/popP"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_weight="1"
-                        android:text="인기 펀딩"
-                        android:textColor="@color/black"
-                        android:textSize="20dp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginRight="10dp"
-                        android:layout_weight="1"
-                        android:text="전체보기"
-                        android:textSize="15dp" />
-                </RelativeLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/popularProjects"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    tools:itemCount="1"
-                    tools:listitem="@layout/item_ver"/-->
-
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -110,7 +76,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_weight="1"
-                        android:text="새로 참여한 기업"
+                        android:text="새로 참여한 크리에이터"
                         android:textColor="@color/black"
                         android:textSize="20dp"
                         android:textStyle="bold" />

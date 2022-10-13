@@ -6,6 +6,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import com.bumptech.glide.Glide
@@ -37,6 +38,12 @@ class EditProfileActivity : AppCompatActivity() {
         val user = intent.getSerializableExtra("obj") as UserTransfer?
         setDataFrom(user)
 
+        setSupportActionBar(binding.editProfileToolBar);
+        supportActionBar?.setDisplayShowCustomEnabled(true)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24)
+
         binding.btnEditImage.setOnClickListener {
             permissionLauncherForThumbnail.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
         }
@@ -62,6 +69,7 @@ class EditProfileActivity : AppCompatActivity() {
         }
 
         binding.btnCancel.setOnClickListener {
+            finish()
         }
     }
 
@@ -118,5 +126,15 @@ class EditProfileActivity : AppCompatActivity() {
         val filename = "/${path}/${userId}_${timeSuffix}.${ext}"
 
         return filename
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item?.itemId) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
     }
 }

@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -39,11 +40,18 @@ class DetailCompanyActivity : AppCompatActivity() {
         }
 
         loadUserData()
-//        setData()
+
+        setSupportActionBar(binding.detailCompanyToolBar);
+        supportActionBar?.setDisplayShowCustomEnabled(true)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24)
+
 
         binding.userCard.setOnClickListener {
             var intent = Intent(this@DetailCompanyActivity, UserFollowActivity::class.java)
             intent.putExtra("id", str)
+            intent.putExtra("name", binding.userName.text)
             startActivity(intent)
         }
 
@@ -147,9 +155,19 @@ class DetailCompanyActivity : AppCompatActivity() {
 
                 RESPONSE_STATE.FAIL -> {
                     Log.d(Constants.TAG, "PUSHfOLLOW: api call fail : $responseBody")
-//                    Toast.makeText(this@DetailProjectActivity, "찜콩 실패했습니다.", Toast.LENGTH_SHORT).show()
                 }
             }
         })
     }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item?.itemId) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
+    }
+
 }

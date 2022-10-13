@@ -5,10 +5,37 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".UserFollowActivity">
-    <LinearLayout
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/userFollowToolBar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/white"/>
+
+    <TextView
+        android:id="@+id/userFollowText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text=""
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toBottomOf="@+id/userFollowToolBar"
+        app:layout_constraintEnd_toEndOf="@+id/userFollowToolBar"
+        app:layout_constraintStart_toStartOf="@+id/userFollowToolBar"
+        app:layout_constraintTop_toTopOf="@+id/userFollowToolBar" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userFollowToolBar">
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabFollow"

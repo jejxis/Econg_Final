@@ -29,13 +29,16 @@ class MainActivity : AppCompatActivity() {
             showHomeFragment()
         }
 
+        setSupportActionBar(binding.mainToolBar);
+        supportActionBar?.setDisplayShowCustomEnabled(true)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        //supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        //supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24)
+
         getNavi()
     }
 
     private fun getNavi(){
-        /*supportFragmentManager.beginTransaction()
-            .replace(R.id.frame, HomeFragment())//
-            .commitAllowingStateLoss()*/
 
         binding.bNavi.setOnItemSelectedListener { item ->
             when(item.itemId){
@@ -64,17 +67,23 @@ class MainActivity : AppCompatActivity() {
         }
     }
     private fun showHomeFragment(){
+        binding.mainText.text = "홈"
+
         supportFragmentManager.beginTransaction()
             .replace(R.id.frame, HomeFragment())//
             .commitAllowingStateLoss()
     }
 
     private fun showFavoriteFragment(){
+        binding.mainText.text = "찜한 프로젝트"
+
         supportFragmentManager.beginTransaction()
             .replace(R.id.frame, FavoriteFragment())//
             .commitAllowingStateLoss()
     }
     private fun showMyFragment(){
+        binding.mainText.text = "마이페이지"
+
         supportFragmentManager.beginTransaction()
             .replace(R.id.frame, MyFragment())//
             .commitAllowingStateLoss()

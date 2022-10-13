@@ -6,14 +6,36 @@
     android:layout_height="match_parent"
     tools:context=".MyCommunityActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/communityList"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/myCommunityToolBar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/item_community"
-        tools:itemCount="1"/>
+        android:background="@color/white"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="내가 쓴 댓글"
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toBottomOf="@+id/myCommunityToolBar"
+        app:layout_constraintEnd_toEndOf="@+id/myCommunityToolBar"
+        app:layout_constraintStart_toStartOf="@+id/myCommunityToolBar"
+        app:layout_constraintTop_toTopOf="@+id/myCommunityToolBar" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/communityList"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myCommunityToolBar"
+        tools:itemCount="1"
+        tools:listitem="@layout/item_community" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -20,14 +20,15 @@
             tools:srcCompat="@tools:sample/avatars" />
 
         <ImageView
-            android:id="@+id/fav"
+            android:id="@+id/auth"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_marginRight="5dp"
             android:layout_alignRight="@+id/imgCompany"
             android:layout_alignTop="@+id/imgCompany"
-            android:src="@drawable/ic_baseline_favorite_border_20" />
+            android:visibility="gone"
+            android:src="@drawable/ic_baseline_eco_24" />
     </RelativeLayout>
 
     <TextView

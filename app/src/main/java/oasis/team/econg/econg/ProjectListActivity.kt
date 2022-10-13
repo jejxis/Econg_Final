@@ -5,6 +5,7 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import oasis.team.econg.econg.data.Project
@@ -27,6 +28,12 @@ class ProjectListActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         loadData()
+
+        setSupportActionBar(binding.projectListToolBar);
+        supportActionBar?.setDisplayShowCustomEnabled(true)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24)
 
         //신규 프로젝트 클릭 리스너 달기
         projectAdapter.setClickListener(onClickedListItem)
@@ -134,6 +141,16 @@ class ProjectListActivity : AppCompatActivity() {
             startActivity(intent)
             //Toast.makeText(activity, "프로젝트${id}입니다.", Toast.LENGTH_SHORT).show()
             Log.d("MY", "onClicked: ")
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item?.itemId) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+            else -> return super.onOptionsItemSelected(item)
         }
     }
 }

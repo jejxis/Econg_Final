@@ -2,6 +2,7 @@ package oasis.team.econg.econg.rvAdapter
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.ktx.Firebase
@@ -51,6 +52,8 @@ class CompanyHorAdapter(val context: Context?) : RecyclerView.Adapter<CompanyHor
             storage.loadImageSetView(data.profileUrl, binding.imgCompany)
             binding.companyName.text = "${data.nickName}"
             binding.companyInfo.text = "${data.description}"
+            if(data.authenticate)
+                binding.auth.visibility = View.VISIBLE
         }
 
     }

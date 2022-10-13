@@ -5,14 +5,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MyOpenedProjectsActivity">
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/myProjects"
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/myOpenedProjectsToolBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/white"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="내가 올린 프로젝트"
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toBottomOf="@+id/myOpenedProjectsToolBar"
+        app:layout_constraintEnd_toEndOf="@+id/myOpenedProjectsToolBar"
+        app:layout_constraintStart_toStartOf="@+id/myOpenedProjectsToolBar"
+        app:layout_constraintTop_toTopOf="@+id/myOpenedProjectsToolBar" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/myProjects"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myOpenedProjectsToolBar"
         tools:itemCount="1"
         tools:listitem="@layout/item_ver" />
 </androidx.constraintlayout.widget.ConstraintLayout>

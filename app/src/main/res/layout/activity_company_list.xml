@@ -6,14 +6,37 @@
     android:layout_height="match_parent"
     tools:context=".CompanyListActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/companies"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/companyListToolBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/white"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="홈 > 크리에이터 리스트"
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toBottomOf="@+id/companyListToolBar"
+        app:layout_constraintEnd_toEndOf="@+id/companyListToolBar"
+        app:layout_constraintStart_toStartOf="@+id/companyListToolBar"
+        app:layout_constraintTop_toTopOf="@+id/companyListToolBar" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/companies"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/companyListToolBar"
         tools:itemCount="1"
         tools:listitem="@layout/item_company_ver" />
 

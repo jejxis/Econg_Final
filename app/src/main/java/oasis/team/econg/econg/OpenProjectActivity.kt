@@ -11,6 +11,7 @@ import android.text.InputType.TYPE_CLASS_NUMBER
 import android.text.InputType.TYPE_CLASS_TEXT
 import android.util.Log
 import android.util.TypedValue
+import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
@@ -67,6 +68,12 @@ class OpenProjectActivity : AppCompatActivity() {
             LinearLayoutManager.VERTICAL,false)
         binding.rewardRecycler.adapter = rewardAdapter
 
+        setSupportActionBar(binding.openProjectToolBar);
+        supportActionBar?.setDisplayShowCustomEnabled(true)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24)
+
         imgDataList!!.add(ImageData("", null))
         imgAdapter.setData(imgDataList)
         binding.rvImage.layoutManager = LinearLayoutManager(this,
@@ -89,6 +96,8 @@ class OpenProjectActivity : AppCompatActivity() {
             permissionLauncherForThumbnail.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
 
         }
+
+        binding.cancel.setOnClickListener { finish() }
 
         binding.upload.setOnClickListener {
 
@@ -237,5 +246,15 @@ class OpenProjectActivity : AppCompatActivity() {
             )
         Log.d(TAG, "makeProject: $project")
         return project
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item?.itemId) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
     }
 }

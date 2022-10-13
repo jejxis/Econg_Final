@@ -6,15 +6,36 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/mainToolBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/white"/>
+
+    <TextView
+        android:id="@+id/mainText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Title"
+        android:textSize="18dp"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/mainToolBar"
+        app:layout_constraintEnd_toEndOf="@+id/mainToolBar"
+        app:layout_constraintStart_toStartOf="@+id/mainToolBar"
+        app:layout_constraintTop_toTopOf="@+id/mainToolBar" />
+
     <FrameLayout
         android:id="@+id/frame"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/b_navi"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/b_navi">
-    </FrameLayout>
+        app:layout_constraintTop_toBottomOf="@+id/mainToolBar"></FrameLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/b_navi"
