@@ -65,18 +65,6 @@ class HomeFragment(/*context: Context*/) : Fragment() {
         //신규 기업 클릭 리스너 달기
         newCompanyAdapter.setClickListener(onClickedCompanyItem)
 
-
-        //버튼 이동 클릭리스너
-        binding.btnHome.setOnClickListener {
-            binding.myScroll.scrollToView(binding.imgSlider)
-        }
-        binding.btnCompany.setOnClickListener {
-            binding.myScroll.scrollToView(binding.newC)
-        }
-        binding.btnCrowd.setOnClickListener {
-            binding.myScroll.scrollToView(binding.newP)
-        }
-
         binding.allNewProjects.setOnClickListener {//전체 프로젝트 리스트
             var intent = Intent(main, ProjectListActivity::class.java)
             intent.putExtra("id", id)

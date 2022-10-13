@@ -27,8 +27,7 @@
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/imgSlider"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_marginTop="50dp" />
+                    android:layout_height="200dp" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -138,56 +137,6 @@
 
 
         </androidx.core.widget.NestedScrollView>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:padding="5dp"
-            android:background="@color/white">
-
-            <Button
-                android:id="@+id/btnHome"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:background="@drawable/button"
-                android:minWidth="0dp"
-                android:minHeight="0dp"
-                android:text="홈"
-                android:textColor="@color/hintTextColor"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-
-            <Button
-                android:id="@+id/btnCrowd"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:background="@drawable/button"
-                android:minWidth="0dp"
-                android:minHeight="0dp"
-                android:text="펀딩"
-                android:textColor="@color/hintTextColor"
-                app:layout_constraintStart_toEndOf="@+id/btnHome"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
-                android:id="@+id/btnCompany"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:background="@drawable/button"
-                android:minWidth="0dp"
-                android:minHeight="0dp"
-                android:text="기업"
-                android:textColor="@color/hintTextColor"
-                app:layout_constraintStart_toEndOf="@+id/btnCrowd"
-                app:layout_constraintTop_toTopOf="parent" />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </RelativeLayout>
 </FrameLayout>
