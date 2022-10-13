@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
         if(intent.hasExtra("Fragment")){
             whichFragment = intent.getStringExtra("Fragment").toString()
             if(whichFragment.equals("MyFragment")){
+                binding.bNavi.selectedItemId  = R.id.item_my
                 showMyFragment()
                 Log.d(TAG, "onCreate: Have to show myfragment")
             }

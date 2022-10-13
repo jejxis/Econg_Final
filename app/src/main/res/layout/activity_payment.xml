@@ -161,6 +161,15 @@
                 android:text="카카오페이로 결제하기"
                 android:background="@drawable/button_kakaopay"
                 android:textColor="#3A1E00"/>
+
+            <Button
+                android:id="@+id/goToMyPage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="마이페이지로 이동"
+                android:background="@drawable/button_selected"
+                android:textColor="@color/white"
+                android:visibility="gone"/>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

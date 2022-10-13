@@ -2,14 +2,14 @@ package oasis.team.econg.econg
 
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import oasis.team.econg.econg.data.OrderBeforePay
-import oasis.team.econg.econg.data.OrderConfirmation
 import oasis.team.econg.econg.data.OrderForPay
 import oasis.team.econg.econg.databinding.ActivityPaymentBinding
 import oasis.team.econg.econg.retrofit.RetrofitManager
@@ -18,6 +18,7 @@ import oasis.team.econg.econg.utils.Constants.ECONG_URL
 import oasis.team.econg.econg.utils.Constants.TAG
 import oasis.team.econg.econg.utils.RESPONSE_STATE
 import oasis.team.econg.econg.utils.loadImageSetView
+
 //API
 class PaymentActivity : AppCompatActivity() {
     val binding by lazy{ActivityPaymentBinding.inflate(layoutInflater)}
@@ -39,6 +40,13 @@ class PaymentActivity : AppCompatActivity() {
 
         loadOrderInfo()
 
+        binding.goToMyPage.setOnClickListener {
+            val intent = Intent(this@PaymentActivity, MainActivity::class.java)
+            intent.putExtra("Fragment", "MyFragment")
+            startActivity(intent)
+            finish()
+        }
+
         binding.goToKakaoPay.setOnClickListener {
             val orderForPay = OrderForPay(
                 projectId = orderInfo!!.projectId,
@@ -53,6 +61,8 @@ class PaymentActivity : AppCompatActivity() {
                     RESPONSE_STATE.OKAY ->{
                         kakaopayLink = responseBody
                         Log.d(TAG, "kakaopayLink: $kakaopayLink")
+                        binding.goToKakaoPay.visibility = View.GONE
+                        binding.goToMyPage.visibility = View.VISIBLE
                         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(kakaopayLink))
                         startActivity(intent)
                     }
