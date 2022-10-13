@@ -3,6 +3,7 @@ package oasis.team.econg.econg
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import oasis.team.econg.econg.databinding.ActivityMainBinding
 import oasis.team.econg.econg.menuFragments.FavoriteFragment
 import oasis.team.econg.econg.menuFragments.HomeFragment
@@ -32,8 +33,6 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.mainToolBar);
         supportActionBar?.setDisplayShowCustomEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(false)
-        //supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        //supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24)
 
         getNavi()
     }
@@ -52,10 +51,6 @@ class MainActivity : AppCompatActivity() {
                     return@setOnItemSelectedListener true
                 }
 
-                R.id.item_notice -> {
-                    return@setOnItemSelectedListener true
-                }
-
                 R.id.item_my -> {
                     showMyFragment()
                     return@setOnItemSelectedListener true
@@ -67,8 +62,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
     private fun showHomeFragment(){
-        binding.mainText.text = "홈"
-
+        binding.mainText.text = "에콩"
         supportFragmentManager.beginTransaction()
             .replace(R.id.frame, HomeFragment())//
             .commitAllowingStateLoss()

@@ -7,23 +7,11 @@
         android:icon="@drawable/ic_baseline_home_24"
         android:title="홈"/>
 
-    <!--item
-        android:id="@+id/item_category"
-        android:enabled="true"
-        android:icon="@drawable/ic_baseline_category_24"
-        android:title="카테고리"/-->
-
     <item
         android:id="@+id/item_favorite"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_favorite_pink_24"
         android:title="관심"/>
-
-    <item
-        android:id="@+id/item_notice"
-        android:enabled="true"
-        android:icon="@drawable/ic_baseline_doorbell_24"
-        android:title="알림"/>
 
     <item
         android:id="@+id/item_my"
