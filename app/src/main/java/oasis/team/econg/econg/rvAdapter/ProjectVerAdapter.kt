@@ -55,7 +55,7 @@ class ProjectVerAdapter(val context: Context?): RecyclerView.Adapter<ProjectVerA
             binding.projectName.text = "${data.title}\n${data.summary}"
             binding.achRate.text = data.achievedRate.toString()
 
-            if(data.authenticate == true){
+            if(data.authenticate){
                 binding.projectEcoAuth.visibility = View.VISIBLE
             }
         }

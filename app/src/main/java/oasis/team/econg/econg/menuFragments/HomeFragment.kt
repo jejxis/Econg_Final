@@ -53,10 +53,6 @@ class HomeFragment(/*context: Context*/) : Fragment() {
         projectAdapter = ProjectAdapter(main)
         newCompanyAdapter = CompanyHorAdapter(main)
 
-        //이미지 슬라이드
-        val pagerAdapter = ScreenSlidePagerAdapter(main)
-        binding.imgSlider.adapter = pagerAdapter
-
         //리사이클러뷰 데이터 불러오기
         loadAll()
 
@@ -102,9 +98,7 @@ class HomeFragment(/*context: Context*/) : Fragment() {
 
     private fun loadAll(){
         loadData()
-        //loadPopularData()
         loadNewCompany()
-        //loadPopularCompany()
     }
 
     private fun loadData() {//신규 프로젝트 데이터
@@ -118,6 +112,10 @@ class HomeFragment(/*context: Context*/) : Fragment() {
                     binding.newProjects.layoutManager = LinearLayoutManager(main,
                         LinearLayoutManager.HORIZONTAL,false)
                     binding.newProjects.adapter = projectAdapter
+
+                    //이미지 슬라이드
+                    val pagerAdapter = ScreenSlidePagerAdapter(main)
+                    binding.imgSlider.adapter = pagerAdapter
                 }
                 RESPONSE_STATE.FAIL -> {
                     Toast.makeText(main, "api call error", Toast.LENGTH_SHORT).show()
@@ -156,9 +154,9 @@ class HomeFragment(/*context: Context*/) : Fragment() {
 
         override fun createFragment(position: Int): Fragment {
             return when(position) {
-                0 -> ImageSlideFragment().newInstance("gs://econg-7e3f6.appspot.com/images/temp_1662087387101.jpeg")
-                1 -> ImageSlideFragment().newInstance("gs://econg-7e3f6.appspot.com/images/temp_1664617049408.jpeg")
-                else -> ImageSlideFragment().newInstance("gs://econg-7e3f6.appspot.com/images/temp_1664617056878.jpeg")
+                0 -> ImageSlideFragment().newInstance(projects?.get(0)?.thumbnail?:"gs://econg-7e3f6.appspot.com/bud.png")
+                1 -> ImageSlideFragment().newInstance(projects?.get(1)?.thumbnail?:"gs://econg-7e3f6.appspot.com/bud.png")
+                else -> ImageSlideFragment().newInstance(projects?.get(2)?.thumbnail?:"gs://econg-7e3f6.appspot.com/bud.png")
             }
         }
     }

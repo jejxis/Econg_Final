@@ -152,14 +152,16 @@ class DetailProjectActivity : AppCompatActivity() {
 
     private fun setData(){
 
+        val achievedRate = (project!!.totalAmount * 100) / project!!.goalAmount
+
         binding.projectName.text = project!!.title
         binding.projectSum.text = project!!.summary
         binding.openingDate.text = project!!.openingDate
         binding.closingDate.text = project!!.closingDate
         binding.goalAmount.text = project!!.goalAmount.toString()
         binding.totalAmount.text = project!!.totalAmount.toString()
-        binding.achievedRate.text = project!!.achievedRate.toString()
-        binding.achievedProgress.progress = project!!.achievedRate
+        binding.achievedRate.text = achievedRate.toString()
+        binding.achievedProgress.progress = achievedRate
         binding.status.text = project!!.status
 
         binding.detailProjectText.text = project!!.title
@@ -176,6 +178,12 @@ class DetailProjectActivity : AppCompatActivity() {
         if(project!!.userAuthenticate){
             binding.userEcoAuth.visibility = View.VISIBLE
         }
+
+       /* if(project!!.favorite){
+            binding.btnFav.setImageResource(R.drawable.ic_baseline_favorite_pink_24)
+        }else{
+            binding.btnFav.setImageResource(R.drawable.ic_baseline_favorite_border_pink_24)
+        }*/
 
         binding.user.text = project!!.userName
 
