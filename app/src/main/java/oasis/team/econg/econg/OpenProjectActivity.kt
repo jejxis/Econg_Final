@@ -38,6 +38,7 @@ import oasis.team.econg.econg.utils.API
 import oasis.team.econg.econg.utils.Constants.ECONG_URL
 import oasis.team.econg.econg.utils.Constants.TAG
 import oasis.team.econg.econg.utils.RESPONSE_STATE
+import oasis.team.econg.econg.utils.scrollToView
 
 class OpenProjectActivity : AppCompatActivity() {
     val binding by lazy { ActivityOpenProjectBinding.inflate(layoutInflater) }
@@ -56,7 +57,7 @@ class OpenProjectActivity : AppCompatActivity() {
 
     private var pos = -1
 
-    private lateinit var projectForUpload: ProjectForOpen
+    private var projectForUpload: ProjectForOpen? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -102,27 +103,30 @@ class OpenProjectActivity : AppCompatActivity() {
         binding.upload.setOnClickListener {
 
             projectForUpload = makeProject()//이거 가지고 레트로핏
-            RetrofitManager.instance.openProject(auth = API.HEADER_TOKEN, param = projectForUpload, completion = {
-                    responseState, responseBody ->
-                when(responseState){
-                    RESPONSE_STATE.OKAY ->{
-                        Log.d(TAG, "result: $responseBody")
-                        uploadImage(toThumbnail, toThumbnailUri!!)
-                        for(img in imgDataList!!){
-                            if(img.str.compareTo("") != 0 && img.uri != null){
-                                Log.d("MY", img.toString())
-                                uploadImage(img.str, img.uri!!)
+            if(projectForUpload == null) return@setOnClickListener
+            else{
+                RetrofitManager.instance.openProject(auth = API.HEADER_TOKEN, param = projectForUpload!!, completion = {
+                        responseState, responseBody ->
+                    when(responseState){
+                        RESPONSE_STATE.OKAY ->{
+                            Log.d(TAG, "result: $responseBody")
+                            uploadImage(toThumbnail, toThumbnailUri!!)
+                            for(img in imgDataList!!){
+                                if(img.str.compareTo("") != 0 && img.uri != null){
+                                    Log.d("MY", img.toString())
+                                    uploadImage(img.str, img.uri!!)
+                                }
                             }
+                            val intent = Intent(this@OpenProjectActivity, MainActivity::class.java)
+                            startActivity(intent)
                         }
-                        val intent = Intent(this@OpenProjectActivity, MainActivity::class.java)
-                        startActivity(intent)
+                        RESPONSE_STATE.FAIL -> {
+                            Log.d(TAG, "Payment: api call fail : $responseBody")
+                            Toast.makeText(this@OpenProjectActivity, "결제 요청에 실패했습니다.", Toast.LENGTH_SHORT).show()
+                        }
                     }
-                    RESPONSE_STATE.FAIL -> {
-                        Log.d(TAG, "Payment: api call fail : $responseBody")
-                        Toast.makeText(this@OpenProjectActivity, "결제 요청에 실패했습니다.", Toast.LENGTH_SHORT).show()
-                    }
-                }
-            })
+                })
+            }
         }
 
         binding.btnAddImage.setOnClickListener {
@@ -229,11 +233,47 @@ class OpenProjectActivity : AppCompatActivity() {
         }
     }
 
-    fun makeProject(): ProjectForOpen{
-        for(img in imgDataList!!){
-            imgUrlList.add(ImageUrl(ECONG_URL+"/"+img.str))//add(ImageUrl(img.str))
+    fun makeProject(): ProjectForOpen?{
+        if(binding.name.text.trim().isEmpty()){
+            binding.name.requestFocus()
+            return null
         }
-        val project =  ProjectForOpen(
+        if(binding.thumbnail.text.isEmpty()){
+            binding.openScroll.scrollToView(binding.thumbnail)
+            return null
+        }
+        if(binding.summary.text.trim().isEmpty()){
+            binding.summary.requestFocus()
+            return null
+        }
+        if(binding.story.text.trim().isEmpty()){
+            binding.story.requestFocus()
+            return null
+        }
+        if(binding.goalAmount.text.trim().isEmpty()){
+            binding.goalAmount.requestFocus()
+            return null
+        }
+        if(binding.openingDate.text.isEmpty()){
+            binding.openScroll.scrollToView(binding.openingDate)
+            return null
+        }
+        if(binding.closingDate.text.isEmpty()){
+            binding.openScroll.scrollToView(binding.closingDate)
+            return null
+        }
+
+        for(img in imgDataList!!){
+            if(img.str.compareTo("") != 0)
+                imgUrlList.add(ImageUrl(ECONG_URL+"/"+img.str))
+        }
+        for(rw in rewards!!){
+            if(rw.price == null || rw.combination == null || rw.stock == null || rw.price == null){
+                Toast.makeText(this@OpenProjectActivity, "리워드의 빈칸을 모두 채워주세요.", Toast.LENGTH_SHORT).show()
+                return null
+            }
+        }
+        val project = ProjectForOpen(
                 title = binding.name.text.toString(),
                 openingDate = binding.openingDate.text.toString(),
                 closingDate = binding.closingDate.text.toString(),
@@ -244,6 +284,7 @@ class OpenProjectActivity : AppCompatActivity() {
                 projectImgList = imgUrlList as ArrayList<ImageUrl>,
                 rewardList = rewards as ArrayList<PreReward>
             )
+
         Log.d(TAG, "makeProject: $project")
         return project
     }

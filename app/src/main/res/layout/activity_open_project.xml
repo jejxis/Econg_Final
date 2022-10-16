@@ -28,6 +28,7 @@
         app:layout_constraintTop_toTopOf="@+id/openProjectToolBar" />
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/openScroll"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
