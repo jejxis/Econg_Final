@@ -62,7 +62,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
     private fun showHomeFragment(){
-        binding.mainText.text = "에콩"
+        binding.mainText.visibility = View.GONE
+        binding.mainLogo.visibility = View.VISIBLE
         supportFragmentManager.beginTransaction()
             .replace(R.id.frame, HomeFragment())//
             .commitAllowingStateLoss()
@@ -70,6 +71,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun showFavoriteFragment(){
         binding.mainText.text = "찜한 프로젝트"
+        binding.mainText.visibility = View.VISIBLE
+        binding.mainLogo.visibility = View.GONE
 
         supportFragmentManager.beginTransaction()
             .replace(R.id.frame, FavoriteFragment())//
@@ -77,6 +80,8 @@ class MainActivity : AppCompatActivity() {
     }
     private fun showMyFragment(){
         binding.mainText.text = "마이페이지"
+        binding.mainText.visibility = View.VISIBLE
+        binding.mainLogo.visibility = View.GONE
 
         supportFragmentManager.beginTransaction()
             .replace(R.id.frame, MyFragment())//

@@ -29,6 +29,16 @@
         app:layout_constraintStart_toStartOf="@+id/mainToolBar"
         app:layout_constraintTop_toTopOf="@+id/mainToolBar" />
 
+    <ImageView
+        android:id="@+id/mainLogo"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        app:layout_constraintEnd_toEndOf="@id/mainToolBar"
+        app:layout_constraintBottom_toBottomOf="@+id/mainToolBar"
+        app:layout_constraintStart_toStartOf="@+id/mainToolBar"
+        app:layout_constraintTop_toTopOf="@+id/mainToolBar"
+        app:srcCompat="@drawable/econgecong2" />
+
     <FrameLayout
         android:id="@+id/frame"
         android:layout_width="match_parent"

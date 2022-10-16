@@ -76,26 +76,6 @@ class HomeFragment(/*context: Context*/) : Fragment() {
         return binding.root
     }
 
-    fun NestedScrollView.scrollToView(view: View) {
-        val y = computeDistanceToView(view) - 100
-        this.scrollTo(0, y)
-    }
-
-    internal fun NestedScrollView.computeDistanceToView(view: View): Int {
-        return abs(calculateRectOnScreen(this).top - (this.scrollY + calculateRectOnScreen(view).top))
-    }
-
-    internal fun calculateRectOnScreen(view: View): Rect {
-        val location = IntArray(2)
-        view.getLocationOnScreen(location)
-        return Rect(
-            location[0],
-            location[1],
-            location[0] + view.measuredWidth,
-            location[1] + view.measuredHeight
-        )
-    }
-
     private fun loadAll(){
         loadData()
         loadNewCompany()

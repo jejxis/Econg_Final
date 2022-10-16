@@ -27,16 +27,13 @@ import oasis.team.econg.econg.utils.API
 import oasis.team.econg.econg.utils.Constants.ECONG_URL
 import oasis.team.econg.econg.utils.Constants.TAG
 import oasis.team.econg.econg.utils.RESPONSE_STATE
+import oasis.team.econg.econg.utils.scrollToView
 import java.util.ArrayList
 
 class DetailProjectActivity : AppCompatActivity() {
-    private val MYID = "2"
     private val binding by lazy{ActivityDetailProjectBinding.inflate(layoutInflater)}
     var project: ProjectDetail? = null
     var str = ""
-    var isItFilled : Boolean = false
-
-    var imgUrls = mutableListOf<ProjectImage>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +41,6 @@ class DetailProjectActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         if(intent.hasExtra("id")){
-            //binding.productName.text = intent.getStringExtra("id")
             str = intent.getStringExtra("id").toString()
         }
 
@@ -179,11 +175,11 @@ class DetailProjectActivity : AppCompatActivity() {
             binding.userEcoAuth.visibility = View.VISIBLE
         }
 
-       /* if(project!!.favorite){
+        if(project!!.favorite){
             binding.btnFav.setImageResource(R.drawable.ic_baseline_favorite_pink_24)
         }else{
             binding.btnFav.setImageResource(R.drawable.ic_baseline_favorite_border_pink_24)
-        }*/
+        }
 
         binding.user.text = project!!.userName
 
@@ -206,26 +202,6 @@ class DetailProjectActivity : AppCompatActivity() {
             if(position == 0) return ImageSlideFragment().newInstance(project!!.thumbnail)
             else return ImageSlideFragment().newInstance(project!!.projectImgList[position-1].projectImgUrl)
         }
-    }
-
-    fun NestedScrollView.scrollToView(view: View) {
-        val y = computeDistanceToView(view) - 100
-        this.scrollTo(0, y)
-    }
-
-    internal fun NestedScrollView.computeDistanceToView(view: View): Int {
-        return Math.abs(calculateRectOnScreen(this).top - (this.scrollY + calculateRectOnScreen(view).top))
-    }
-
-    internal fun calculateRectOnScreen(view: View): Rect {
-        val location = IntArray(2)
-        view.getLocationOnScreen(location)
-        return Rect(
-            location[0],
-            location[1],
-            location[0] + view.measuredWidth,
-            location[1] + view.measuredHeight
-        )
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

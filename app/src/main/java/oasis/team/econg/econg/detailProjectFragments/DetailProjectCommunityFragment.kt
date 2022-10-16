@@ -18,6 +18,7 @@ import oasis.team.econg.econg.rvAdapter.ProjectCommunityAdapter
 import oasis.team.econg.econg.utils.API
 import oasis.team.econg.econg.utils.Constants.TAG
 import oasis.team.econg.econg.utils.RESPONSE_STATE
+import oasis.team.econg.econg.utils.scrollToView
 import java.time.LocalDateTime
 
 
@@ -52,7 +53,6 @@ class DetailProjectCommunityFragment : Fragment() {
         Log.d(TAG, "DetailProjectCommunityFragment projectId: $projectId")
         loadData()
 
-        //projectReplyAdapter.setClickListener(onClickedListItem)
         binding.uploadReply.setOnClickListener {
             uploadCommunity()
             binding.replyPlace.text.clear()
