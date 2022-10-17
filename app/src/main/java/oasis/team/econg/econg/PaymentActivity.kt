@@ -55,6 +55,11 @@ class PaymentActivity : AppCompatActivity() {
         }
 
         binding.goToKakaoPay.setOnClickListener {
+            if(binding.deliveryAddress.text.trim().isEmpty()){
+                binding.deliveryAddress.error = "배송지를 입력하세요!"
+                binding.deliveryAddress.requestFocus()
+                return@setOnClickListener
+            }
             val orderForPay = OrderForPay(
                 projectId = orderInfo!!.projectId,
                 rewardId = orderInfo!!.rewardId,

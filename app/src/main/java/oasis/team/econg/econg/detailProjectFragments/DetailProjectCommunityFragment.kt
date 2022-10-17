@@ -54,6 +54,9 @@ class DetailProjectCommunityFragment : Fragment() {
         loadData()
 
         binding.uploadReply.setOnClickListener {
+            if(binding.replyPlace.text.trim().isEmpty()){
+                return@setOnClickListener
+            }
             uploadCommunity()
             binding.replyPlace.text.clear()
         }
