@@ -3,7 +3,7 @@ package oasis.team.econg.econg.utils
 import oasis.team.econg.econg.samplePreference.MyApplication
 
 object Constants {
-    const val ECONG_URL = "gs://econg-7e3f6.appspot.com"
+    const val ECONG_URL = ""
     const val TAG : String = "MYTAG"
 }
 enum class RESPONSE_STATE{
@@ -11,7 +11,7 @@ enum class RESPONSE_STATE{
     FAIL
 }
 object API{
-    const val BASE_URL : String = "https://isileeserver.shop"
-//    const val HEADER_TOKEN : String = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoZWxsb0BnbWFpbC5jb20iLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjY1MDc2MTk2fQ.WPuvT-YsumY2xQsmwSCHFzIQbgCgthdHEGQ0qT0UXyFeb_QkpC1FZthgeVRlrSEmncqwcgq_Fi-XxO9zN4GXhw"
-    var HEADER_TOKEN : String = "Bearer ${MyApplication.prefs.token}"
+    const val BASE_URL : String = ""
+
+    var HEADER_TOKEN : String = "${MyApplication.prefs.token}"
 }
